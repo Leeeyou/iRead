@@ -22,7 +22,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action0;
 import rx.schedulers.Schedulers;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
 
     @BindView(R.id.lv_zhihuribao)
     ListView lv_zhihuribao;
@@ -38,13 +38,16 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
+        getStories();
+    }
+
+    @Override
+    protected void setupActivityComponent() {
         DaggerStoryComponent
                 .builder()
                 .storyModule(new StoryModule())
                 .build()
                 .inject(this);
-
-        getStories();
     }
 
     private void getStories() {
