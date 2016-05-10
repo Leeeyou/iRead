@@ -10,6 +10,8 @@ import rx.Observable;
 
 /**
  * Created by leeeyou on 16/5/10.
+ * <p/>
+ * 知乎日报业务服务类
  */
 public interface ZhiHuRiBaoService {
 

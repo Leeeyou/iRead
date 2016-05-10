@@ -1,0 +1,5 @@
+<resources>
+
+    <dimen name="toolbar_padding_top">25dp</dimen>
+
+</resources>

@@ -1,7 +1,7 @@
 package com.example.leeeyou.zhihuribao.view;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.widget.ListView;
 
 import com.example.leeeyou.zhihuribao.R;
@@ -22,7 +22,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action0;
 import rx.schedulers.Schedulers;
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends Base_Original_Activity {
 
     @BindView(R.id.lv_zhihuribao)
     ListView lv_zhihuribao;
@@ -36,13 +36,15 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ButterKnife.bind(this);
+
+        ButterKnife.bind(MainActivity.this);
+        setLeftTitleAndDoNotDisplayHomeAsUp("知乎日报");
 
         getStories();
     }
 
     @Override
-    protected void setupActivityComponent() {
+    void setupActivityComponent() {
         DaggerStoryComponent
                 .builder()
                 .storyModule(new StoryModule())
@@ -78,7 +80,7 @@ public class MainActivity extends BaseActivity {
                 });
     }
 
-    private void setAdapter(List<Story> stories) {
+    private void setAdapter(@NonNull List<Story> stories) {
         if (mAdapter == null) {
             mAdapter = new UniversalAdapter<Story>(MainActivity.this, stories, R.layout.item_lv_story) {
                 @Override

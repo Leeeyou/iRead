@@ -6,6 +6,8 @@ import java.util.List;
 
 /**
  * Created by leeeyou on 16/5/10.
+ * <p/>
+ * getLatestRiBao返回的数据结构
  */
 public class RiBao {
     public String date;
