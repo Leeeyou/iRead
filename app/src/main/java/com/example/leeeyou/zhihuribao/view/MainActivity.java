@@ -87,6 +87,7 @@ public class MainActivity extends Base_Original_Activity {
                 public void convert(ViewHolder vh, Story story, int position) {
                     vh.setText(R.id.tv_story_title, story.title);
                     vh.setText(R.id.tv_story_type, String.valueOf(story.type));
+                    vh.setImageByUrl(R.id.iv_story_image, story.images.get(0));
                 }
             };
             lv_zhihuribao.setAdapter(mAdapter);
