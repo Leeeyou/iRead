@@ -1,12 +1,15 @@
 package com.example.leeeyou.zhihuribao.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.leeeyou.zhihuribao.R;
 import com.example.leeeyou.zhihuribao.data.model.RiBao;
 import com.example.leeeyou.zhihuribao.data.model.Story;
+import com.example.leeeyou.zhihuribao.data.model.StoryDetail;
 import com.example.leeeyou.zhihuribao.di.component.DaggerStoryComponent;
 import com.example.leeeyou.zhihuribao.di.module.StoryModule;
 
@@ -16,13 +19,14 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnItemClick;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action0;
 import rx.schedulers.Schedulers;
 
-public class MainActivity extends Base_Original_Activity {
+public class StoryActivity extends Base_Original_Activity {
 
     @BindView(R.id.lv_zhihuribao)
     ListView lv_zhihuribao;
@@ -37,7 +41,7 @@ public class MainActivity extends Base_Original_Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ButterKnife.bind(MainActivity.this);
+        ButterKnife.bind(StoryActivity.this);
         setLeftTitleAndDoNotDisplayHomeAsUp("知乎日报");
 
         getStories();
@@ -82,7 +86,7 @@ public class MainActivity extends Base_Original_Activity {
 
     private void setAdapter(@NonNull List<Story> stories) {
         if (mAdapter == null) {
-            mAdapter = new UniversalAdapter<Story>(MainActivity.this, stories, R.layout.item_lv_story) {
+            mAdapter = new UniversalAdapter<Story>(StoryActivity.this, stories, R.layout.item_lv_story) {
                 @Override
                 public void convert(ViewHolder vh, Story story, int position) {
                     vh.setText(R.id.tv_story_title, story.title);
@@ -96,5 +100,13 @@ public class MainActivity extends Base_Original_Activity {
         }
     }
 
+    @OnItemClick(R.id.lv_zhihuribao)
+    public void onItemClick(int position) {
+        Story story = (Story) lv_zhihuribao.getItemAtPosition(position);
+        startActivity(new Intent()
+                .setClass(this, StoryDetailActivity.class)
+                .putExtra("storyId", story.id)
+                .putExtra("storyTitle", story.title));
+    }
 
 }
