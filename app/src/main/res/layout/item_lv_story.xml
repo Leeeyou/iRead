@@ -21,17 +21,16 @@
         android:layout_toRightOf="@id/iv_story_image"
         android:text="南京宝马撞人案肇事者将重查是否患精神疾病"
         android:textColor="#222831"
-        android:textSize="16sp"
-        android:textStyle="bold" />
+        android:textSize="16sp"/>
 
     <TextView
-        android:id="@+id/tv_story_type"
+        android:id="@+id/tv_story_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@id/iv_story_image"
         android:layout_marginBottom="2dp"
         android:layout_toRightOf="@id/iv_story_image"
-        android:text="今日头条"
+        android:text="2016-09-01"
         android:textColor="#666666"
         android:textSize="12sp"
         android:textStyle="bold" />

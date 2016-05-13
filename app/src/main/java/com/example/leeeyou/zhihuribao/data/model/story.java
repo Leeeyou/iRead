@@ -15,6 +15,7 @@ public class Story {
     public int id;
     public String ga_prefix;
     public String title;
+    public String date;//格式yyyy-MM-dd
 
     @Override
     public String toString() {

@@ -4,12 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.example.leeeyou.zhihuribao.R;
 import com.example.leeeyou.zhihuribao.data.model.RiBao;
 import com.example.leeeyou.zhihuribao.data.model.Story;
-import com.example.leeeyou.zhihuribao.data.model.StoryDetail;
 import com.example.leeeyou.zhihuribao.di.component.DaggerStoryComponent;
 import com.example.leeeyou.zhihuribao.di.module.StoryModule;
 
@@ -24,6 +22,7 @@ import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action0;
+import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 public class StoryActivity extends Base_Original_Activity {
@@ -65,6 +64,26 @@ public class StoryActivity extends Base_Original_Activity {
                     }
                 })
                 .subscribeOn(AndroidSchedulers.mainThread())
+                .filter(new Func1<RiBao, Boolean>() {
+                    @Override
+                    public Boolean call(RiBao riBao) {
+                        StringBuilder sb = new StringBuilder();
+                        char[] chars = riBao.date.toCharArray();
+                        for (int i = 0; i < chars.length; i++) {
+                            if (i == 4 || i == 6) {
+                                sb.append("-");
+                            }
+                            sb.append(chars[i]);
+                        }
+
+                        List<Story> stories = riBao.stories;
+                        for (Story story : stories) {
+                            story.date = sb.toString();
+                        }
+
+                        return true;
+                    }
+                })
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<RiBao>() {
                     @Override
@@ -90,7 +109,7 @@ public class StoryActivity extends Base_Original_Activity {
                 @Override
                 public void convert(ViewHolder vh, Story story, int position) {
                     vh.setText(R.id.tv_story_title, story.title);
-                    vh.setText(R.id.tv_story_type, String.valueOf(story.type));
+                    vh.setText(R.id.tv_story_time, story.date);
                     vh.setImageByUrl(R.id.iv_story_image, story.images.get(0));
                 }
             };
