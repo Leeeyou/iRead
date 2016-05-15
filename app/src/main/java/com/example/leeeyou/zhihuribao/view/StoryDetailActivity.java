@@ -1,7 +1,6 @@
 package com.example.leeeyou.zhihuribao.view;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.webkit.WebView;
 
 import com.example.leeeyou.zhihuribao.R;
