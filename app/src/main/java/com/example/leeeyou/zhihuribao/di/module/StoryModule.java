@@ -1,12 +1,9 @@
 package com.example.leeeyou.zhihuribao.di.module;
 
 import com.example.leeeyou.zhihuribao.data.model.RiBao;
-import com.example.leeeyou.zhihuribao.data.model.Story;
 import com.example.leeeyou.zhihuribao.data.model.StoryDetail;
 import com.example.leeeyou.zhihuribao.data.service.ServiceFactory;
 import com.example.leeeyou.zhihuribao.data.service.ZhiHuRiBaoService;
-
-import java.util.List;
 
 import dagger.Module;
 import dagger.Provides;

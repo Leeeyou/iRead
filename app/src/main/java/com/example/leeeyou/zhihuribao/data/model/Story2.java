@@ -9,7 +9,7 @@ import java.util.List;
  * <p/>
  * 日报列表的数据结构
  */
-public class Story {
+public class Story2 {
     public List<String> images;
     public int type;
     public int id;

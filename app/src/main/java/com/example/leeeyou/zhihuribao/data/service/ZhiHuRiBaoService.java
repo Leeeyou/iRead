@@ -1,10 +1,7 @@
 package com.example.leeeyou.zhihuribao.data.service;
 
 import com.example.leeeyou.zhihuribao.data.model.RiBao;
-import com.example.leeeyou.zhihuribao.data.model.Story;
 import com.example.leeeyou.zhihuribao.data.model.StoryDetail;
-
-import java.util.List;
 
 import retrofit.http.GET;
 import retrofit.http.Path;
