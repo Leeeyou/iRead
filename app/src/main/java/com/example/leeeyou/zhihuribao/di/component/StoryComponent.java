@@ -1,8 +1,8 @@
 package com.example.leeeyou.zhihuribao.di.component;
 
 import com.example.leeeyou.zhihuribao.di.module.StoryModule;
-import com.example.leeeyou.zhihuribao.view.StoryActivity;
-import com.example.leeeyou.zhihuribao.view.StoryDetailActivity;
+import com.example.leeeyou.zhihuribao.view.activity.StoryActivity;
+import com.example.leeeyou.zhihuribao.view.activity.StoryDetailActivity;
 
 import dagger.Component;
 

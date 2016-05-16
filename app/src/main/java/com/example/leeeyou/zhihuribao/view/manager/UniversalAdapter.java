@@ -1,4 +1,4 @@
-package com.example.leeeyou.zhihuribao.view;
+package com.example.leeeyou.zhihuribao.view.manager;
 
 import android.content.Context;
 import android.view.View;

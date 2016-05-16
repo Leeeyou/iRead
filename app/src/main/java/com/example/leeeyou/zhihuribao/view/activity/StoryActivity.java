@@ -1,4 +1,4 @@
-package com.example.leeeyou.zhihuribao.view;
+package com.example.leeeyou.zhihuribao.view.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,6 +10,8 @@ import com.example.leeeyou.zhihuribao.data.model.RiBao;
 import com.example.leeeyou.zhihuribao.data.model.Story;
 import com.example.leeeyou.zhihuribao.di.component.DaggerStoryComponent;
 import com.example.leeeyou.zhihuribao.di.module.StoryModule;
+import com.example.leeeyou.zhihuribao.view.manager.UniversalAdapter;
+import com.example.leeeyou.zhihuribao.view.manager.ViewHolder;
 
 import java.util.List;
 

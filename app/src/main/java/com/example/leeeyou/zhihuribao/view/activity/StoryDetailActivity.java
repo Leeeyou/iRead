@@ -1,4 +1,4 @@
-package com.example.leeeyou.zhihuribao.view;
+package com.example.leeeyou.zhihuribao.view.activity;
 
 import android.os.Bundle;
 import android.webkit.WebView;
