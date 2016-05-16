@@ -7,7 +7,7 @@ import android.widget.ListView;
 
 import com.example.leeeyou.zhihuribao.R;
 import com.example.leeeyou.zhihuribao.data.model.RiBao;
-import com.example.leeeyou.zhihuribao.data.model.Story2;
+import com.example.leeeyou.zhihuribao.data.model.Story;
 import com.example.leeeyou.zhihuribao.di.component.DaggerStoryComponent;
 import com.example.leeeyou.zhihuribao.di.module.StoryModule;
 
@@ -33,7 +33,7 @@ public class StoryActivity extends Base_Original_Activity {
     @Inject
     Observable<RiBao> storyObservable;
 
-    UniversalAdapter<Story2> mAdapter;
+    UniversalAdapter<Story> mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,9 +76,9 @@ public class StoryActivity extends Base_Original_Activity {
                             sb.append(chars[i]);
                         }
 
-                        List<Story2> stories = riBao.stories;
-                        for (Story2 story2 : stories) {
-                            story2.date = sb.toString();
+                        List<Story> stories = riBao.stories;
+                        for (Story story : stories) {
+                            story.date = sb.toString();
                         }
 
                         return true;
@@ -103,14 +103,14 @@ public class StoryActivity extends Base_Original_Activity {
                 });
     }
 
-    private void setAdapter(@NonNull List<Story2> stories) {
+    private void setAdapter(@NonNull List<Story> stories) {
         if (mAdapter == null) {
-            mAdapter = new UniversalAdapter<Story2>(StoryActivity.this, stories, R.layout.item_lv_story) {
+            mAdapter = new UniversalAdapter<Story>(StoryActivity.this, stories, R.layout.item_lv_story) {
                 @Override
-                public void convert(ViewHolder vh, Story2 story2, int position) {
-                    vh.setText(R.id.tv_story_title, story2.title);
-                    vh.setText(R.id.tv_story_time, story2.date);
-                    vh.setImageByUrl(R.id.iv_story_image, story2.images.get(0));
+                public void convert(ViewHolder vh, Story story, int position) {
+                    vh.setText(R.id.tv_story_title, story.title);
+                    vh.setText(R.id.tv_story_time, story.date);
+                    vh.setImageByUrl(R.id.iv_story_image, story.images.get(0));
                 }
             };
             lv_zhihuribao.setAdapter(mAdapter);
@@ -121,11 +121,11 @@ public class StoryActivity extends Base_Original_Activity {
 
     @OnItemClick(R.id.lv_zhihuribao)
     public void onItemClick(int position) {
-        Story2 story2 = (Story2) lv_zhihuribao.getItemAtPosition(position);
+        Story story = (Story) lv_zhihuribao.getItemAtPosition(position);
         startActivity(new Intent()
                 .setClass(this, StoryDetailActivity.class)
-                .putExtra("storyId", story2.id)
-                .putExtra("storyTitle", story2.title));
+                .putExtra("storyId", story.id)
+                .putExtra("storyTitle", story.title));
     }
 
 }

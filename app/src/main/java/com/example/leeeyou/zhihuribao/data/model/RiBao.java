@@ -11,7 +11,7 @@ import java.util.List;
  */
 public class RiBao {
     public String date;
-    public List<Story2> stories;
+    public List<Story> stories;
 
     @Override
     public String toString() {
