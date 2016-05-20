@@ -6,3 +6,4 @@
 3. 配色参考: http://www.colorhunt.co/c/21781
 4. 引入Glide
 5. 引入WebView展示详情
+5. 引入SmartTabLayout重构MainActivity

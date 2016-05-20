@@ -1,7 +1,7 @@
 package com.example.leeeyou.zhihuribao.di.component;
 
 import com.example.leeeyou.zhihuribao.di.module.StoryModule;
-import com.example.leeeyou.zhihuribao.view.StoryFragment;
+import com.example.leeeyou.zhihuribao.view.activity.fragment.StoryFragment;
 import com.example.leeeyou.zhihuribao.view.activity.StoryActivity;
 import com.example.leeeyou.zhihuribao.view.activity.StoryDetailActivity;
 

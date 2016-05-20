@@ -1,4 +1,4 @@
-package com.example.leeeyou.zhihuribao.view;
+package com.example.leeeyou.zhihuribao.view.activity.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;

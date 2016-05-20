@@ -1,4 +1,4 @@
-package com.example.leeeyou.zhihuribao.view;
+package com.example.leeeyou.zhihuribao.view.activity.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
