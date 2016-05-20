@@ -10,6 +10,7 @@ import com.example.leeeyou.zhihuribao.data.model.RiBao;
 import com.example.leeeyou.zhihuribao.data.model.Story;
 import com.example.leeeyou.zhihuribao.di.component.DaggerStoryComponent;
 import com.example.leeeyou.zhihuribao.di.module.StoryModule;
+import com.example.leeeyou.zhihuribao.utils.T;
 import com.example.leeeyou.zhihuribao.view.manager.UniversalAdapter;
 import com.example.leeeyou.zhihuribao.view.manager.ViewHolder;
 
@@ -96,6 +97,7 @@ public class StoryActivity extends Base_Original_Activity {
                     @Override
                     public void onError(Throwable e) {
                         e.printStackTrace();
+                        T.showShort(StoryActivity.this, "出错了:" + e.getMessage());
                     }
 
                     @Override
