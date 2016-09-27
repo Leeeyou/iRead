@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DecodeFormat;
 
 import java.io.ByteArrayOutputStream;
 
@@ -107,6 +108,8 @@ public class ViewHolder {
     public ViewHolder setImageByUrl(int viewId, String url, int defaultImageRes) {
         Glide.with(context)
                 .load(url)
+                .asBitmap()
+                .format(DecodeFormat.PREFER_ARGB_8888)
                 .centerCrop()
                 .into((ImageView) retrieveView(viewId));
         return this;
