@@ -3,6 +3,7 @@ package com.example.leeeyou.zhihuribao.view.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -30,12 +31,13 @@ import rx.schedulers.Schedulers;
 
 public class StoryActivity extends Base_Original_Activity {
 
-    RecyclerView recyclerView_zhihuribao;
+    private RecyclerView recyclerView_zhihuribao;
 
     @Inject
     Observable<RiBao> storyObservable;
 
-    StoryAdapter mStoryAdapter;
+    private StoryAdapter mStoryAdapter;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +46,14 @@ public class StoryActivity extends Base_Original_Activity {
 
         recyclerView_zhihuribao = (RecyclerView) findViewById(R.id.recyclerView_zhihuribao);
         recyclerView_zhihuribao.setLayoutManager(new LinearLayoutManager(this));
+
+        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeLayout);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getStories();
+            }
+        });
 
         setLeftTitleAndDoNotDisplayHomeAsUp("知乎日报");
 
@@ -92,11 +102,12 @@ public class StoryActivity extends Base_Original_Activity {
                 .subscribe(new Subscriber<RiBao>() {
                     @Override
                     public void onCompleted() {
-
+                        mSwipeRefreshLayout.setRefreshing(false);
                     }
 
                     @Override
                     public void onError(Throwable e) {
+                        mSwipeRefreshLayout.setRefreshing(false);
                         e.printStackTrace();
                         T.showShort(StoryActivity.this, "出错了:" + e.getMessage());
                     }
@@ -109,7 +120,6 @@ public class StoryActivity extends Base_Original_Activity {
     }
 
     private void setAdapter(@NonNull final List<Story> stories) {
-
         if (mStoryAdapter == null) {
             mStoryAdapter = new StoryAdapter(R.layout.item_lv_story, stories);
             recyclerView_zhihuribao.setAdapter(mStoryAdapter);
@@ -125,7 +135,7 @@ public class StoryActivity extends Base_Original_Activity {
                 }
             });
         } else {
-            mStoryAdapter.notifyDataSetChanged();
+            mStoryAdapter.setNewData(stories);
         }
     }
 
