@@ -37,7 +37,7 @@ import rx.schedulers.Schedulers;
 
 public class StoryFragment extends Fragment {
 
-    @BindView(R.id.lv_zhihuribao)
+    @BindView(R.id.recyclerView_zhihuribao)
     ListView lv_zhihuribao;
 
     UniversalAdapter<Story> mAdapter;
@@ -138,7 +138,7 @@ public class StoryFragment extends Fragment {
         }
     }
 
-    @OnItemClick(R.id.lv_zhihuribao)
+    @OnItemClick(R.id.recyclerView_zhihuribao)
     public void onItemClick(int position) {
         Story story = (Story) lv_zhihuribao.getItemAtPosition(position);
         startActivity(new Intent()
