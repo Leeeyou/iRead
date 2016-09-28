@@ -14,8 +14,8 @@ import rx.Observable;
  */
 public interface ZhiHuRiBaoService {
 
-    @GET("/api/4/news/latest")
-    Observable<RiBao> getLatestRiBao();
+    @GET("/api/4/news/before/{dateTime}")
+    Observable<RiBao> getLatestRiBao(@Path("dateTime") String dateTime);
 
     @GET("/api/4/news/{id}")
     Observable<StoryDetail> getStoryDetailById(@Path("id") int id);

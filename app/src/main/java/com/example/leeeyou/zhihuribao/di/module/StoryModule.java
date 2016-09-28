@@ -13,21 +13,20 @@ import rx.Observable;
 public class StoryModule {
 
     private String endPoint = "http://news-at.zhihu.com";
+    private String endPoint2 = "http://news.at.zhihu.com";
 
     public int storyId;
 
-    public StoryModule() {
-    }
+    public String date;//格式形如:20160928
 
-    public StoryModule(int storyId) {
-        this.storyId = storyId;
+    public StoryModule() {
     }
 
     @Provides
     public Observable<RiBao> provideStories() {
         return ServiceFactory
-                .createRxRetrofitService(ZhiHuRiBaoService.class, endPoint)
-                .getLatestRiBao();
+                .createRxRetrofitService(ZhiHuRiBaoService.class, endPoint2)
+                .getLatestRiBao(date);
     }
 
     @Provides

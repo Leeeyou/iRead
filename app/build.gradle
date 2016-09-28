@@ -44,6 +44,8 @@ dependencies {
     compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.1.7'
 
     compile 'com.android.support:design:23.4.0'
+
+    compile 'net.danlew:android.joda:2.9.4.1'
 }
 
 ////// butterknife

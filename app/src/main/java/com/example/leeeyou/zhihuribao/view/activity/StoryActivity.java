@@ -7,6 +7,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
@@ -15,9 +16,13 @@ import com.example.leeeyou.zhihuribao.adapter.StoryAdapter;
 import com.example.leeeyou.zhihuribao.data.model.RiBao;
 import com.example.leeeyou.zhihuribao.data.model.Story;
 import com.example.leeeyou.zhihuribao.di.component.DaggerStoryComponent;
+import com.example.leeeyou.zhihuribao.di.component.StoryComponent;
 import com.example.leeeyou.zhihuribao.di.module.StoryModule;
 import com.example.leeeyou.zhihuribao.utils.T;
 
+import org.joda.time.DateTime;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -29,48 +34,129 @@ import rx.functions.Action0;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
-public class StoryActivity extends Base_Original_Activity {
+public class StoryActivity extends Base_Original_Activity implements BaseQuickAdapter.RequestLoadMoreListener {
 
-    private RecyclerView recyclerView_zhihuribao;
+    private RecyclerView mRecyclerView;
 
     @Inject
-    Observable<RiBao> storyObservable;
+    Observable<RiBao> mStoryObservable;
 
     private StoryAdapter mStoryAdapter;
     private SwipeRefreshLayout mSwipeRefreshLayout;
+
+    private static final int TOTAL_COUNTER = 100;
+    private static final int PAGE_SIZE = 0;
+
+    public final List<Story> mStoryList = new ArrayList<>();
+    public boolean isLoadMore = false;
+
+    private View notLoadingView;
+
+    private StoryModule mStoryModule;
+    private StoryComponent mStoryComponent;
+
+    private DateTime mDateTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_story);
 
-        recyclerView_zhihuribao = (RecyclerView) findViewById(R.id.recyclerView_zhihuribao);
-        recyclerView_zhihuribao.setLayoutManager(new LinearLayoutManager(this));
+        initDateTime();
 
-        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeLayout);
-        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                getStories();
-            }
-        });
+        initUI();
 
-        setLeftTitleAndDoNotDisplayHomeAsUp("知乎日报");
+        initAdapter();
+
+        initSwipeRefreshLayout();
 
         getStories();
     }
 
+    private void initDateTime() {
+        mDateTime = DateTime.now().plusDays(1);
+    }
+
+    private void initUI() {
+        setLeftTitleAndDoNotDisplayHomeAsUp(getResources().getString(R.string.app_name));
+
+        mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView_zhihuribao);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+    }
+
+    private void initSwipeRefreshLayout() {
+        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeLayout);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                onRefreshToFetchData();
+            }
+        });
+    }
+
+    private void onRefreshToFetchData() {
+        isLoadMore = false;
+
+//        mStoryAdapter.openLoadMore(PAGE_SIZE);
+//        mStoryAdapter.removeAllFooterView();
+
+        initDateTime();
+
+        injectModule(getDayOfYear());
+
+        getStories();
+    }
+
+    @NonNull
+    private String getDayOfYear() {
+        return String.valueOf(mDateTime.getYear()) +
+                (mDateTime.getMonthOfYear() < 10 ? "0" + mDateTime.getMonthOfYear() : mDateTime.getMonthOfYear()) +
+                mDateTime.getDayOfMonth();
+    }
+
+    private void initAdapter() {
+        injectModule(getDayOfYear());
+
+        mStoryAdapter = new StoryAdapter(R.layout.item_lv_story, mStoryList);
+        mRecyclerView.setAdapter(mStoryAdapter);
+
+//        initAdapterLoadMore();
+
+        mRecyclerView.addOnItemTouchListener(new OnItemClickListener() {
+            @Override
+            public void SimpleOnItemClick(BaseQuickAdapter baseQuickAdapter, View view, int position) {
+                Story story = mStoryList.get(position);
+                startActivity(new Intent()
+                        .setClass(StoryActivity.this, StoryDetailActivity.class)
+                        .putExtra("storyId", story.id)
+                        .putExtra("storyTitle", story.title));
+            }
+        });
+    }
+
+    private void initAdapterLoadMore() {
+        mStoryAdapter.openLoadAnimation();
+        mStoryAdapter.openLoadMore(PAGE_SIZE);
+        mStoryAdapter.setOnLoadMoreListener(this);
+    }
+
+    private void injectModule(String dateTime) {
+        mStoryModule.date = dateTime;
+        mStoryComponent.inject(this);
+    }
+
     @Override
     void setupActivityComponent() {
-        DaggerStoryComponent
+        mStoryModule = new StoryModule();
+
+        mStoryComponent = DaggerStoryComponent
                 .builder()
-                .storyModule(new StoryModule())
-                .build()
-                .inject(this);
+                .storyModule(mStoryModule)
+                .build();
     }
 
     private void getStories() {
-        storyObservable.subscribeOn(Schedulers.newThread())
+        mStoryObservable.subscribeOn(Schedulers.newThread())
                 .doOnSubscribe(new Action0() {
                     @Override
                     public void call() {
@@ -102,7 +188,7 @@ public class StoryActivity extends Base_Original_Activity {
                 .subscribe(new Subscriber<RiBao>() {
                     @Override
                     public void onCompleted() {
-                        mSwipeRefreshLayout.setRefreshing(false);
+
                     }
 
                     @Override
@@ -110,33 +196,46 @@ public class StoryActivity extends Base_Original_Activity {
                         mSwipeRefreshLayout.setRefreshing(false);
                         e.printStackTrace();
                         T.showShort(StoryActivity.this, "出错了:" + e.getMessage());
+
+                        if (isLoadMore) {
+                            mStoryAdapter.showLoadMoreFailedView();
+                        }
                     }
 
                     @Override
                     public void onNext(RiBao ribao) {
-                        setAdapter(ribao.stories);
+                        if (!isLoadMore) {
+                            mStoryList.clear();
+                        }
+
+                        mStoryList.addAll(ribao.stories);
+
+                        if (mStoryList.size() >= TOTAL_COUNTER) {
+                            mStoryAdapter.loadComplete();
+                            if (notLoadingView == null) {
+                                notLoadingView = getLayoutInflater().inflate(R.layout.not_loading, (ViewGroup) mRecyclerView.getParent(), false);
+                            }
+                            mStoryAdapter.addFooterView(notLoadingView);
+                        }
+
+                        mStoryAdapter.setNewData(mStoryList);
+
+                        mSwipeRefreshLayout.setRefreshing(false);
                     }
                 });
     }
 
-    private void setAdapter(@NonNull final List<Story> stories) {
-        if (mStoryAdapter == null) {
-            mStoryAdapter = new StoryAdapter(R.layout.item_lv_story, stories);
-            recyclerView_zhihuribao.setAdapter(mStoryAdapter);
+    @Override
+    public void onLoadMoreRequested() {
+        isLoadMore = true;
 
-            recyclerView_zhihuribao.addOnItemTouchListener(new OnItemClickListener() {
-                @Override
-                public void SimpleOnItemClick(BaseQuickAdapter baseQuickAdapter, View view, int position) {
-                    Story story = stories.get(position);
-                    startActivity(new Intent()
-                            .setClass(StoryActivity.this, StoryDetailActivity.class)
-                            .putExtra("storyId", story.id)
-                            .putExtra("storyTitle", story.title));
-                }
-            });
-        } else {
-            mStoryAdapter.setNewData(stories);
-        }
+        mDateTime = mDateTime.minusDays(1);
+        injectModule(getDayOfYear());
+
+//        mStoryAdapter.openLoadMore(PAGE_SIZE);
+//        mStoryAdapter.removeAllFooterView();
+
+        getStories();
     }
 
 }
