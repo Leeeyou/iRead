@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.example.leeeyou.zhihuribao.R;
@@ -56,6 +57,8 @@ public class StoryActivity extends Base_Original_Activity implements BaseQuickAd
     private StoryComponent mStoryComponent;
 
     private DateTime mDateTime;
+
+    private MaterialDialog mMaterialDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -156,11 +159,15 @@ public class StoryActivity extends Base_Original_Activity implements BaseQuickAd
     }
 
     private void getStories() {
-        mStoryObservable.subscribeOn(Schedulers.newThread())
+        mStoryObservable
+                .subscribeOn(Schedulers.newThread())
                 .doOnSubscribe(new Action0() {
                     @Override
                     public void call() {
-
+                        mMaterialDialog = new MaterialDialog.Builder(StoryActivity.this)
+                                .content("请等待...")
+                                .progress(true, 0)
+                                .show();
                     }
                 })
                 .subscribeOn(AndroidSchedulers.mainThread())
@@ -188,11 +195,13 @@ public class StoryActivity extends Base_Original_Activity implements BaseQuickAd
                 .subscribe(new Subscriber<RiBao>() {
                     @Override
                     public void onCompleted() {
-
+                        mMaterialDialog.dismiss();
                     }
 
                     @Override
                     public void onError(Throwable e) {
+                        mMaterialDialog.dismiss();
+
                         mSwipeRefreshLayout.setRefreshing(false);
                         e.printStackTrace();
                         T.showShort(StoryActivity.this, "出错了:" + e.getMessage());

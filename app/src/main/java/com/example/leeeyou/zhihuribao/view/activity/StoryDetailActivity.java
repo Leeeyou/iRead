@@ -3,6 +3,7 @@ package com.example.leeeyou.zhihuribao.view.activity;
 import android.os.Bundle;
 import android.webkit.WebView;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.example.leeeyou.zhihuribao.R;
 import com.example.leeeyou.zhihuribao.data.model.StoryDetail;
 import com.example.leeeyou.zhihuribao.di.component.DaggerStoryComponent;
@@ -17,6 +18,7 @@ import butterknife.ButterKnife;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action0;
 import rx.schedulers.Schedulers;
 
 public class StoryDetailActivity extends Base_Original_Activity {
@@ -29,8 +31,10 @@ public class StoryDetailActivity extends Base_Original_Activity {
     @Inject
     Observable<StoryDetail> detailObservable;
 
-    StoryComponent storyComponent;
-    StoryModule storyModule;
+    private StoryComponent storyComponent;
+    private StoryModule storyModule;
+
+    private MaterialDialog mMaterialDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,15 +77,26 @@ public class StoryDetailActivity extends Base_Original_Activity {
 
     public void getStoryDetail() {
         detailObservable.subscribeOn(Schedulers.newThread())
+                .doOnSubscribe(new Action0() {
+                    @Override
+                    public void call() {
+                        mMaterialDialog = new MaterialDialog.Builder(StoryDetailActivity.this)
+                                .content("请等待...")
+                                .progress(true, 0)
+                                .show();
+                    }
+                })
+                .subscribeOn(AndroidSchedulers.mainThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<StoryDetail>() {
                     @Override
                     public void onCompleted() {
-
+                        mMaterialDialog.dismiss();
                     }
 
                     @Override
                     public void onError(Throwable e) {
+                        mMaterialDialog.dismiss();
                         e.printStackTrace();
                     }
 
