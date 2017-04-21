@@ -22,6 +22,10 @@ public class StoryModule {
     public StoryModule() {
     }
 
+    public StoryModule(String date) {
+        this.date = date;
+    }
+
     @Provides
     public Observable<RiBao> provideStories() {
         return ServiceFactory

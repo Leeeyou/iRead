@@ -57,7 +57,6 @@ public class StoryActivity extends Base_Original_Activity implements BaseQuickAd
     private StoryComponent mStoryComponent;
 
     private DateTime mDateTime;
-
     private MaterialDialog mMaterialDialog;
 
     @Override
@@ -66,13 +65,9 @@ public class StoryActivity extends Base_Original_Activity implements BaseQuickAd
         setContentView(R.layout.activity_story);
 
         initDateTime();
-
         initUI();
-
         initAdapter();
-
         initSwipeRefreshLayout();
-
         getStories();
     }
 

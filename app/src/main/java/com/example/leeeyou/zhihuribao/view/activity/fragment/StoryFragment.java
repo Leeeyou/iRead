@@ -21,11 +21,12 @@ import com.example.leeeyou.zhihuribao.view.manager.UniversalAdapter;
 import com.example.leeeyou.zhihuribao.view.manager.ViewHolder;
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItem;
 
+import org.joda.time.DateTime;
+
 import java.util.List;
 
 import javax.inject.Inject;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnItemClick;
 import rx.Observable;
@@ -37,8 +38,8 @@ import rx.schedulers.Schedulers;
 
 public class StoryFragment extends Fragment {
 
-    @BindView(R.id.recyclerView_zhihuribao)
-    ListView lv_zhihuribao;
+    //    @BindView(R.id.recyclerView_zhihuribao)
+    ListView listView;
 
     UniversalAdapter<Story> mAdapter;
 
@@ -50,6 +51,8 @@ public class StoryFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         View inflate = inflater.inflate(R.layout.activity_story, container, false);
         ButterKnife.bind(this, inflate);
+
+        listView = (ListView) inflate.findViewById(R.id.recyclerView_zhihuribao);
         return inflate;
     }
 
@@ -66,7 +69,7 @@ public class StoryFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         DaggerStoryComponent
                 .builder()
-                .storyModule(new StoryModule())
+                .storyModule(new StoryModule(getDayOfYear()))
                 .build()
                 .inject(this);
 
@@ -132,7 +135,7 @@ public class StoryFragment extends Fragment {
                     vh.setImageByUrl(R.id.iv_story_image, story.getImages().get(0));
                 }
             };
-            lv_zhihuribao.setAdapter(mAdapter);
+            listView.setAdapter(mAdapter);
         } else {
             mAdapter.notifyDataSetChanged();
         }
@@ -140,10 +143,19 @@ public class StoryFragment extends Fragment {
 
     @OnItemClick(R.id.recyclerView_zhihuribao)
     public void onItemClick(int position) {
-        Story story = (Story) lv_zhihuribao.getItemAtPosition(position);
+        Story story = (Story) listView.getItemAtPosition(position);
         startActivity(new Intent()
                 .setClass(getActivity(), StoryDetailActivity.class)
                 .putExtra("storyId", story.getId())
                 .putExtra("storyTitle", story.getTitle()));
     }
+
+    @NonNull
+    private String getDayOfYear() {
+        DateTime mDateTime = DateTime.now().plusDays(1);
+        return String.valueOf(mDateTime.getYear()) +
+                (mDateTime.getMonthOfYear() < 10 ? "0" + mDateTime.getMonthOfYear() : mDateTime.getMonthOfYear()) +
+                mDateTime.getDayOfMonth();
+    }
+
 }
