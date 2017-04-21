@@ -8,7 +8,7 @@ import com.bumptech.glide.load.DecodeFormat;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.example.leeeyou.zhihuribao.R;
-import com.example.leeeyou.zhihuribao.data.model.Story1;
+import com.example.leeeyou.zhihuribao.data.model.Story;
 
 import java.util.List;
 
@@ -16,22 +16,22 @@ import java.util.List;
  * Created by leeeyou on 16/9/27.
  */
 
-public class StoryAdapter extends BaseQuickAdapter<Story1> {
+public class StoryAdapter extends BaseQuickAdapter<Story> {
 
-    public StoryAdapter(int layoutResId, List<Story1> data) {
+    public StoryAdapter(int layoutResId, List<Story> data) {
         super(layoutResId, data);
     }
 
-    public StoryAdapter(List<Story1> data) {
+    public StoryAdapter(List<Story> data) {
         super(data);
     }
 
-    public StoryAdapter(View contentView, List<Story1> data) {
+    public StoryAdapter(View contentView, List<Story> data) {
         super(contentView, data);
     }
 
     @Override
-    protected void convert(BaseViewHolder baseViewHolder, Story1 story) {
+    protected void convert(BaseViewHolder baseViewHolder, Story story) {
 
         baseViewHolder.setText(R.id.tv_story_title, story.getTitle());
 

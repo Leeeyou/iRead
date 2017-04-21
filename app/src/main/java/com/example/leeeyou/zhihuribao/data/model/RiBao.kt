@@ -5,4 +5,4 @@ package com.example.leeeyou.zhihuribao.data.model
  *
  * getLatestRiBao返回的数据结构
  */
-data class RiBao(var date: String, var stories: List<Story1>)
+data class RiBao(var date: String, var stories: List<Story>)

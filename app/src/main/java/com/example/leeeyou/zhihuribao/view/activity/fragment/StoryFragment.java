@@ -12,7 +12,7 @@ import android.widget.ListView;
 
 import com.example.leeeyou.zhihuribao.R;
 import com.example.leeeyou.zhihuribao.data.model.RiBao;
-import com.example.leeeyou.zhihuribao.data.model.Story1;
+import com.example.leeeyou.zhihuribao.data.model.Story;
 import com.example.leeeyou.zhihuribao.di.component.DaggerStoryComponent;
 import com.example.leeeyou.zhihuribao.di.module.StoryModule;
 import com.example.leeeyou.zhihuribao.utils.T;
@@ -40,7 +40,7 @@ public class StoryFragment extends Fragment {
     @BindView(R.id.recyclerView_zhihuribao)
     ListView lv_zhihuribao;
 
-    UniversalAdapter<Story1> mAdapter;
+    UniversalAdapter<Story> mAdapter;
 
     @Inject
     Observable<RiBao> storyObservable;
@@ -94,8 +94,8 @@ public class StoryFragment extends Fragment {
                             sb.append(chars[i]);
                         }
 
-                        List<Story1> stories = riBao.getStories();
-                        for (Story1 story : stories) {
+                        List<Story> stories = riBao.getStories();
+                        for (Story story : stories) {
                             story.setDate(sb.toString());
                         }
 
@@ -122,11 +122,11 @@ public class StoryFragment extends Fragment {
                 });
     }
 
-    private void setAdapter(@NonNull List<Story1> stories) {
+    private void setAdapter(@NonNull List<Story> stories) {
         if (mAdapter == null) {
-            mAdapter = new UniversalAdapter<Story1>(getActivity(), stories, R.layout.item_lv_story) {
+            mAdapter = new UniversalAdapter<Story>(getActivity(), stories, R.layout.item_lv_story) {
                 @Override
-                public void convert(ViewHolder vh, Story1 story, int position) {
+                public void convert(ViewHolder vh, Story story, int position) {
                     vh.setText(R.id.tv_story_title, story.getTitle());
                     vh.setText(R.id.tv_story_time, story.getDate());
                     vh.setImageByUrl(R.id.iv_story_image, story.getImages().get(0));
@@ -140,7 +140,7 @@ public class StoryFragment extends Fragment {
 
     @OnItemClick(R.id.recyclerView_zhihuribao)
     public void onItemClick(int position) {
-        Story1 story = (Story1) lv_zhihuribao.getItemAtPosition(position);
+        Story story = (Story) lv_zhihuribao.getItemAtPosition(position);
         startActivity(new Intent()
                 .setClass(getActivity(), StoryDetailActivity.class)
                 .putExtra("storyId", story.getId())

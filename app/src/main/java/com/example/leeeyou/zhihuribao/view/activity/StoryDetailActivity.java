@@ -105,7 +105,7 @@ public class StoryDetailActivity extends Base_Original_Activity {
                     public void onNext(StoryDetail storyDetail) {
 //                        ViewUtils.setViewVisibility(commonLoading, false);
 //                        ViewUtils.setViewVisibility(commonError, false);
-                        story_web.loadData(HtmlUtils.structHtml(storyDetail.body, storyDetail.css), "text/html; charset=UTF-8", null);
+                        story_web.loadData(HtmlUtils.structHtml(storyDetail.getBody(), storyDetail.getCss()), "text/html; charset=UTF-8", null);
                     }
                 });
     }

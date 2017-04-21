@@ -15,7 +15,7 @@ import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.example.leeeyou.zhihuribao.R;
 import com.example.leeeyou.zhihuribao.adapter.StoryAdapter;
 import com.example.leeeyou.zhihuribao.data.model.RiBao;
-import com.example.leeeyou.zhihuribao.data.model.Story1;
+import com.example.leeeyou.zhihuribao.data.model.Story;
 import com.example.leeeyou.zhihuribao.di.component.DaggerStoryComponent;
 import com.example.leeeyou.zhihuribao.di.component.StoryComponent;
 import com.example.leeeyou.zhihuribao.di.module.StoryModule;
@@ -48,7 +48,7 @@ public class StoryActivity extends Base_Original_Activity implements BaseQuickAd
     private static final int TOTAL_COUNTER = 100;
     private static final int PAGE_SIZE = 0;
 
-    public final List<Story1> mStoryList = new ArrayList<>();
+    public final List<Story> mStoryList = new ArrayList<>();
     public boolean isLoadMore = false;
 
     private View notLoadingView;
@@ -128,7 +128,7 @@ public class StoryActivity extends Base_Original_Activity implements BaseQuickAd
         mRecyclerView.addOnItemTouchListener(new OnItemClickListener() {
             @Override
             public void SimpleOnItemClick(BaseQuickAdapter baseQuickAdapter, View view, int position) {
-                Story1 story = mStoryList.get(position);
+                Story story = mStoryList.get(position);
                 startActivity(new Intent()
                         .setClass(StoryActivity.this, StoryDetailActivity.class)
                         .putExtra("storyId", story.getId())
@@ -183,8 +183,8 @@ public class StoryActivity extends Base_Original_Activity implements BaseQuickAd
                             sb.append(chars[i]);
                         }
 
-                        List<Story1> stories = riBao.getStories();
-                        for (Story1 story : stories) {
+                        List<Story> stories = riBao.getStories();
+                        for (Story story : stories) {
                             story.setDate(sb.toString());
                         }
 
