@@ -8,7 +8,7 @@ import com.bumptech.glide.load.DecodeFormat;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.example.leeeyou.zhihuribao.R;
-import com.example.leeeyou.zhihuribao.data.model.Story;
+import com.example.leeeyou.zhihuribao.data.model.Story1;
 
 import java.util.List;
 
@@ -16,29 +16,29 @@ import java.util.List;
  * Created by leeeyou on 16/9/27.
  */
 
-public class StoryAdapter extends BaseQuickAdapter<Story> {
+public class StoryAdapter extends BaseQuickAdapter<Story1> {
 
-    public StoryAdapter(int layoutResId, List<Story> data) {
+    public StoryAdapter(int layoutResId, List<Story1> data) {
         super(layoutResId, data);
     }
 
-    public StoryAdapter(List<Story> data) {
+    public StoryAdapter(List<Story1> data) {
         super(data);
     }
 
-    public StoryAdapter(View contentView, List<Story> data) {
+    public StoryAdapter(View contentView, List<Story1> data) {
         super(contentView, data);
     }
 
     @Override
-    protected void convert(BaseViewHolder baseViewHolder, Story story) {
+    protected void convert(BaseViewHolder baseViewHolder, Story1 story) {
 
-        baseViewHolder.setText(R.id.tv_story_title, story.title);
+        baseViewHolder.setText(R.id.tv_story_title, story.getTitle());
 
-        baseViewHolder.setText(R.id.tv_story_time, story.date);
+        baseViewHolder.setText(R.id.tv_story_time, story.getDate());
 
         Glide.with(mContext)
-                .load(story.images.get(0))
+                .load(story.getImages().get(0))
                 .asBitmap()
                 .format(DecodeFormat.PREFER_ARGB_8888)
                 .centerCrop()

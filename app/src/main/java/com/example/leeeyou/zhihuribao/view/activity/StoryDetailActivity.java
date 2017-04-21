@@ -13,7 +13,6 @@ import com.example.leeeyou.zhihuribao.utils.HtmlUtils;
 
 import javax.inject.Inject;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
 import rx.Observable;
 import rx.Subscriber;
@@ -25,7 +24,7 @@ public class StoryDetailActivity extends Base_Original_Activity {
 
     private int storyId;
 
-    @BindView(R.id.story_web)
+//    @BindView(R.id.story_web)
     WebView story_web;
 
     @Inject
@@ -42,6 +41,8 @@ public class StoryDetailActivity extends Base_Original_Activity {
         setContentView(R.layout.activity_story_detail);
 
         ButterKnife.bind(StoryDetailActivity.this);
+
+        story_web = (WebView) findViewById(R.id.story_web);
 
         storyId = getIntent().getIntExtra("storyId", -1);
         String storyTitle = getIntent().getStringExtra("storyTitle");

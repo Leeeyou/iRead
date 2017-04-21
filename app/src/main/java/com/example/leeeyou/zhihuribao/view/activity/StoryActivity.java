@@ -15,7 +15,7 @@ import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.example.leeeyou.zhihuribao.R;
 import com.example.leeeyou.zhihuribao.adapter.StoryAdapter;
 import com.example.leeeyou.zhihuribao.data.model.RiBao;
-import com.example.leeeyou.zhihuribao.data.model.Story;
+import com.example.leeeyou.zhihuribao.data.model.Story1;
 import com.example.leeeyou.zhihuribao.di.component.DaggerStoryComponent;
 import com.example.leeeyou.zhihuribao.di.component.StoryComponent;
 import com.example.leeeyou.zhihuribao.di.module.StoryModule;
@@ -48,7 +48,7 @@ public class StoryActivity extends Base_Original_Activity implements BaseQuickAd
     private static final int TOTAL_COUNTER = 100;
     private static final int PAGE_SIZE = 0;
 
-    public final List<Story> mStoryList = new ArrayList<>();
+    public final List<Story1> mStoryList = new ArrayList<>();
     public boolean isLoadMore = false;
 
     private View notLoadingView;
@@ -128,11 +128,11 @@ public class StoryActivity extends Base_Original_Activity implements BaseQuickAd
         mRecyclerView.addOnItemTouchListener(new OnItemClickListener() {
             @Override
             public void SimpleOnItemClick(BaseQuickAdapter baseQuickAdapter, View view, int position) {
-                Story story = mStoryList.get(position);
+                Story1 story = mStoryList.get(position);
                 startActivity(new Intent()
                         .setClass(StoryActivity.this, StoryDetailActivity.class)
-                        .putExtra("storyId", story.id)
-                        .putExtra("storyTitle", story.title));
+                        .putExtra("storyId", story.getId())
+                        .putExtra("storyTitle", story.getTitle()));
             }
         });
     }
@@ -175,7 +175,7 @@ public class StoryActivity extends Base_Original_Activity implements BaseQuickAd
                     @Override
                     public Boolean call(RiBao riBao) {
                         StringBuilder sb = new StringBuilder();
-                        char[] chars = riBao.date.toCharArray();
+                        char[] chars = riBao.getDate().toCharArray();
                         for (int i = 0; i < chars.length; i++) {
                             if (i == 4 || i == 6) {
                                 sb.append("-");
@@ -183,9 +183,9 @@ public class StoryActivity extends Base_Original_Activity implements BaseQuickAd
                             sb.append(chars[i]);
                         }
 
-                        List<Story> stories = riBao.stories;
-                        for (Story story : stories) {
-                            story.date = sb.toString();
+                        List<Story1> stories = riBao.getStories();
+                        for (Story1 story : stories) {
+                            story.setDate(sb.toString());
                         }
 
                         return true;
@@ -217,7 +217,7 @@ public class StoryActivity extends Base_Original_Activity implements BaseQuickAd
                             mStoryList.clear();
                         }
 
-                        mStoryList.addAll(ribao.stories);
+                        mStoryList.addAll(ribao.getStories());
 
                         if (mStoryList.size() >= TOTAL_COUNTER) {
                             mStoryAdapter.loadComplete();

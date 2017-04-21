@@ -12,7 +12,7 @@ import android.widget.ListView;
 
 import com.example.leeeyou.zhihuribao.R;
 import com.example.leeeyou.zhihuribao.data.model.RiBao;
-import com.example.leeeyou.zhihuribao.data.model.Story;
+import com.example.leeeyou.zhihuribao.data.model.Story1;
 import com.example.leeeyou.zhihuribao.di.component.DaggerStoryComponent;
 import com.example.leeeyou.zhihuribao.di.module.StoryModule;
 import com.example.leeeyou.zhihuribao.utils.T;
@@ -40,7 +40,7 @@ public class StoryFragment extends Fragment {
     @BindView(R.id.recyclerView_zhihuribao)
     ListView lv_zhihuribao;
 
-    UniversalAdapter<Story> mAdapter;
+    UniversalAdapter<Story1> mAdapter;
 
     @Inject
     Observable<RiBao> storyObservable;
@@ -86,7 +86,7 @@ public class StoryFragment extends Fragment {
                     @Override
                     public Boolean call(RiBao riBao) {
                         StringBuilder sb = new StringBuilder();
-                        char[] chars = riBao.date.toCharArray();
+                        char[] chars = riBao.getDate().toCharArray();
                         for (int i = 0; i < chars.length; i++) {
                             if (i == 4 || i == 6) {
                                 sb.append("-");
@@ -94,9 +94,9 @@ public class StoryFragment extends Fragment {
                             sb.append(chars[i]);
                         }
 
-                        List<Story> stories = riBao.stories;
-                        for (Story story : stories) {
-                            story.date = sb.toString();
+                        List<Story1> stories = riBao.getStories();
+                        for (Story1 story : stories) {
+                            story.setDate(sb.toString());
                         }
 
                         return true;
@@ -117,19 +117,19 @@ public class StoryFragment extends Fragment {
 
                     @Override
                     public void onNext(RiBao ribao) {
-                        setAdapter(ribao.stories);
+                        setAdapter(ribao.getStories());
                     }
                 });
     }
 
-    private void setAdapter(@NonNull List<Story> stories) {
+    private void setAdapter(@NonNull List<Story1> stories) {
         if (mAdapter == null) {
-            mAdapter = new UniversalAdapter<Story>(getActivity(), stories, R.layout.item_lv_story) {
+            mAdapter = new UniversalAdapter<Story1>(getActivity(), stories, R.layout.item_lv_story) {
                 @Override
-                public void convert(ViewHolder vh, Story story, int position) {
-                    vh.setText(R.id.tv_story_title, story.title);
-                    vh.setText(R.id.tv_story_time, story.date);
-                    vh.setImageByUrl(R.id.iv_story_image, story.images.get(0));
+                public void convert(ViewHolder vh, Story1 story, int position) {
+                    vh.setText(R.id.tv_story_title, story.getTitle());
+                    vh.setText(R.id.tv_story_time, story.getDate());
+                    vh.setImageByUrl(R.id.iv_story_image, story.getImages().get(0));
                 }
             };
             lv_zhihuribao.setAdapter(mAdapter);
@@ -140,10 +140,10 @@ public class StoryFragment extends Fragment {
 
     @OnItemClick(R.id.recyclerView_zhihuribao)
     public void onItemClick(int position) {
-        Story story = (Story) lv_zhihuribao.getItemAtPosition(position);
+        Story1 story = (Story1) lv_zhihuribao.getItemAtPosition(position);
         startActivity(new Intent()
                 .setClass(getActivity(), StoryDetailActivity.class)
-                .putExtra("storyId", story.id)
-                .putExtra("storyTitle", story.title));
+                .putExtra("storyId", story.getId())
+                .putExtra("storyTitle", story.getTitle()));
     }
 }
