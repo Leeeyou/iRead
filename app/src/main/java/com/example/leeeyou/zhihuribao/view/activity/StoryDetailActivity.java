@@ -13,7 +13,6 @@ import com.example.leeeyou.zhihuribao.utils.HtmlUtils;
 
 import javax.inject.Inject;
 
-import butterknife.ButterKnife;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -39,8 +38,6 @@ public class StoryDetailActivity extends Base_Original_Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_story_detail);
-
-        ButterKnife.bind(StoryDetailActivity.this);
 
         story_web = (WebView) findViewById(R.id.story_web);
 

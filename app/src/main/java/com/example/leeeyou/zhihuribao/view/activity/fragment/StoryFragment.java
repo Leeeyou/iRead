@@ -27,8 +27,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import butterknife.ButterKnife;
-import butterknife.OnItemClick;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -38,9 +36,7 @@ import rx.schedulers.Schedulers;
 
 public class StoryFragment extends Fragment {
 
-    //    @BindView(R.id.recyclerView_zhihuribao)
     ListView listView;
-
     UniversalAdapter<Story> mAdapter;
 
     @Inject
@@ -50,8 +46,6 @@ public class StoryFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View inflate = inflater.inflate(R.layout.activity_story, container, false);
-        ButterKnife.bind(this, inflate);
-
         listView = (ListView) inflate.findViewById(R.id.recyclerView_zhihuribao);
         return inflate;
     }
@@ -141,7 +135,6 @@ public class StoryFragment extends Fragment {
         }
     }
 
-    @OnItemClick(R.id.recyclerView_zhihuribao)
     public void onItemClick(int position) {
         Story story = (Story) listView.getItemAtPosition(position);
         startActivity(new Intent()

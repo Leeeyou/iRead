@@ -5,6 +5,8 @@ import com.example.leeeyou.zhihuribao.data.model.StoryDetail;
 import com.example.leeeyou.zhihuribao.data.service.ServiceFactory;
 import com.example.leeeyou.zhihuribao.data.service.ZhiHuRiBaoService;
 
+import javax.inject.Singleton;
+
 import dagger.Module;
 import dagger.Provides;
 import rx.Observable;
@@ -26,6 +28,7 @@ public class StoryModule {
         this.date = date;
     }
 
+    @Singleton
     @Provides
     public Observable<RiBao> provideStories() {
         return ServiceFactory
@@ -33,6 +36,7 @@ public class StoryModule {
                 .getLatestRiBao(date);
     }
 
+    @Singleton
     @Provides
     public Observable<StoryDetail> provideStoryDetail() {
         return ServiceFactory
