@@ -3,7 +3,7 @@ package com.example.leeeyou.zhihuribao.di.module;
 import com.example.leeeyou.zhihuribao.data.model.RiBao;
 import com.example.leeeyou.zhihuribao.data.model.StoryDetail;
 import com.example.leeeyou.zhihuribao.data.service.ServiceFactory;
-import com.example.leeeyou.zhihuribao.data.service.ZhiHuRiBaoService;
+import com.example.leeeyou.zhihuribao.data.service.ZhiHuRiBaoServiceKT;
 
 import javax.inject.Singleton;
 
@@ -33,7 +33,7 @@ public class StoryModule {
     @Provides
     public Observable<RiBao> provideStories() {
         return ServiceFactory.Companion
-                .createRxRetrofitService(ZhiHuRiBaoService.class, endPoint2)
+                .createRxRetrofitService(ZhiHuRiBaoServiceKT.class, endPoint2)
                 .getLatestRiBao(date);
     }
 
@@ -41,7 +41,7 @@ public class StoryModule {
     @Provides
     public Observable<StoryDetail> provideStoryDetail() {
         return ServiceFactory.Companion
-                .createRxRetrofitService(ZhiHuRiBaoService.class, endPoint)
+                .createRxRetrofitService(ZhiHuRiBaoServiceKT.class, endPoint)
                 .getStoryDetailById(storyId);
     }
 
