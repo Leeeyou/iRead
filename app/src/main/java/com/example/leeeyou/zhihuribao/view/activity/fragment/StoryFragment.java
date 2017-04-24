@@ -30,7 +30,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
-public class StoryFragmentKT extends Fragment {
+public class StoryFragment extends Fragment {
 
     RecyclerView mRecyclerView;
     StoryAdapter mAdapter;
@@ -102,30 +102,12 @@ public class StoryFragmentKT extends Fragment {
     private void setAdapter(@NonNull List<Story> stories) {
         if (mAdapter == null) {
             mAdapter = new StoryAdapter(R.layout.item_lv_story, stories);
-
-//            mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-//                @Override
-//                public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-//                    Log.d(TAG, "onItemClick: ");
-//                }
-//            });
-
             mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
             mRecyclerView.setAdapter(mAdapter);
-
-
         } else {
             mAdapter.notifyDataSetChanged();
         }
     }
-
-//    public void onItemClick(int position) {
-//        Story story = (Story) mRecyclerView.getItemAtPosition(position);
-//        startActivity(new Intent()
-//                .setClass(getActivity(), StoryDetailActivity.class)
-//                .putExtra("storyId", story.getId())
-//                .putExtra("storyTitle", story.getTitle()));
-//    }
 
     @NonNull
     private String getDayOfYear() {

@@ -23,7 +23,6 @@ public class StoryDetailActivity extends Base_Original_Activity {
 
     private int storyId;
 
-    //    @BindView(R.id.story_web)
     WebView story_web;
 
     @Inject
@@ -100,8 +99,6 @@ public class StoryDetailActivity extends Base_Original_Activity {
 
                     @Override
                     public void onNext(StoryDetail storyDetail) {
-//                        ViewUtils.setViewVisibility(commonLoading, false);
-//                        ViewUtils.setViewVisibility(commonError, false);
                         story_web.loadData(HtmlUtils.structHtml(storyDetail.getBody(), storyDetail.getCss()), "text/html; charset=UTF-8", null);
                     }
                 });

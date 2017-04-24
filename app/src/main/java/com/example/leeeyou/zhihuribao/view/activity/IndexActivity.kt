@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.support.v4.view.ViewPager
 import com.example.leeeyou.zhihuribao.R
 import com.example.leeeyou.zhihuribao.view.activity.fragment.MyFragment
-import com.example.leeeyou.zhihuribao.view.activity.fragment.StoryFragmentKT
+import com.example.leeeyou.zhihuribao.view.activity.fragment.StoryFragment
 import com.ogaclejapan.smarttablayout.SmartTabLayout
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems
@@ -19,7 +19,7 @@ class IndexActivity : Base_Original_Activity() {
 
         val myAdapter = FragmentPagerItemAdapter(
                 supportFragmentManager, FragmentPagerItems.with(this)
-                .add("知乎推荐", StoryFragmentKT::class.java)
+                .add("知乎推荐", StoryFragment::class.java)
                 .add("知乎专栏", MyFragment::class.java)
                 .create())
 
