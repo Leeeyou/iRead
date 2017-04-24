@@ -3,8 +3,8 @@ package com.example.leeeyou.zhihuribao.view.activity
 import android.os.Bundle
 import android.support.v4.view.ViewPager
 import com.example.leeeyou.zhihuribao.R
-import com.example.leeeyou.zhihuribao.view.activity.fragment.MyFragment
-import com.example.leeeyou.zhihuribao.view.activity.fragment.StoryFragment
+import com.example.leeeyou.zhihuribao.view.fragment.MyFragment
+import com.example.leeeyou.zhihuribao.view.fragment.StoryFragment
 import com.ogaclejapan.smarttablayout.SmartTabLayout
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems

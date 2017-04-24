@@ -2,7 +2,7 @@ package com.example.leeeyou.zhihuribao.di.component
 
 import com.example.leeeyou.zhihuribao.di.module.StoryModule
 import com.example.leeeyou.zhihuribao.view.activity.StoryDetailActivity
-import com.example.leeeyou.zhihuribao.view.activity.fragment.StoryFragment
+import com.example.leeeyou.zhihuribao.view.fragment.StoryFragment
 import dagger.Component
 import javax.inject.Singleton
 

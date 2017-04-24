@@ -1,4 +1,4 @@
-package com.example.leeeyou.zhihuribao.view.activity.fragment;
+package com.example.leeeyou.zhihuribao.view.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;

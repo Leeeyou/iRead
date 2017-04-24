@@ -73,7 +73,8 @@ public class StoryDetailActivity extends Base_Original_Activity {
     }
 
     public void getStoryDetail() {
-        detailObservable.subscribeOn(Schedulers.newThread())
+        detailObservable
+                .subscribeOn(Schedulers.newThread())
                 .doOnSubscribe(new Action0() {
                     @Override
                     public void call() {
