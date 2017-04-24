@@ -32,7 +32,7 @@ class OneFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         val oneModule = OneModule()
-        oneModule.id = 3528
+        oneModule.id = 4002
 
         DaggerOneComponent
                 .builder()

@@ -39,7 +39,7 @@ data class OneIndex(
         var content_type: String,
         var content_bgcolor: String,
         var share_url: String,
-        var tag_list: Array<String>,
+        var tag_list: Array<Tag>,
         var music_name: String,
         var audio_author: String,
         var audio_album: String
