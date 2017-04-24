@@ -32,7 +32,7 @@ public class StoryModule {
     @Singleton
     @Provides
     public Observable<RiBao> provideStories() {
-        return ServiceFactory
+        return ServiceFactory.Companion
                 .createRxRetrofitService(ZhiHuRiBaoService.class, endPoint2)
                 .getLatestRiBao(date);
     }
@@ -40,7 +40,7 @@ public class StoryModule {
     @Singleton
     @Provides
     public Observable<StoryDetail> provideStoryDetail() {
-        return ServiceFactory
+        return ServiceFactory.Companion
                 .createRxRetrofitService(ZhiHuRiBaoService.class, endPoint)
                 .getStoryDetailById(storyId);
     }

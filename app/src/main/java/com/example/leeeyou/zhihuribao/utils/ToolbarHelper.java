@@ -19,8 +19,6 @@ import com.example.leeeyou.zhihuribao.R;
  */
 public class ToolbarHelper {
 
-    public static LinearLayout rootLayout;
-
     public static void checkSdkVersionToTranslucentFlag(Window window) {
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
             final WindowManager.LayoutParams attributes = window.getAttributes();
@@ -39,7 +37,7 @@ public class ToolbarHelper {
     }
 
     public static void setContentView(AppCompatActivity activity, View view) {
-        rootLayout = (LinearLayout) activity.findViewById(R.id.rootLayout);
+        LinearLayout rootLayout = (LinearLayout) activity.findViewById(R.id.rootLayout);
 
         if (rootLayout == null) return;
 
