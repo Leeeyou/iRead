@@ -9,7 +9,7 @@ import rx.Observable
 /**
  * Created by leeeyou on 2017/4/24.
  */
-interface ZhiHuRiBaoServiceKT {
+interface ZhiHuRiBaoService {
     @GET("/api/4/news/before/{dateTime}")
     fun getLatestRiBao(@Path("dateTime") dateTime: String): Observable<RiBao>
 
