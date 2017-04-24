@@ -6,9 +6,9 @@ import android.webkit.WebView;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.example.leeeyou.zhihuribao.R;
 import com.example.leeeyou.zhihuribao.data.model.StoryDetail;
-import com.example.leeeyou.zhihuribao.di.component.DaggerStoryComponent;
-import com.example.leeeyou.zhihuribao.di.component.StoryComponent;
-import com.example.leeeyou.zhihuribao.di.module.StoryModule;
+import com.example.leeeyou.zhihuribao.di.component.DaggerStoryComponentKT;
+import com.example.leeeyou.zhihuribao.di.component.StoryComponentKT;
+import com.example.leeeyou.zhihuribao.di.module.StoryModuleKT;
 import com.example.leeeyou.zhihuribao.utils.HtmlUtils;
 
 import javax.inject.Inject;
@@ -23,14 +23,14 @@ public class StoryDetailActivity extends Base_Original_Activity {
 
     private int storyId;
 
-//    @BindView(R.id.story_web)
+    //    @BindView(R.id.story_web)
     WebView story_web;
 
     @Inject
     Observable<StoryDetail> detailObservable;
 
-    private StoryComponent storyComponent;
-    private StoryModule storyModule;
+    private StoryComponentKT storyComponent;
+    private StoryModuleKT storyModule;
 
     private MaterialDialog mMaterialDialog;
 
@@ -54,7 +54,7 @@ public class StoryDetailActivity extends Base_Original_Activity {
     }
 
     private void injectModule() {
-        storyModule.storyId = storyId;
+        storyModule.setStoryId(storyId);
         storyComponent.inject(this);
     }
 
@@ -65,11 +65,11 @@ public class StoryDetailActivity extends Base_Original_Activity {
 
     @Override
     void setupActivityComponent() {
-        storyModule = new StoryModule();
+        storyModule = new StoryModuleKT();
 
-        storyComponent = DaggerStoryComponent
+        storyComponent = DaggerStoryComponentKT
                 .builder()
-                .storyModule(storyModule)
+                .storyModuleKT(storyModule)
                 .build();
     }
 
