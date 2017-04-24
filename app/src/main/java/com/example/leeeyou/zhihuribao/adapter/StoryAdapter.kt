@@ -9,7 +9,7 @@ import com.bumptech.glide.load.DecodeFormat
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.example.leeeyou.zhihuribao.R
-import com.example.leeeyou.zhihuribao.data.model.Story
+import com.example.leeeyou.zhihuribao.data.model.ribao.Story
 import com.example.leeeyou.zhihuribao.view.activity.StoryDetailActivity
 
 /**

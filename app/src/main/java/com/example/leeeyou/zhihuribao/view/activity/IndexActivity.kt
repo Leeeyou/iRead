@@ -3,7 +3,8 @@ package com.example.leeeyou.zhihuribao.view.activity
 import android.os.Bundle
 import android.support.v4.view.ViewPager
 import com.example.leeeyou.zhihuribao.R
-import com.example.leeeyou.zhihuribao.view.fragment.MyFragment
+import com.example.leeeyou.zhihuribao.utils.toast
+import com.example.leeeyou.zhihuribao.view.fragment.OneFragment
 import com.example.leeeyou.zhihuribao.view.fragment.StoryFragment
 import com.ogaclejapan.smarttablayout.SmartTabLayout
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter
@@ -19,8 +20,8 @@ class IndexActivity : Base_Original_Activity() {
 
         val myAdapter = FragmentPagerItemAdapter(
                 supportFragmentManager, FragmentPagerItems.with(this)
-                .add("知乎推荐", StoryFragment::class.java)
-                .add("知乎专栏", MyFragment::class.java)
+                .add("知乎日报", StoryFragment::class.java)
+                .add("一个", OneFragment::class.java)
                 .create())
 
         val viewPager = findViewById(R.id.viewpager) as ViewPager
@@ -28,5 +29,7 @@ class IndexActivity : Base_Original_Activity() {
 
         val viewPagerTab = findViewById(R.id.viewpagertab) as SmartTabLayout
         viewPagerTab.setViewPager(viewPager)
+
+        toast("ceshi")
     }
 }

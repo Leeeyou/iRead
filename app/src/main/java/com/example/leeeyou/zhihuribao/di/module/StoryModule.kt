@@ -1,7 +1,7 @@
 package com.example.leeeyou.zhihuribao.di.module
 
-import com.example.leeeyou.zhihuribao.data.model.RiBao
-import com.example.leeeyou.zhihuribao.data.model.StoryDetail
+import com.example.leeeyou.zhihuribao.data.model.ribao.RiBao
+import com.example.leeeyou.zhihuribao.data.model.ribao.StoryDetail
 import com.example.leeeyou.zhihuribao.data.service.ServiceFactory
 import com.example.leeeyou.zhihuribao.data.service.ZhiHuRiBaoService
 import dagger.Module
@@ -18,6 +18,14 @@ class StoryModule {
     val endPoint = "http://news-at.zhihu.com"
     val endPoint2 = "http://news.at.zhihu.com"
 
+    /**
+     * //类型后面加?表示可为空
+     * var age: String? = "23"
+     * //抛出空指针异常
+     * val ageInt = age!!.toInt()
+     * //不做处理跳过
+     * val ages = age?.toInt()
+     */
     var storyId: Int = 0
     var date: String = ""
 

@@ -1,7 +1,7 @@
 package com.example.leeeyou.zhihuribao.data.service
 
-import com.example.leeeyou.zhihuribao.data.model.RiBao
-import com.example.leeeyou.zhihuribao.data.model.StoryDetail
+import com.example.leeeyou.zhihuribao.data.model.ribao.RiBao
+import com.example.leeeyou.zhihuribao.data.model.ribao.StoryDetail
 import retrofit.http.GET
 import retrofit.http.Path
 import rx.Observable

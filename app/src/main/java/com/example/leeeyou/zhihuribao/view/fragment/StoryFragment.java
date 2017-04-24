@@ -12,8 +12,8 @@ import android.view.ViewGroup;
 
 import com.example.leeeyou.zhihuribao.R;
 import com.example.leeeyou.zhihuribao.adapter.StoryAdapter;
-import com.example.leeeyou.zhihuribao.data.model.RiBao;
-import com.example.leeeyou.zhihuribao.data.model.Story;
+import com.example.leeeyou.zhihuribao.data.model.ribao.RiBao;
+import com.example.leeeyou.zhihuribao.data.model.ribao.Story;
 import com.example.leeeyou.zhihuribao.di.component.DaggerStoryComponent;
 import com.example.leeeyou.zhihuribao.di.module.StoryModule;
 import com.example.leeeyou.zhihuribao.utils.T;
