@@ -2,7 +2,7 @@ package com.example.leeeyou.zhihuribao.di.component
 
 import com.example.leeeyou.zhihuribao.di.module.StoryModule
 import com.example.leeeyou.zhihuribao.view.activity.StoryDetailActivity
-import com.example.leeeyou.zhihuribao.view.activity.fragment.StoryFragment
+import com.example.leeeyou.zhihuribao.view.activity.fragment.StoryFragmentKT
 import dagger.Component
 import javax.inject.Singleton
 
@@ -14,5 +14,5 @@ import javax.inject.Singleton
 interface StoryComponent {
     fun inject(storyDetailActivity: StoryDetailActivity)
 
-    fun inject(storyFragment: StoryFragment)
+    fun inject(storyFragment: StoryFragmentKT)
 }

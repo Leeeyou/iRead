@@ -30,7 +30,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
-public class StoryFragment extends Fragment {
+public class StoryFragmentKT extends Fragment {
 
     RecyclerView mRecyclerView;
     StoryAdapter mAdapter;
