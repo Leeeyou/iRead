@@ -1,5 +1,6 @@
 package com.example.leeeyou.zhihuribao.adapter;
 
+import android.content.Intent;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -9,6 +10,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.example.leeeyou.zhihuribao.R;
 import com.example.leeeyou.zhihuribao.data.model.Story;
+import com.example.leeeyou.zhihuribao.view.activity.StoryDetailActivity;
 
 import java.util.List;
 
@@ -22,17 +24,8 @@ public class StoryAdapter extends BaseQuickAdapter<Story> {
         super(layoutResId, data);
     }
 
-    public StoryAdapter(List<Story> data) {
-        super(data);
-    }
-
-    public StoryAdapter(View contentView, List<Story> data) {
-        super(contentView, data);
-    }
-
     @Override
-    protected void convert(BaseViewHolder baseViewHolder, Story story) {
-
+    protected void convert(BaseViewHolder baseViewHolder, final Story story) {
         baseViewHolder.setText(R.id.tv_story_title, story.getTitle());
 
         baseViewHolder.setText(R.id.tv_story_time, story.getDate());
@@ -43,5 +36,15 @@ public class StoryAdapter extends BaseQuickAdapter<Story> {
                 .format(DecodeFormat.PREFER_ARGB_8888)
                 .centerCrop()
                 .into((ImageView) baseViewHolder.getView(R.id.iv_story_image));
+
+        baseViewHolder.setOnClickListener(R.id.rl_item_recommend, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mContext.startActivity(new Intent(mContext, StoryDetailActivity.class)
+                        .putExtra("storyId", story.getId())
+                        .putExtra("storyTitle", story.getTitle()));
+            }
+        });
     }
+
 }

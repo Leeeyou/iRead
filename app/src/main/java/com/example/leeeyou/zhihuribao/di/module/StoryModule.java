@@ -11,6 +11,7 @@ import dagger.Module;
 import dagger.Provides;
 import rx.Observable;
 
+@Singleton
 @Module
 public class StoryModule {
 
