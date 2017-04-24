@@ -14,7 +14,7 @@ import javax.inject.Singleton
  */
 @Singleton
 @Module
-class StoryModuleKT {
+class StoryModule {
     val endPoint = "http://news-at.zhihu.com"
     val endPoint2 = "http://news.at.zhihu.com"
 

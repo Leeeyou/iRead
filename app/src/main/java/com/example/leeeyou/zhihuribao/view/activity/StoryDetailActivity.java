@@ -6,9 +6,9 @@ import android.webkit.WebView;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.example.leeeyou.zhihuribao.R;
 import com.example.leeeyou.zhihuribao.data.model.StoryDetail;
-import com.example.leeeyou.zhihuribao.di.component.DaggerStoryComponentKT;
-import com.example.leeeyou.zhihuribao.di.component.StoryComponentKT;
-import com.example.leeeyou.zhihuribao.di.module.StoryModuleKT;
+import com.example.leeeyou.zhihuribao.di.component.DaggerStoryComponent;
+import com.example.leeeyou.zhihuribao.di.component.StoryComponent;
+import com.example.leeeyou.zhihuribao.di.module.StoryModule;
 import com.example.leeeyou.zhihuribao.utils.HtmlUtils;
 
 import javax.inject.Inject;
@@ -29,8 +29,8 @@ public class StoryDetailActivity extends Base_Original_Activity {
     @Inject
     Observable<StoryDetail> detailObservable;
 
-    private StoryComponentKT storyComponent;
-    private StoryModuleKT storyModule;
+    private StoryComponent storyComponent;
+    private StoryModule storyModule;
 
     private MaterialDialog mMaterialDialog;
 
@@ -65,11 +65,11 @@ public class StoryDetailActivity extends Base_Original_Activity {
 
     @Override
     void setupActivityComponent() {
-        storyModule = new StoryModuleKT();
+        storyModule = new StoryModule();
 
-        storyComponent = DaggerStoryComponentKT
+        storyComponent = DaggerStoryComponent
                 .builder()
-                .storyModuleKT(storyModule)
+                .storyModule(storyModule)
                 .build();
     }
 

@@ -14,8 +14,8 @@ import com.example.leeeyou.zhihuribao.R;
 import com.example.leeeyou.zhihuribao.adapter.StoryAdapter;
 import com.example.leeeyou.zhihuribao.data.model.RiBao;
 import com.example.leeeyou.zhihuribao.data.model.Story;
-import com.example.leeeyou.zhihuribao.di.component.DaggerStoryComponentKT;
-import com.example.leeeyou.zhihuribao.di.module.StoryModuleKT;
+import com.example.leeeyou.zhihuribao.di.component.DaggerStoryComponent;
+import com.example.leeeyou.zhihuribao.di.module.StoryModule;
 import com.example.leeeyou.zhihuribao.utils.T;
 
 import org.joda.time.DateTime;
@@ -48,9 +48,9 @@ public class StoryFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        DaggerStoryComponentKT
+        DaggerStoryComponent
                 .builder()
-                .storyModuleKT(new StoryModuleKT(getDayOfYear()))
+                .storyModule(new StoryModule(getDayOfYear()))
                 .build()
                 .inject(this);
 
