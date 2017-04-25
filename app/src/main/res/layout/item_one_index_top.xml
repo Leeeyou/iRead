@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_item_one_index_top"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white">
+
+    <ImageView
+        android:id="@+id/img"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_below="@+id/tv_climate"
+        android:background="#ff0000" />
+
+    <TextView
+        android:id="@+id/tv_author"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/img"
+        android:layout_centerHorizontal="true"
+        android:padding="10dp"
+        android:singleLine="true"
+        android:text="摄影 | Felipe Elioneay"
+        android:textColor="#c5c5c5" />
+
+    <TextView
+        android:id="@+id/tv_forward"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_author"
+        android:layout_centerHorizontal="true"
+        android:padding="10dp"
+        android:singleLine="true"
+        android:text=""
+        android:textColor="#434343" />
+
+    <TextView
+        android:id="@+id/tv_words_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_forward"
+        android:layout_centerHorizontal="true"
+        android:padding="10dp"
+        android:text="佩内洛普·菲兹杰拉德"
+        android:textColor="#bdbdbd" />
+
+    <TextView
+        android:id="@+id/tv_edit"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_below="@id/tv_words_info"
+        android:gravity="center_vertical"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:text="小记"
+        android:textColor="#c5c5c5" />
+
+    <TextView
+        android:id="@+id/tv_share"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/tv_words_info"
+        android:gravity="center_vertical"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:text="分享"
+        android:textColor="#c5c5c5" />
+
+    <TextView
+        android:id="@+id/tv_like"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_below="@id/tv_words_info"
+        android:layout_toLeftOf="@+id/tv_share"
+        android:gravity="center_vertical"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:text="5000"
+        android:textColor="#c5c5c5" />
+
+
+</RelativeLayout>

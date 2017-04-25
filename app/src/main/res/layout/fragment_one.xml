@@ -1,21 +1,7 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/recyclerView_one"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#f2f2f2"
     android:gravity="center"
-    android:background="#789123"
-    android:orientation="vertical">
-
-    <TextView
-        android:id="@+id/item_subtitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Page:"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
-
-    <TextView
-        android:id="@+id/item_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="80sp" />
-
-</LinearLayout>
+    android:orientation="vertical" />

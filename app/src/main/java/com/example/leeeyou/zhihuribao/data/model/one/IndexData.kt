@@ -5,4 +5,5 @@ package com.example.leeeyou.zhihuribao.data.model.one
  */
 data class IndexData(var id: String,
                      var date: String,
+                     var weather: Weather,
                      var content_list: Array<OneIndex>)
