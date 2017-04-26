@@ -1,5 +1,6 @@
 package com.example.leeeyou.zhihuribao.di.module
 
+import com.example.leeeyou.zhihuribao.data.model.one.ID
 import com.example.leeeyou.zhihuribao.data.model.one.Index
 import com.example.leeeyou.zhihuribao.data.service.OneService
 import com.example.leeeyou.zhihuribao.data.service.ServiceFactory
@@ -18,10 +19,12 @@ class OneModule {
 
     var id: Int = 0
 
+
     constructor(id: Int) {
         this.id = id
     }
 
+    constructor()
 
     @Singleton
     @Provides
@@ -30,4 +33,13 @@ class OneModule {
                 .createRxRetrofitService(OneService::class.java, endPoint)
                 .getIndexList(id)
     }
+
+    @Singleton
+    @Provides
+    fun ProvideIdList(): Observable<ID> {
+        return ServiceFactory.Companion
+                .createRxRetrofitService(OneService::class.java, endPoint)
+                .getIdList()
+    }
+
 }
