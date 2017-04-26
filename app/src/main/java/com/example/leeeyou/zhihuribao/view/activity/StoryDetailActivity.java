@@ -19,7 +19,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action0;
 import rx.schedulers.Schedulers;
 
-public class StoryDetailActivity extends Base_Original_Activity {
+public class StoryDetailActivity extends BaseOriginalActivity {
 
     private int storyId;
 

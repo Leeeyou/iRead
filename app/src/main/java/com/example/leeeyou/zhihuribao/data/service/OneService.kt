@@ -8,6 +8,8 @@ import rx.Observable
 
 /**
  * Created by leeeyou on 2017/4/24.
+ *
+ * restful
  */
 interface OneService {
     @GET("/api/onelist/{id}/0?cchannel=wdj&version=4.0.2&uuid=ffffffff-a90e-706a-63f7-ccf973aae5ee&platform=android")

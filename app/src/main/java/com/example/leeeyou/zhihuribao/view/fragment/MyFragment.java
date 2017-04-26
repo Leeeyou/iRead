@@ -6,10 +6,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.example.leeeyou.zhihuribao.R;
-import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItem;
 
 public class MyFragment extends Fragment {
 
@@ -22,9 +20,9 @@ public class MyFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        int position = FragmentPagerItem.getPosition(getArguments());
-        TextView title = (TextView) view.findViewById(R.id.item_title);
-        title.setText(String.valueOf(position));
+//        int position = FragmentPagerItem.getPosition(getArguments());
+//        TextView title = (TextView) view.findViewById(R.id.item_title);
+//        title.setText(String.valueOf(position));
     }
 
 }

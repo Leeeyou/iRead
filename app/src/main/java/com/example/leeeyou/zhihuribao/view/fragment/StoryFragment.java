@@ -3,7 +3,6 @@ package com.example.leeeyou.zhihuribao.view.fragment;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -17,6 +16,7 @@ import com.example.leeeyou.zhihuribao.data.model.ribao.Story;
 import com.example.leeeyou.zhihuribao.di.component.DaggerStoryComponent;
 import com.example.leeeyou.zhihuribao.di.module.StoryModule;
 import com.example.leeeyou.zhihuribao.utils.T;
+import com.example.leeeyou.zhihuribao.view.activity.IndexActivity;
 
 import org.joda.time.DateTime;
 
@@ -30,7 +30,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
-public class StoryFragment extends Fragment {
+public class StoryFragment extends BaseFragment {
 
     RecyclerView mRecyclerView;
     StoryAdapter mAdapter;
@@ -48,13 +48,7 @@ public class StoryFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        DaggerStoryComponent
-                .builder()
-                .storyModule(new StoryModule(getDayOfYear()))
-                .build()
-                .inject(this);
-
-        fetchStoryData();
+        updateData();
     }
 
     private void fetchStoryData() {
@@ -88,12 +82,14 @@ public class StoryFragment extends Fragment {
 
                     @Override
                     public void onError(Throwable e) {
+                        ((IndexActivity) getActivity()).refreshComplete();
                         e.printStackTrace();
                         T.showShort(getActivity(), "出错了:" + e.getMessage());
                     }
 
                     @Override
                     public void onNext(RiBao ribao) {
+                        ((IndexActivity) getActivity()).refreshComplete();
                         setAdapter(ribao.getStories());
                     }
                 });
@@ -117,4 +113,19 @@ public class StoryFragment extends Fragment {
                 mDateTime.getDayOfMonth();
     }
 
+    @Override
+    public boolean checkCanDoRefresh() {
+        return !mRecyclerView.canScrollVertically(-1);
+    }
+
+    @Override
+    public void updateData() {
+        DaggerStoryComponent
+                .builder()
+                .storyModule(new StoryModule(getDayOfYear()))
+                .build()
+                .inject(this);
+
+        fetchStoryData();
+    }
 }
