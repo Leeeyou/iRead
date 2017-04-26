@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="300dp"
         android:layout_below="@+id/tv_climate"
-        android:background="#ff0000" />
+        android:scaleType="centerCrop" />
 
     <TextView
         android:id="@+id/tv_author"
@@ -29,9 +29,12 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/tv_author"
         android:layout_centerHorizontal="true"
-        android:padding="10dp"
-        android:singleLine="true"
-        android:text=""
+        android:lineSpacingExtra="5dp"
+        android:paddingBottom="10dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="10dp"
+        android:text="本来就不该有所谓的“期待”。人会变得过于依赖未来。"
         android:textColor="#434343" />
 
     <TextView
