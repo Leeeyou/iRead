@@ -78,8 +78,8 @@ class OneFragment : Fragment() {
 
         for (i in contentList.indices) {
             indexList.add(OneIndexMultipleItem(if (i == 0) OneIndexMultipleItem.TOP else OneIndexMultipleItem.READ, contentList[i], null))
+            indexList.add(OneIndexMultipleItem(OneIndexMultipleItem.BLANK, null, null))
         }
-
     }
 
 

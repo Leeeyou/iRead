@@ -12,6 +12,7 @@ import com.example.leeeyou.zhihuribao.vi.one.OneIndexMultipleItem
 class MultipleItemQuickAdapterForOneIndex(data: List<OneIndexMultipleItem>) : BaseMultiItemQuickAdapter<OneIndexMultipleItem>(data) {
 
     init {
+        addItemType(OneIndexMultipleItem.BLANK, R.layout.item_one_index_blank)
         addItemType(OneIndexMultipleItem.WEATHER, R.layout.item_one_index_weather)
         addItemType(OneIndexMultipleItem.TOP, R.layout.item_one_index_top)
         addItemType(OneIndexMultipleItem.READ, R.layout.item_one_index_read)
@@ -35,7 +36,13 @@ class MultipleItemQuickAdapterForOneIndex(data: List<OneIndexMultipleItem>) : Ba
                 }
             }
             OneIndexMultipleItem.READ -> {
-
+                if (item.indexData != null) {
+                    Glide.with(mContext).load(item.indexData.img_url).into(vh.getView(R.id.img))
+                    vh.setText(R.id.tv_title, item.indexData.title)
+                    vh.setText(R.id.tv_author_name, "文/" + item.indexData.author.user_name)
+                    vh.setText(R.id.tv_forward, item.indexData.forward)
+                    vh.setText(R.id.tv_like, item.indexData.like_count.toString())
+                }
             }
         }
     }

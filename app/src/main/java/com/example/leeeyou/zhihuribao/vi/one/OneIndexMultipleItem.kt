@@ -9,6 +9,7 @@ import com.example.leeeyou.zhihuribao.data.model.one.Weather
  */
 class OneIndexMultipleItem(private val itemType: Int, val indexData: OneIndex? = null, val weather: Weather? = null) : MultiItemEntity {
     companion object {
+        val BLANK = -1
         val WEATHER = 0
         val TOP = 1
         val READ = 2
