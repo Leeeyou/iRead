@@ -16,6 +16,7 @@ import java.util.*
 
 class IndexActivity : BaseOriginalActivity() {
     lateinit var mPtrFrame: PtrClassicFrameLayout
+    lateinit var mViewPagerAdapter: ViewPagerAdapter
 
     override fun setupActivityComponent() {
     }
@@ -24,17 +25,14 @@ class IndexActivity : BaseOriginalActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_index)
 
-        val fragmentList = ArrayList<BaseFragment>()
-        fragmentList.add(StoryFragment())
-        fragmentList.add(OneFragment())
+        initAdapter()
+        initViewPager()
+        initPtr()
+    }
 
-        val titleList = ArrayList<String>()
-        titleList.add("知乎日报")
-        titleList.add("一个")
-
-        val mAdapter = ViewPagerAdapter(supportFragmentManager, fragmentList, titleList)
+    private fun initViewPager() {
         val viewPager = findViewById(R.id.viewpager) as ViewPager
-        viewPager.adapter = mAdapter
+        viewPager.adapter = mViewPagerAdapter
 
         viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrollStateChanged(state: Int) {
@@ -44,26 +42,39 @@ class IndexActivity : BaseOriginalActivity() {
             }
 
             override fun onPageSelected(position: Int) {
-                mAdapter.switchTo(position)
+                mViewPagerAdapter.switchTo(position)
             }
         })
 
         val viewPagerTab = findViewById(R.id.viewpagertab) as SmartTabLayout
         viewPagerTab.setViewPager(viewPager)
+    }
 
+    private fun initAdapter() {
+        val fragmentList = ArrayList<BaseFragment>()
+        fragmentList.add(StoryFragment())
+        fragmentList.add(OneFragment())
+
+        val titleList = ArrayList<String>()
+        titleList.add("知乎日报")
+        titleList.add("一个")
+
+        mViewPagerAdapter = ViewPagerAdapter(supportFragmentManager, fragmentList, titleList)
+        mViewPagerAdapter.switchTo(0)
+    }
+
+    private fun initPtr() {
         mPtrFrame = findViewById(R.id.store_house_ptr_frame) as PtrClassicFrameLayout
         mPtrFrame.disableWhenHorizontalMove(true)
         mPtrFrame.setPtrHandler(object : PtrHandler {
             override fun onRefreshBegin(frame: PtrFrameLayout?) {
-                mAdapter.updateData()
+                mViewPagerAdapter.updateData()
             }
 
             override fun checkCanDoRefresh(frame: PtrFrameLayout?, content: View?, header: View?): Boolean {
-                return mAdapter.checkCanDoRefresh()
+                return mViewPagerAdapter.checkCanDoRefresh()
             }
         })
-
-        mAdapter.switchTo(0)
     }
 
     fun refreshComplete() {

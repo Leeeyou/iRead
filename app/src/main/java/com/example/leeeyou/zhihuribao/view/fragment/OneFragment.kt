@@ -53,12 +53,12 @@ class OneFragment : BaseFragment() {
     }
 
     private fun fetchIdData() {
-        mIdObservable
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
+        mIdObservable.subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread())
                 .subscribeBy(
-                        onError = { it.printStackTrace() },
-                        onCompleted = { println("Done!") },
+                        onError = {
+                            (activity as IndexActivity).refreshComplete()
+                            it.printStackTrace()
+                        },
                         onNext = {
                             mIdList = it.data
                             DaggerOneComponent.builder().oneModule(OneModule(mIdList[0].toInt())).build().inject(this)
@@ -68,14 +68,12 @@ class OneFragment : BaseFragment() {
     }
 
     private fun fetchOneData() {
-        mIndexObservable.subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
+        mIndexObservable.subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread())
                 .subscribeBy(
                         onError = {
                             (activity as IndexActivity).refreshComplete()
                             it.printStackTrace()
                         },
-                        onCompleted = { println("Done!") },
                         onNext = {
                             (activity as IndexActivity).refreshComplete()
 
@@ -92,12 +90,10 @@ class OneFragment : BaseFragment() {
     }
 
     private fun parseData(index: Index) {
-        val weather = index.data.weather
-        val contentList = index.data.content_list
-
         mIndexList.clear()
-        mIndexList.add(OneIndexMultipleItem(OneIndexMultipleItem.WEATHER, null, weather))
+        mIndexList.add(OneIndexMultipleItem(OneIndexMultipleItem.WEATHER, null, index.data.weather))
 
+        val contentList = index.data.content_list
         for (i in contentList.indices) {
             mIndexList.add(OneIndexMultipleItem(if (i == 0) OneIndexMultipleItem.TOP else OneIndexMultipleItem.READ, contentList[i], null))
             mIndexList.add(OneIndexMultipleItem(OneIndexMultipleItem.BLANK, null, null))

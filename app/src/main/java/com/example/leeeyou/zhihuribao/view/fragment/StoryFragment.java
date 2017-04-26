@@ -32,11 +32,11 @@ import rx.schedulers.Schedulers;
 
 public class StoryFragment extends BaseFragment {
 
-    RecyclerView mRecyclerView;
-    StoryAdapter mAdapter;
+    private RecyclerView mRecyclerView;
+    private StoryAdapter mAdapter;
 
     @Inject
-    Observable<RiBao> storyObservable;
+    private Observable<RiBao> storyObservable;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -120,12 +120,7 @@ public class StoryFragment extends BaseFragment {
 
     @Override
     public void updateData() {
-        DaggerStoryComponent
-                .builder()
-                .storyModule(new StoryModule(getDayOfYear()))
-                .build()
-                .inject(this);
-
+        DaggerStoryComponent.builder().storyModule(new StoryModule(getDayOfYear())).build().inject(this);
         fetchStoryData();
     }
 }
