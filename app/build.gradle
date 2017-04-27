@@ -7,7 +7,7 @@ android {
     buildToolsVersion "25.0.2"
 
     defaultConfig {
-        applicationId "com.example.leeeyou.zhihuribao"
+        applicationId "com.xyz.leeeyou.zhihuribao"
         minSdkVersion 15
         targetSdkVersion 25
         versionCode 1
