@@ -39,6 +39,8 @@ class OneFragment : BaseFragment() {
     var mIndexAdapter: MultipleItemQuickAdapterForOneIndex? = null
     var mIndexList: MutableList<OneIndexMultipleItem> = ArrayList()
     lateinit var mIdList: Array<String>
+    var mPosition: Int = 0
+    internal var mNoMoreDataView: View? = null
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val rootView = container!!.inflate(R.layout.fragment_one)
@@ -61,10 +63,15 @@ class OneFragment : BaseFragment() {
                         },
                         onNext = {
                             mIdList = it.data
-                            DaggerOneComponent.builder().oneModule(OneModule(mIdList[0].toInt())).build().inject(this)
-                            fetchOneData()
+                            mPosition = 0
+                            loadOneData(mPosition)
                         }
                 )
+    }
+
+    private fun loadOneData(position: Int) {
+        DaggerOneComponent.builder().oneModule(OneModule(mIdList[position].toInt())).build().inject(this)
+        fetchOneData()
     }
 
     private fun fetchOneData() {
@@ -77,12 +84,16 @@ class OneFragment : BaseFragment() {
                         onNext = {
                             (activity as IndexActivity).refreshComplete()
 
-                            //TODO() pull up or pull down
                             parseData(it)
 
                             if (mIndexAdapter == null) {
                                 mIndexAdapter = MultipleItemQuickAdapterForOneIndex(mIndexList)
                                 mRecyclerView.adapter = mIndexAdapter
+                                mIndexAdapter!!.setOnLoadMoreListener {
+                                    if (mPosition < mIdList.size - 1) {
+                                        loadOneData(++mPosition)
+                                    }
+                                }
                             } else {
                                 mIndexAdapter!!.dataAdded()
                             }
@@ -90,13 +101,20 @@ class OneFragment : BaseFragment() {
     }
 
     private fun parseData(index: Index) {
-        mIndexList.clear()
-        mIndexList.add(OneIndexMultipleItem(OneIndexMultipleItem.WEATHER, null, index.data.weather))
+        if (mPosition == 0) {
+            mIndexList.clear()
+            mIndexList.add(OneIndexMultipleItem(OneIndexMultipleItem.WEATHER, null, index.data.weather))
+        }
 
         val contentList = index.data.content_list
         for (i in contentList.indices) {
             mIndexList.add(OneIndexMultipleItem(if (i == 0) OneIndexMultipleItem.TOP else OneIndexMultipleItem.READ, contentList[i], null))
             mIndexList.add(OneIndexMultipleItem(OneIndexMultipleItem.BLANK, null, null))
+        }
+
+        if (mPosition == mIdList.size - 1) {
+            mIndexList.removeAt(mIndexList.size - 1)
+            loadMoreComplete()
         }
     }
 
@@ -105,8 +123,23 @@ class OneFragment : BaseFragment() {
     }
 
     override fun updateData() {
+        if (mIndexAdapter != null) {
+            mIndexAdapter!!.removeAllFooterView()
+        }
         DaggerOneComponent.builder().oneModule(OneModule()).build().inject(this)
         fetchIdData()
+    }
+
+    private fun loadMoreComplete() {
+        if (mIndexAdapter == null) {
+            return
+        }
+
+        mIndexAdapter!!.loadComplete()
+        if (mNoMoreDataView == null) {
+            mNoMoreDataView = LayoutInflater.from(context).inflate(R.layout.not_loading, null, false)
+        }
+        mIndexAdapter!!.addFooterView(mNoMoreDataView)
     }
 
 }
