@@ -30,6 +30,9 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
+/**
+ * 知乎日报主界面
+ */
 public class StoryFragment extends BaseFragment {
 
     private RecyclerView mRecyclerView;

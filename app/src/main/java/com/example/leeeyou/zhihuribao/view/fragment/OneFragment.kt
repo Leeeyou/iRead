@@ -26,6 +26,8 @@ import javax.inject.Inject
 /**
  * Created by leeeyou on 2017/4/24.
  *
+ * 一个主界面
+ *
  */
 class OneFragment : BaseFragment() {
 
@@ -35,12 +37,14 @@ class OneFragment : BaseFragment() {
     @Inject
     lateinit var mIdObservable: Observable<ID>
 
-    lateinit var mRecyclerView: RecyclerView
-    var mIndexAdapter: MultipleItemQuickAdapterForOneIndex? = null
-    var mIndexList: MutableList<OneIndexMultipleItem> = ArrayList()
-    lateinit var mIdList: Array<String>
-    var mPosition: Int = 0
     internal var mNoMoreDataView: View? = null
+
+    lateinit var mIdList: Array<String>
+    lateinit var mRecyclerView: RecyclerView
+    var mIndexList: MutableList<OneIndexMultipleItem> = ArrayList()
+    var mIndexAdapter: MultipleItemQuickAdapterForOneIndex? = null
+
+    var mPosition: Int = 0
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val rootView = container!!.inflate(R.layout.fragment_one)
@@ -64,17 +68,17 @@ class OneFragment : BaseFragment() {
                         onNext = {
                             mIdList = it.data
                             mPosition = 0
-                            loadOneData(mPosition)
+                            loadIndexData(mPosition)
                         }
                 )
     }
 
-    private fun loadOneData(position: Int) {
+    private fun loadIndexData(position: Int) {
         DaggerOneComponent.builder().oneModule(OneModule(mIdList[position].toInt())).build().inject(this)
-        fetchOneData()
+        fetchIndexData()
     }
 
-    private fun fetchOneData() {
+    private fun fetchIndexData() {
         mIndexObservable.subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread())
                 .subscribeBy(
                         onError = {
@@ -84,23 +88,23 @@ class OneFragment : BaseFragment() {
                         onNext = {
                             (activity as IndexActivity).refreshComplete()
 
-                            parseData(it)
+                            parseIndexData(it)
 
                             if (mIndexAdapter == null) {
                                 mIndexAdapter = MultipleItemQuickAdapterForOneIndex(mIndexList)
                                 mRecyclerView.adapter = mIndexAdapter
-                                mIndexAdapter!!.setOnLoadMoreListener {
+                                mIndexAdapter?.setOnLoadMoreListener {
                                     if (mPosition < mIdList.size - 1) {
-                                        loadOneData(++mPosition)
+                                        loadIndexData(++mPosition)
                                     }
                                 }
                             } else {
-                                mIndexAdapter!!.dataAdded()
+                                mIndexAdapter?.dataAdded()
                             }
                         })
     }
 
-    private fun parseData(index: Index) {
+    private fun parseIndexData(index: Index) {
         if (mPosition == 0) {
             mIndexList.clear()
             mIndexList.add(OneIndexMultipleItem(OneIndexMultipleItem.WEATHER, null, index.data.weather))
@@ -123,23 +127,17 @@ class OneFragment : BaseFragment() {
     }
 
     override fun updateData() {
-        if (mIndexAdapter != null) {
-            mIndexAdapter!!.removeAllFooterView()
-        }
+        mIndexAdapter?.removeAllFooterView()
         DaggerOneComponent.builder().oneModule(OneModule()).build().inject(this)
         fetchIdData()
     }
 
     private fun loadMoreComplete() {
-        if (mIndexAdapter == null) {
-            return
-        }
-
-        mIndexAdapter!!.loadComplete()
+        mIndexAdapter?.loadComplete()
         if (mNoMoreDataView == null) {
             mNoMoreDataView = LayoutInflater.from(context).inflate(R.layout.not_loading, null, false)
         }
-        mIndexAdapter!!.addFooterView(mNoMoreDataView)
+        mIndexAdapter?.addFooterView(mNoMoreDataView)
     }
 
 }

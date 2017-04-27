@@ -21,28 +21,22 @@ class MultipleItemQuickAdapterForOneIndex(data: List<OneIndexMultipleItem>) : Ba
     override fun convert(vh: BaseViewHolder, item: OneIndexMultipleItem) {
         when (item.itemType) {
             OneIndexMultipleItem.WEATHER -> {
-                if (item.weather != null) {
-                    vh.setText(R.id.tv_date, item.weather.date)
-                    vh.setText(R.id.tv_climate, item.weather.climate + "，" + item.weather.city_name)
-                }
+                vh.setText(R.id.tv_date, item.weather?.date)
+                vh.setText(R.id.tv_climate, item.weather?.climate + "，" + item.weather?.city_name)
             }
             OneIndexMultipleItem.TOP -> {
-                if (item.indexData != null) {
-                    Glide.with(mContext).load(item.indexData.img_url).into(vh.getView(R.id.img))
-                    vh.setText(R.id.tv_author, item.indexData.title + " | " + item.indexData.pic_info)
-                    vh.setText(R.id.tv_forward, item.indexData.forward)
-                    vh.setText(R.id.tv_words_info, item.indexData.words_info)
-                    vh.setText(R.id.tv_like, item.indexData.like_count.toString())
-                }
+                Glide.with(mContext).load(item.indexData?.img_url).into(vh.getView(R.id.img))
+                vh.setText(R.id.tv_author, item.indexData?.title + " | " + item.indexData?.pic_info)
+                vh.setText(R.id.tv_forward, item.indexData?.forward)
+                vh.setText(R.id.tv_words_info, item.indexData?.words_info)
+                vh.setText(R.id.tv_like, item.indexData?.like_count.toString())
             }
             OneIndexMultipleItem.READ -> {
-                if (item.indexData != null) {
-                    Glide.with(mContext).load(item.indexData.img_url).into(vh.getView(R.id.img))
-                    vh.setText(R.id.tv_title, item.indexData.title)
-                    vh.setText(R.id.tv_author_name, "文/" + item.indexData.author.user_name)
-                    vh.setText(R.id.tv_forward, item.indexData.forward)
-                    vh.setText(R.id.tv_like, item.indexData.like_count.toString())
-                }
+                Glide.with(mContext).load(item.indexData?.img_url).into(vh.getView(R.id.img))
+                vh.setText(R.id.tv_title, item.indexData?.title)
+                vh.setText(R.id.tv_author_name, "文/" + item.indexData?.author?.user_name)
+                vh.setText(R.id.tv_forward, item.indexData?.forward)
+                vh.setText(R.id.tv_like, item.indexData?.like_count.toString())
             }
         }
     }

@@ -15,6 +15,8 @@ import com.ogaclejapan.smarttablayout.SmartTabLayout
 import java.util.*
 
 class IndexActivity : BaseOriginalActivity() {
+    val FIRST_PAGE_INDEX: Int = 0
+
     lateinit var mPtrFrame: PtrClassicFrameLayout
     lateinit var mViewPagerAdapter: ViewPagerAdapter
 
@@ -60,7 +62,7 @@ class IndexActivity : BaseOriginalActivity() {
         titleList.add("一个")
 
         mViewPagerAdapter = ViewPagerAdapter(supportFragmentManager, fragmentList, titleList)
-        mViewPagerAdapter.switchTo(0)
+        mViewPagerAdapter.switchTo(FIRST_PAGE_INDEX)
     }
 
     private fun initPtr() {
