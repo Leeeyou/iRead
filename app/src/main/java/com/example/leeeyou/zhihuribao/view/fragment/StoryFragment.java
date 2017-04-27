@@ -36,7 +36,7 @@ public class StoryFragment extends BaseFragment {
     private StoryAdapter mAdapter;
 
     @Inject
-    private Observable<RiBao> storyObservable;
+    Observable<RiBao> storyObservable;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
