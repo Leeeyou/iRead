@@ -29,14 +29,18 @@ class MultipleItemQuickAdapterForOneIndex(data: List<OneIndexMultipleItem>) : Ba
                 vh.setText(R.id.tv_author, item.indexData?.title + " | " + item.indexData?.pic_info)
                 vh.setText(R.id.tv_forward, item.indexData?.forward)
                 vh.setText(R.id.tv_words_info, item.indexData?.words_info)
-                vh.setText(R.id.tv_like, item.indexData?.like_count.toString())
+                vh.setText(R.id.tv_like, item.indexData?.like_count.toString() + "个赞")
+                vh.setOnClickListener(R.id.tv_share) {}
+                vh.setOnClickListener(R.id.rl_item_one_index_top) {}
             }
             OneIndexMultipleItem.READ -> {
                 Glide.with(mContext).load(item.indexData?.img_url).into(vh.getView(R.id.img))
                 vh.setText(R.id.tv_title, item.indexData?.title)
                 vh.setText(R.id.tv_author_name, "文/" + item.indexData?.author?.user_name)
                 vh.setText(R.id.tv_forward, item.indexData?.forward)
-                vh.setText(R.id.tv_like, item.indexData?.like_count.toString())
+                vh.setText(R.id.tv_like, item.indexData?.like_count.toString() + "个赞")
+                vh.setOnClickListener(R.id.tv_share) {}
+                vh.setOnClickListener(R.id.rl_item_one_index_read) {}
             }
         }
     }

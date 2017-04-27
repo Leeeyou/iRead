@@ -3,7 +3,7 @@
     android:id="@+id/rl_item_one_index_read"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/white">
+    android:background="@drawable/selector_item">
 
     <TextView
         android:id="@+id/tv_climate"
@@ -11,8 +11,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/tv_date"
         android:gravity="center_horizontal"
-        android:paddingBottom="10dp"
-        android:paddingTop="5dp"
+        android:paddingBottom="8dp"
+        android:paddingTop="8dp"
         android:text=" - 阅读 - "
         android:textColor="#c5c5c5" />
 
@@ -24,7 +24,7 @@
         android:paddingBottom="10dp"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
-        android:paddingTop="10dp"
+        android:paddingTop="5dp"
         android:text="跟陌生人说话跟陌生人说话跟陌生人说话跟陌生人说话跟陌生人说话跟陌生人说话跟陌生人说话跟陌生人说话跟陌生人说话"
         android:textColor="#434343"
         android:textSize="16sp" />
@@ -44,8 +44,8 @@
         android:id="@+id/img"
         android:layout_width="match_parent"
         android:layout_height="180dp"
-        android:layout_centerHorizontal="true"
         android:layout_below="@+id/tv_author_name"
+        android:layout_centerHorizontal="true"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp" />
 
@@ -72,7 +72,8 @@
         android:paddingLeft="20dp"
         android:paddingRight="10dp"
         android:text="8小时前"
-        android:textColor="#c5c5c5" />
+        android:textColor="#c5c5c5"
+        android:textSize="12sp" />
 
     <TextView
         android:id="@+id/tv_share"
@@ -80,11 +81,13 @@
         android:layout_height="40dp"
         android:layout_alignParentRight="true"
         android:layout_below="@id/tv_forward"
+        android:background="@drawable/selector_click"
         android:gravity="center_vertical"
         android:paddingLeft="10dp"
         android:paddingRight="20dp"
         android:text="分享"
-        android:textColor="#c5c5c5" />
+        android:textColor="#c5c5c5"
+        android:textSize="12sp" />
 
     <TextView
         android:id="@+id/tv_like"
@@ -96,7 +99,8 @@
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:text="5000"
-        android:textColor="#c5c5c5" />
+        android:textColor="#c5c5c5"
+        android:textSize="12sp" />
 
 
 </RelativeLayout>

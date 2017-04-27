@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="app_primary_color">#2EB872</color>
+    <color name="app_primary_color">#34495E</color>
     <color name="app_primary_color_dark">#000000</color>
     <color name="app_color_background">#EEEEEE</color>
 
-    <color name="primary">#1F8EA3</color>
+    <color name="primary">#5DA0A2</color>
     <color name="primary_dark">#142E3C</color>
-    <color name="accent">#00EAFF</color>
+    <color name="primary_gray">#F4F7F7</color>
+    <color name="primary_gray_dark">#c5c5c5</color>
+    <color name="accent">#AACFD0</color>
     <color name="white">#FFFFFFFF</color>
     <color name="black">#FF000000</color>
     <color name="black_20">#33000000</color>
