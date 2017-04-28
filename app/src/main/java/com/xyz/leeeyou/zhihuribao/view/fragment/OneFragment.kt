@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.chad.library.adapter.base.BaseQuickAdapter
 import com.xyz.leeeyou.zhihuribao.R
 import com.xyz.leeeyou.zhihuribao.adapter.one.MultipleItemQuickAdapterForOneIndex
 import com.xyz.leeeyou.zhihuribao.data.model.one.ID
@@ -27,7 +28,6 @@ import javax.inject.Inject
  * Created by leeeyou on 2017/4/24.
  *
  * 一个主界面
- *
  */
 class OneFragment : BaseFragment() {
 
@@ -41,7 +41,6 @@ class OneFragment : BaseFragment() {
 
     lateinit var mIdList: Array<String>
     lateinit var mRecyclerView: RecyclerView
-    var mIndexList: MutableList<OneIndexMultipleItem> = ArrayList()
     var mIndexAdapter: MultipleItemQuickAdapterForOneIndex? = null
 
     var mPosition: Int = 0
@@ -55,7 +54,19 @@ class OneFragment : BaseFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        initAdapter()
         updateData()
+    }
+
+    private fun initAdapter() {
+        mIndexAdapter = MultipleItemQuickAdapterForOneIndex(null)
+        mIndexAdapter?.setOnLoadMoreListener {
+            if (mPosition < mIdList.size - 1) {
+                loadIndexData(++mPosition)
+            }
+        }
+        mIndexAdapter?.openLoadAnimation(BaseQuickAdapter.SCALEIN)
+        mRecyclerView.adapter = mIndexAdapter
     }
 
     private fun fetchIdData() {
@@ -88,38 +99,36 @@ class OneFragment : BaseFragment() {
                         onNext = {
                             (activity as IndexActivity).refreshComplete()
 
-                            parseIndexData(it)
+                            val indexData = parseIndexData(it)
 
-                            if (mIndexAdapter == null) {
-                                mIndexAdapter = MultipleItemQuickAdapterForOneIndex(mIndexList)
-                                mRecyclerView.adapter = mIndexAdapter
-                                mIndexAdapter?.setOnLoadMoreListener {
-                                    if (mPosition < mIdList.size - 1) {
-                                        loadIndexData(++mPosition)
-                                    }
-                                }
+                            if (mPosition == 0) {
+                                mIndexAdapter?.setNewData(indexData)
                             } else {
-                                mIndexAdapter?.dataAdded()
+                                mIndexAdapter?.addData(indexData)
+                                mIndexAdapter?.loadMoreComplete()
                             }
+
                         })
     }
 
-    private fun parseIndexData(index: Index) {
+    private fun parseIndexData(index: Index): MutableList<OneIndexMultipleItem> {
+        val tempDataList: MutableList<OneIndexMultipleItem> = ArrayList()
+
         if (mPosition == 0) {
-            mIndexList.clear()
-            mIndexList.add(OneIndexMultipleItem(OneIndexMultipleItem.WEATHER, null, index.data.weather))
+            tempDataList.add(OneIndexMultipleItem(OneIndexMultipleItem.WEATHER, null, index.data.weather))
         }
 
         val contentList = index.data.content_list
         for (i in contentList.indices) {
-            mIndexList.add(OneIndexMultipleItem(if (i == 0) OneIndexMultipleItem.TOP else OneIndexMultipleItem.READ, contentList[i], null))
-            mIndexList.add(OneIndexMultipleItem(OneIndexMultipleItem.BLANK, null, null))
+            tempDataList.add(OneIndexMultipleItem(if (i == 0) OneIndexMultipleItem.TOP else OneIndexMultipleItem.READ, contentList[i], null))
+            tempDataList.add(OneIndexMultipleItem(OneIndexMultipleItem.BLANK, null, null))
         }
 
         if (mPosition == mIdList.size - 1) {
-            mIndexList.removeAt(mIndexList.size - 1)
             loadMoreComplete()
         }
+
+        return tempDataList
     }
 
     override fun checkCanDoRefresh(): Boolean {
@@ -127,13 +136,15 @@ class OneFragment : BaseFragment() {
     }
 
     override fun updateData() {
+        mIndexAdapter?.setEnableLoadMore(true)
         mIndexAdapter?.removeAllFooterView()
         DaggerOneComponent.builder().oneModule(OneModule()).build().inject(this)
         fetchIdData()
     }
 
     private fun loadMoreComplete() {
-        mIndexAdapter?.loadComplete()
+        mIndexAdapter?.loadMoreEnd()
+        mIndexAdapter?.setEnableLoadMore(false)
         if (mNoMoreDataView == null) {
             mNoMoreDataView = LayoutInflater.from(context).inflate(R.layout.not_loading, null, false)
         }
