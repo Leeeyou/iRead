@@ -23,7 +23,6 @@ import rx.schedulers.Schedulers
 import java.util.*
 import javax.inject.Inject
 
-
 /**
  * Created by leeeyou on 2017/4/24.
  *
@@ -101,20 +100,21 @@ class OneFragment : BaseFragment() {
 
                             val indexData = parseIndexData(it)
 
-                            if (mPosition == 0) {
+                            val isPullToRefresh = mPosition == 0
+                            if (isPullToRefresh) {
                                 mIndexAdapter?.setNewData(indexData)
                             } else {
                                 mIndexAdapter?.addData(indexData)
                                 mIndexAdapter?.loadMoreComplete()
                             }
-
                         })
     }
 
     private fun parseIndexData(index: Index): MutableList<OneIndexMultipleItem> {
         val tempDataList: MutableList<OneIndexMultipleItem> = ArrayList()
 
-        if (mPosition == 0) {
+        val isPullToRefresh = mPosition == 0
+        if (isPullToRefresh) {
             tempDataList.add(OneIndexMultipleItem(OneIndexMultipleItem.WEATHER, null, index.data.weather))
         }
 
@@ -124,8 +124,9 @@ class OneFragment : BaseFragment() {
             tempDataList.add(OneIndexMultipleItem(OneIndexMultipleItem.BLANK, null, null))
         }
 
-        if (mPosition == mIdList.size - 1) {
-            loadMoreComplete()
+        val isLoadMoreEnd = mPosition == mIdList.size - 1
+        if (isLoadMoreEnd) {
+            loadMoreEnd()
         }
 
         return tempDataList
@@ -142,7 +143,7 @@ class OneFragment : BaseFragment() {
         fetchIdData()
     }
 
-    private fun loadMoreComplete() {
+    private fun loadMoreEnd() {
         mIndexAdapter?.loadMoreEnd()
         mIndexAdapter?.setEnableLoadMore(false)
         if (mNoMoreDataView == null) {
