@@ -10,8 +10,7 @@
         android:layout_width="140dp"
         android:layout_height="90dp"
         android:layout_margin="10dp"
-        android:scaleType="centerCrop"
-        android:src="@mipmap/iv_story_default" />
+        android:scaleType="centerCrop" />
 
     <TextView
         android:id="@+id/tv_story_title"

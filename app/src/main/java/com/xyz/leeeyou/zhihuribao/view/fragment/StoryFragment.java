@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.xyz.leeeyou.zhihuribao.R;
 import com.xyz.leeeyou.zhihuribao.adapter.StoryAdapter;
 import com.xyz.leeeyou.zhihuribao.data.model.ribao.RiBao;
@@ -38,6 +39,10 @@ public class StoryFragment extends BaseFragment {
     private RecyclerView mRecyclerView;
     private StoryAdapter mAdapter;
 
+    private String[] dateList = new String[7];
+    private int mDatePosition = 0;
+    private int mMostDate = 7;
+
     @Inject
     Observable<RiBao> storyObservable;
 
@@ -51,7 +56,28 @@ public class StoryFragment extends BaseFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        initDateList();
+        initAdapter();
         updateData();
+    }
+
+    private void initAdapter() {
+        mAdapter = new StoryAdapter(R.layout.item_lv_story, null);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        mRecyclerView.setAdapter(mAdapter);
+
+        mAdapter.openLoadAnimation(BaseQuickAdapter.SCALEIN);
+        mAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
+            @Override
+            public void onLoadMoreRequested() {
+                if (mDatePosition < mMostDate - 1) {
+                    DaggerStoryComponent.builder().storyModule(new StoryModule(dateList[++mDatePosition])).build().inject(StoryFragment.this);
+                    fetchStoryData();
+                } else {
+                    mAdapter.loadMoreEnd();
+                }
+            }
+        }, mRecyclerView);
     }
 
     private void fetchStoryData() {
@@ -80,7 +106,7 @@ public class StoryFragment extends BaseFragment {
                 .subscribe(new Subscriber<RiBao>() {
                     @Override
                     public void onCompleted() {
-
+                        mAdapter.loadMoreComplete();
                     }
 
                     @Override
@@ -93,27 +119,27 @@ public class StoryFragment extends BaseFragment {
                     @Override
                     public void onNext(RiBao ribao) {
                         ((IndexActivity) getActivity()).refreshComplete();
-                        setAdapter(ribao.getStories());
+                        setDataToAdapter(ribao.getStories());
                     }
                 });
     }
 
-    private void setAdapter(@NonNull List<Story> stories) {
-        if (mAdapter == null) {
-            mAdapter = new StoryAdapter(R.layout.item_lv_story, stories);
-            mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-            mRecyclerView.setAdapter(mAdapter);
+    private void setDataToAdapter(@NonNull List<Story> stories) {
+        if (mDatePosition == 0) {
+            mAdapter.setNewData(stories);
         } else {
-            mAdapter.notifyDataSetChanged();
+            mAdapter.addData(stories);
         }
     }
 
-    @NonNull
-    private String getDayOfYear() {
-        DateTime mDateTime = DateTime.now().plusDays(1);
-        return String.valueOf(mDateTime.getYear()) +
-                (mDateTime.getMonthOfYear() < 10 ? "0" + mDateTime.getMonthOfYear() : mDateTime.getMonthOfYear()) +
-                mDateTime.getDayOfMonth();
+    private void initDateList() {
+        DateTime mDateTime = DateTime.now();
+        for (int i = 0; i < mMostDate; i++) {
+            DateTime tempDateTime = mDateTime.minusDays(i);
+            dateList[i] = String.valueOf(tempDateTime.getYear()) +
+                    (tempDateTime.getMonthOfYear() < 10 ? "0" + tempDateTime.getMonthOfYear() : tempDateTime.getMonthOfYear()) +
+                    (tempDateTime.getDayOfMonth() < 10 ? "0" + tempDateTime.getDayOfMonth() : tempDateTime.getDayOfMonth());
+        }
     }
 
     @Override
@@ -123,7 +149,10 @@ public class StoryFragment extends BaseFragment {
 
     @Override
     public void updateData() {
-        DaggerStoryComponent.builder().storyModule(new StoryModule(getDayOfYear())).build().inject(this);
+        mAdapter.removeAllFooterView();
+        mDatePosition = 0;
+        DaggerStoryComponent.builder().storyModule(new StoryModule(dateList[mDatePosition])).build().inject(this);
         fetchStoryData();
     }
+
 }

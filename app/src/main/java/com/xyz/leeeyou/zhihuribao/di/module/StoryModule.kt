@@ -16,7 +16,7 @@ import javax.inject.Singleton
 @Module
 class StoryModule {
     val endPoint = "http://news-at.zhihu.com"
-    val endPoint2 = "http://news.at.zhihu.com"
+//    val endPoint2 = "http://news.at.zhihu.com"
 
     /**
      * //类型后面加?表示可为空
@@ -39,7 +39,7 @@ class StoryModule {
     @Provides
     fun provideStories(): Observable<RiBao> {
         return ServiceFactory.Companion
-                .createRxRetrofitService(ZhiHuRiBaoService::class.java, endPoint2)
+                .createRxRetrofitService(ZhiHuRiBaoService::class.java, endPoint)
                 .getLatestRiBao(date)
     }
 
