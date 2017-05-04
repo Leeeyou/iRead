@@ -1,7 +1,7 @@
 # Rs Kotlin Edition
 
 ## Introduction
-Rs Kotlin Edition is a simple app developed by Kotlin, mainly used to learn Kotlin language and in combination with the latest framework.
+Rs(Read the selection) Kotlin Edition is a simple app developed by Kotlin, mainly used to learn Kotlin language and in combination with the latest framework. [中文说明](https://github.com/LeeeYou/ZhiHuRiBao/blob/master/README-zh.md)
 ## Gif example
 ![Example1](https://github.com/LeeeYou/Img/blob/master/leeeyou/%E9%98%85%E8%AF%BB%E7%B2%BE%E9%80%89kotlin%E7%89%88.gif?raw=true)
 
