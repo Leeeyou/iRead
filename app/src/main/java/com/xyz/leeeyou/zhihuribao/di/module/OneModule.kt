@@ -15,7 +15,7 @@ import javax.inject.Singleton
 @Singleton
 @Module
 class OneModule {
-    val endPoint = "http://v3.wufazhuce.com:8000"
+    private val endPoint = "http://v3.wufazhuce.com:8000"
 
     var id: Int = 0
 

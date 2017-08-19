@@ -39,6 +39,7 @@ public class StoryFragment extends BaseFragment {
     private RecyclerView mRecyclerView;
     private StoryAdapter mAdapter;
 
+    //加载更多 - 最多加载到哪天的日期列表
     private String[] dateList = new String[7];
     private int mDatePosition = 0;
     private int mMostDate = 7;
@@ -81,7 +82,8 @@ public class StoryFragment extends BaseFragment {
     }
 
     private void fetchStoryData() {
-        storyObservable.subscribeOn(Schedulers.newThread())
+        storyObservable
+                .subscribeOn(Schedulers.newThread())
                 .filter(new Func1<RiBao, Boolean>() {
                     @Override
                     public Boolean call(RiBao riBao) {

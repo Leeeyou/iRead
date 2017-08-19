@@ -8,7 +8,10 @@ import com.xyz.leeeyou.zhihuribao.R;
 import com.xyz.leeeyou.zhihuribao.utils.ToolbarHelper;
 
 /**
- * 基类,原生Toolbar样式的BaseActivity
+ * @author:         leeeyou
+ * @filename:       基类
+ * @description:    原生Toolbar样式的BaseActivity
+ * @date:           2017/8/17 09:19
  */
 public abstract class BaseOriginalActivity extends AppCompatActivity {
 

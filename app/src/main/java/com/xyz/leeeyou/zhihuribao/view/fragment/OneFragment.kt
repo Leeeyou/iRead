@@ -69,7 +69,9 @@ class OneFragment : BaseFragment() {
     }
 
     private fun fetchIdData() {
-        mIdObservable.subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread())
+        mIdObservable
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribeBy(
                         onError = {
                             (activity as IndexActivity).refreshComplete()
@@ -84,12 +86,19 @@ class OneFragment : BaseFragment() {
     }
 
     private fun loadIndexData(position: Int) {
-        DaggerOneComponent.builder().oneModule(OneModule(mIdList[position].toInt())).build().inject(this)
+        DaggerOneComponent
+                .builder()
+                .oneModule(OneModule(mIdList[position].toInt()))
+                .build()
+                .inject(this)
+
         fetchIndexData()
     }
 
     private fun fetchIndexData() {
-        mIndexObservable.subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread())
+        mIndexObservable
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribeBy(
                         onError = {
                             (activity as IndexActivity).refreshComplete()
@@ -113,17 +122,20 @@ class OneFragment : BaseFragment() {
     private fun parseIndexData(index: Index): MutableList<OneIndexMultipleItem> {
         val tempDataList: MutableList<OneIndexMultipleItem> = ArrayList()
 
+        //如果是下拉刷新，则添加天气UI
         val isPullToRefresh = mPosition == 0
         if (isPullToRefresh) {
             tempDataList.add(OneIndexMultipleItem(OneIndexMultipleItem.WEATHER, null, index.data.weather))
         }
 
+        //解析内容
         val contentList = index.data.content_list
         for (i in contentList.indices) {
             tempDataList.add(OneIndexMultipleItem(if (i == 0) OneIndexMultipleItem.TOP else OneIndexMultipleItem.READ, contentList[i], null))
             tempDataList.add(OneIndexMultipleItem(OneIndexMultipleItem.BLANK, null, null))
         }
 
+        //如果当前mPosition的值等于mIdList的最大值，则结束加载更多
         val isLoadMoreEnd = mPosition == mIdList.size - 1
         if (isLoadMoreEnd) {
             loadMoreEnd()

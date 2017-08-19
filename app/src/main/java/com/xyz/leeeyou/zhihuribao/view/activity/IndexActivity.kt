@@ -6,18 +6,18 @@ import `in`.srain.cube.views.ptr.PtrHandler
 import android.os.Bundle
 import android.support.v4.view.ViewPager
 import android.view.View
+import com.ogaclejapan.smarttablayout.SmartTabLayout
 import com.xyz.leeeyou.zhihuribao.R
 import com.xyz.leeeyou.zhihuribao.adapter.ViewPagerAdapter
 import com.xyz.leeeyou.zhihuribao.view.fragment.BaseFragment
 import com.xyz.leeeyou.zhihuribao.view.fragment.OneFragment
 import com.xyz.leeeyou.zhihuribao.view.fragment.StoryFragment
-import com.ogaclejapan.smarttablayout.SmartTabLayout
 import java.util.*
 
 class IndexActivity : BaseOriginalActivity() {
-    val FIRST_PAGE_INDEX: Int = 0
+    private val FIRST_PAGE_INDEX: Int = 0
 
-    lateinit var mPtrFrame: PtrClassicFrameLayout
+    private lateinit var mPtrFrame: PtrClassicFrameLayout
     lateinit var mViewPagerAdapter: ViewPagerAdapter
 
     override fun setupActivityComponent() {
@@ -73,9 +73,8 @@ class IndexActivity : BaseOriginalActivity() {
                 mViewPagerAdapter.updateData()
             }
 
-            override fun checkCanDoRefresh(frame: PtrFrameLayout?, content: View?, header: View?): Boolean {
-                return mViewPagerAdapter.checkCanDoRefresh()
-            }
+            override fun checkCanDoRefresh(frame: PtrFrameLayout?, content: View?, header: View?):
+                    Boolean = mViewPagerAdapter.checkCanDoRefresh()
         })
     }
 
