@@ -7,7 +7,7 @@
     android:orientation="vertical">
 
     <com.ogaclejapan.smarttablayout.SmartTabLayout
-        android:id="@id/viewpagertab"
+        android:id="@id/smartTabLayout"
         android:layout_width="match_parent"
         android:layout_height="@dimen/tab_height"
         android:background="@color/primary"
@@ -26,10 +26,10 @@
         android:layout_height="match_parent">
 
         <android.support.v4.view.ViewPager
-            android:id="@id/viewpager"
+            android:id="@id/viewPager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/viewpagertab" />
+            android:layout_below="@id/smartTabLayout" />
     </in.srain.cube.views.ptr.PtrClassicFrameLayout>
 </LinearLayout>
 

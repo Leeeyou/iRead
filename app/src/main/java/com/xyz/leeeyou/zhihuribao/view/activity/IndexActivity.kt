@@ -1,24 +1,20 @@
 package com.xyz.leeeyou.zhihuribao.view.activity
 
-import `in`.srain.cube.views.ptr.PtrClassicFrameLayout
 import `in`.srain.cube.views.ptr.PtrFrameLayout
 import `in`.srain.cube.views.ptr.PtrHandler
 import android.os.Bundle
 import android.support.v4.view.ViewPager
 import android.view.View
-import com.ogaclejapan.smarttablayout.SmartTabLayout
 import com.xyz.leeeyou.zhihuribao.R
 import com.xyz.leeeyou.zhihuribao.adapter.ViewPagerAdapter
-import com.xyz.leeeyou.zhihuribao.view.fragment.BaseFragment
 import com.xyz.leeeyou.zhihuribao.view.fragment.OneFragment
 import com.xyz.leeeyou.zhihuribao.view.fragment.StoryFragment
-import java.util.*
+import kotlinx.android.synthetic.main.activity_index.*
 
 class IndexActivity : BaseOriginalActivity() {
     private val FIRST_PAGE_INDEX: Int = 0
 
-    private lateinit var mPtrFrame: PtrClassicFrameLayout
-    lateinit var mViewPagerAdapter: ViewPagerAdapter
+    private lateinit var mViewPagerAdapter: ViewPagerAdapter
 
     override fun setupActivityComponent() {
     }
@@ -33,9 +29,7 @@ class IndexActivity : BaseOriginalActivity() {
     }
 
     private fun initViewPager() {
-        val viewPager = findViewById(R.id.viewpager) as ViewPager
         viewPager.adapter = mViewPagerAdapter
-
         viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrollStateChanged(state: Int) {
             }
@@ -48,27 +42,21 @@ class IndexActivity : BaseOriginalActivity() {
             }
         })
 
-        val viewPagerTab = findViewById(R.id.viewpagertab) as SmartTabLayout
-        viewPagerTab.setViewPager(viewPager)
+        smartTabLayout.setViewPager(viewPager)
     }
 
     private fun initAdapter() {
-        val fragmentList = ArrayList<BaseFragment>()
-        fragmentList.add(StoryFragment())
-        fragmentList.add(OneFragment())
-
-        val titleList = ArrayList<String>()
-        titleList.add("知乎日报")
-        titleList.add("一个")
+        //Create a collection object using arrayOf
+        val fragmentList = arrayOf(StoryFragment(), OneFragment())
+        val titleList = arrayOf("知乎日报", "一个")
 
         mViewPagerAdapter = ViewPagerAdapter(supportFragmentManager, fragmentList, titleList)
         mViewPagerAdapter.switchTo(FIRST_PAGE_INDEX)
     }
 
     private fun initPtr() {
-        mPtrFrame = findViewById(R.id.store_house_ptr_frame) as PtrClassicFrameLayout
-        mPtrFrame.disableWhenHorizontalMove(true)
-        mPtrFrame.setPtrHandler(object : PtrHandler {
+        store_house_ptr_frame.disableWhenHorizontalMove(true)
+        store_house_ptr_frame.setPtrHandler(object : PtrHandler {
             override fun onRefreshBegin(frame: PtrFrameLayout?) {
                 mViewPagerAdapter.updateData()
             }
@@ -79,7 +67,7 @@ class IndexActivity : BaseOriginalActivity() {
     }
 
     fun refreshComplete() {
-        mPtrFrame.refreshComplete()
+        store_house_ptr_frame.refreshComplete()
     }
 
 }

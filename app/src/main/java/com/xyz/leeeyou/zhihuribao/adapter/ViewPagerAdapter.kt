@@ -9,8 +9,8 @@ import com.xyz.leeeyou.zhihuribao.view.fragment.BaseFragment
  * Created by leeeyou on 2017/4/26.
  */
 class ViewPagerAdapter(fm: FragmentManager,
-                       private val mFragmentList: ArrayList<BaseFragment>,
-                       private val titleList: ArrayList<String>) : FragmentStatePagerAdapter(fm) {
+                       private val mFragmentList: Array<BaseFragment>,
+                       private val titleList: Array<String>) : FragmentStatePagerAdapter(fm) {
 
     var mCurrentFragment: BaseFragment? = null
 
