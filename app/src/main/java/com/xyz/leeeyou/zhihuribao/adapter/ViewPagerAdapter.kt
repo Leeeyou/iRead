@@ -19,9 +19,8 @@ class ViewPagerAdapter(fm: FragmentManager,
     override fun getCount(): Int = mFragmentList.size
 
     fun updateData() {
-        if (mCurrentFragment == null) {
-            return
-        }
+        if (mCurrentFragment == null) return
+
         return mCurrentFragment!!.updateData()
     }
 

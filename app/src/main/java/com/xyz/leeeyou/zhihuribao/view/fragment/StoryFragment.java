@@ -32,7 +32,7 @@ import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 /**
- * 知乎日报主界面
+ * 【知乎日报】主界面,Java风格
  */
 public class StoryFragment extends BaseFragment {
 
@@ -50,7 +50,7 @@ public class StoryFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View inflate = inflater.inflate(R.layout.activity_story, container, false);
-        mRecyclerView = (RecyclerView) inflate.findViewById(R.id.recyclerView_zhihuribao);
+        mRecyclerView = (RecyclerView) inflate.findViewById(R.id.recyclerViewRiBao);
         return inflate;
     }
 

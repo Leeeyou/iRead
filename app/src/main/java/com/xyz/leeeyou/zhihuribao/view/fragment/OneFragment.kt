@@ -2,7 +2,6 @@ package com.xyz.leeeyou.zhihuribao.view.fragment
 
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,6 +15,7 @@ import com.xyz.leeeyou.zhihuribao.di.module.OneModule
 import com.xyz.leeeyou.zhihuribao.utils.inflate
 import com.xyz.leeeyou.zhihuribao.vi.one.OneIndexMultipleItem
 import com.xyz.leeeyou.zhihuribao.view.activity.IndexActivity
+import kotlinx.android.synthetic.main.fragment_one.*
 import rx.Observable
 import rx.android.schedulers.AndroidSchedulers
 import rx.lang.kotlin.subscribeBy
@@ -26,7 +26,7 @@ import javax.inject.Inject
 /**
  * Created by leeeyou on 2017/4/24.
  *
- * 一个主界面
+ * 【一个】主界面，Kotlin风格
  */
 class OneFragment : BaseFragment() {
 
@@ -39,15 +39,13 @@ class OneFragment : BaseFragment() {
     internal var mNoMoreDataView: View? = null
 
     lateinit var mIdList: Array<String>
-    lateinit var mRecyclerView: RecyclerView
     var mIndexAdapter: MultipleItemQuickAdapterForOneIndex? = null
 
     var mPosition: Int = 0
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val rootView = container!!.inflate(R.layout.fragment_one)
-        mRecyclerView = rootView.findViewById(R.id.recyclerView_one) as RecyclerView
-        mRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        recyclerViewOne.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         return rootView
     }
 
@@ -65,12 +63,11 @@ class OneFragment : BaseFragment() {
             }
         }
         mIndexAdapter?.openLoadAnimation(BaseQuickAdapter.SCALEIN)
-        mRecyclerView.adapter = mIndexAdapter
+        recyclerViewOne.adapter = mIndexAdapter
     }
 
     private fun fetchIdData() {
-        mIdObservable
-                .subscribeOn(Schedulers.newThread())
+        mIdObservable.subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeBy(
                         onError = {
@@ -86,8 +83,7 @@ class OneFragment : BaseFragment() {
     }
 
     private fun loadIndexData(position: Int) {
-        DaggerOneComponent
-                .builder()
+        DaggerOneComponent.builder()
                 .oneModule(OneModule(mIdList[position].toInt()))
                 .build()
                 .inject(this)
@@ -96,8 +92,7 @@ class OneFragment : BaseFragment() {
     }
 
     private fun fetchIndexData() {
-        mIndexObservable
-                .subscribeOn(Schedulers.newThread())
+        mIndexObservable.subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeBy(
                         onError = {
@@ -144,9 +139,7 @@ class OneFragment : BaseFragment() {
         return tempDataList
     }
 
-    override fun checkCanDoRefresh(): Boolean {
-        return !mRecyclerView.canScrollVertically(-1)
-    }
+    override fun checkCanDoRefresh(): Boolean = !recyclerViewOne.canScrollVertically(-1)
 
     override fun updateData() {
         mIndexAdapter?.setEnableLoadMore(true)
