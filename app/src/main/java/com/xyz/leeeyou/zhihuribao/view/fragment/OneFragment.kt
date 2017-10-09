@@ -43,11 +43,8 @@ class OneFragment : BaseFragment() {
 
     var mPosition: Int = 0
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val rootView = container!!.inflate(R.layout.fragment_one)
-        recyclerViewOne.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-        return rootView
-    }
+    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+            container!!.inflate(R.layout.fragment_one)
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -56,6 +53,8 @@ class OneFragment : BaseFragment() {
     }
 
     private fun initAdapter() {
+        recyclerViewOne?.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+
         mIndexAdapter = MultipleItemQuickAdapterForOneIndex(null)
         mIndexAdapter?.setOnLoadMoreListener {
             if (mPosition < mIdList.size - 1) {
