@@ -19,4 +19,4 @@ Rs(Read the selection) Kotlin Edition is a simple app developed by Kotlin, mainl
 - Use WebView to show details
 - Introduced Glide to load the picture
 - Introduced ultra-ptr: 1.0 to achieve pull-ups to load more
-- Introduction of bugly tinker
+- Introduced bugly tinker
