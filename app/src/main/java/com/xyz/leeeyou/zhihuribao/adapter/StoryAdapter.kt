@@ -19,6 +19,7 @@ class StoryAdapter(layoutResId: Int, data: List<Story>?) : BaseQuickAdapter<Stor
             vh.setText(R.id.tv_story_title, story.title)
                     .setText(R.id.tv_story_time, story.date)
                     .setOnClickListener(R.id.rl_item_recommend) {
+//                        mContext = null
                         mContext.startActivity(Intent(mContext, StoryDetailActivity::class.java)
                                 .putExtra("storyId", story.id)
                                 .putExtra("storyTitle", story.title))
