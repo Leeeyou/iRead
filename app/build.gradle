@@ -25,7 +25,7 @@ android {
         config{
             keyAlias 'leeeyoukeystore'
             keyPassword '123999000'
-            storeFile file('D:\\doc\\keystore\\windowkeystore\\tinker.jks')
+            storeFile file('..\\keystore\\tinker.jks')
             storePassword '123999000'
         }
     }
