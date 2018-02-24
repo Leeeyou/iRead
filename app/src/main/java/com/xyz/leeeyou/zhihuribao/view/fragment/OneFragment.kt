@@ -24,9 +24,11 @@ import java.util.*
 import javax.inject.Inject
 
 /**
- * Created by leeeyou on 2017/4/24.
+ * ClassName: OneFragment
+ * Description: 【一个】fragment , Kotlin style
  *
- * 【一个】主界面，Kotlin风格
+ * Author:      leeeyou
+ * Date:        2017/4/24 13:46
  */
 class OneFragment : BaseFragment() {
 
@@ -36,15 +38,15 @@ class OneFragment : BaseFragment() {
     @Inject
     lateinit var mIdObservable: Observable<ID>
 
-    internal var mNoMoreDataView: View? = null
+    private var mNoMoreDataView: View? = null
 
-    lateinit var mIdList: Array<String>
-    var mIndexAdapter: MultipleItemQuickAdapterForOneIndex? = null
+    private lateinit var mIdList: Array<String>
+    private var mIndexAdapter: MultipleItemQuickAdapterForOneIndex? = null
 
-    var mPosition: Int = 0
+    private var mPosition: Int = 0
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-            container!!.inflate(R.layout.fragment_one)
+    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?):
+            View? = container!!.inflate(R.layout.fragment_one)
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -56,15 +58,17 @@ class OneFragment : BaseFragment() {
         recyclerViewOne?.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
 
         mIndexAdapter = MultipleItemQuickAdapterForOneIndex(null)
-        mIndexAdapter?.setOnLoadMoreListener {
+        mIndexAdapter?.setOnLoadMoreListener({
             if (mPosition < mIdList.size - 1) {
                 loadIndexData(++mPosition)
             }
-        }
+        }, recyclerViewOne)
         mIndexAdapter?.openLoadAnimation(BaseQuickAdapter.SCALEIN)
+
         recyclerViewOne.adapter = mIndexAdapter
     }
 
+    //get the ID collection for all categories
     private fun fetchIdData() {
         mIdObservable.subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -116,20 +120,20 @@ class OneFragment : BaseFragment() {
     private fun parseIndexData(index: Index): MutableList<OneIndexMultipleItem> {
         val tempDataList: MutableList<OneIndexMultipleItem> = ArrayList()
 
-        //如果是下拉刷新，则添加天气UI
+        //if it is a drop-down refresh, add the weather UI
         val isPullToRefresh = mPosition == 0
         if (isPullToRefresh) {
             tempDataList.add(OneIndexMultipleItem(OneIndexMultipleItem.WEATHER, null, index.data.weather))
         }
 
-        //解析内容
+        //parse data
         val contentList = index.data.content_list
         for (i in contentList.indices) {
             tempDataList.add(OneIndexMultipleItem(if (i == 0) OneIndexMultipleItem.TOP else OneIndexMultipleItem.READ, contentList[i], null))
             tempDataList.add(OneIndexMultipleItem(OneIndexMultipleItem.BLANK, null, null))
         }
 
-        //如果当前mPosition的值等于mIdList的最大值，则结束加载更多
+        //if the current value of mPosition is equal to the maximum value of mIdList, the end is loaded more
         val isLoadMoreEnd = mPosition == mIdList.size - 1
         if (isLoadMoreEnd) {
             loadMoreEnd()
@@ -147,10 +151,12 @@ class OneFragment : BaseFragment() {
         fetchIdData()
     }
 
+
     private fun loadMoreEnd() {
         mIndexAdapter?.loadMoreEnd()
         mIndexAdapter?.setEnableLoadMore(false)
         if (mNoMoreDataView == null) {
+            @SuppressWarnings("unchecked")
             mNoMoreDataView = LayoutInflater.from(context).inflate(R.layout.not_loading, null, false)
         }
         mIndexAdapter?.addFooterView(mNoMoreDataView)

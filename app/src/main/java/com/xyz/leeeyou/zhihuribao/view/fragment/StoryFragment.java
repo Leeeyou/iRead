@@ -32,14 +32,18 @@ import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 /**
- * 【知乎日报】主界面,Java风格
+ * ClassName: StoryFragment
+ * Description: 【知乎日报】fragment , Java style
+ *
+ * Author:      leeeyou
+ * Date:        2017/4/24 13:46
  */
 public class StoryFragment extends BaseFragment {
 
     private RecyclerView mRecyclerView;
     private StoryAdapter mAdapter;
 
-    //加载更多 - 最多加载到哪天的日期列表
+    //when loading more, up to the date of the data can be loaded
     private String[] dateList = new String[7];
     private int mDatePosition = 0;
     private int mMostDate = 7;
