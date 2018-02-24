@@ -1,8 +1,5 @@
 package com.xyz.leeeyou.zhihuribao.data.model.one
 
-/**
- * Created by leeeyou on 2017/4/24.
- */
 data class Author(
         var user_id: String,
         var user_name: String,

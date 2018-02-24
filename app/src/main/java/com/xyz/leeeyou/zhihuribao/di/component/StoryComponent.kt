@@ -7,7 +7,11 @@ import dagger.Component
 import javax.inject.Singleton
 
 /**
- * Created by leeeyou on 2017/4/24.
+ * ClassName:   StoryComponent
+ * Description: [ Story ] module Component
+ *
+ * Author:      leeeyou
+ * Date:        2018/2/24 15:15
  */
 @Singleton
 @Component(modules = arrayOf(StoryModule::class))

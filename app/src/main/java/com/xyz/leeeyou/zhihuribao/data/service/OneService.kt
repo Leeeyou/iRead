@@ -7,9 +7,11 @@ import retrofit.http.Path
 import rx.Observable
 
 /**
- * Created by leeeyou on 2017/4/24.
+ * ClassName:OneService
+ * Description: [ One ] module service
  *
- * restful
+ * Author:      leeeyou
+ * Date:        2018/4/24 15:14
  */
 interface OneService {
     @GET("/api/onelist/{id}/0?cchannel=wdj&version=4.0.2&uuid=ffffffff-a90e-706a-63f7-ccf973aae5ee&platform=android")

@@ -7,13 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.xyz.leeeyou.zhihuribao.R
-import com.xyz.leeeyou.zhihuribao.adapter.one.MultipleItemQuickAdapterForOneIndex
+import com.xyz.leeeyou.zhihuribao.adapter.one.MultiItemAdapterForOne
 import com.xyz.leeeyou.zhihuribao.data.model.one.ID
 import com.xyz.leeeyou.zhihuribao.data.model.one.Index
 import com.xyz.leeeyou.zhihuribao.di.component.DaggerOneComponent
 import com.xyz.leeeyou.zhihuribao.di.module.OneModule
 import com.xyz.leeeyou.zhihuribao.utils.inflate
-import com.xyz.leeeyou.zhihuribao.vi.one.OneIndexMultipleItem
+import com.xyz.leeeyou.zhihuribao.vi.one.OneMultiItemEntity
 import com.xyz.leeeyou.zhihuribao.view.activity.IndexActivity
 import kotlinx.android.synthetic.main.fragment_one.*
 import rx.Observable
@@ -41,7 +41,7 @@ class OneFragment : BaseFragment() {
     private var mNoMoreDataView: View? = null
 
     private lateinit var mIdList: Array<String>
-    private var mIndexAdapter: MultipleItemQuickAdapterForOneIndex? = null
+    private var mIndexAdapter: MultiItemAdapterForOne? = null
 
     private var mPosition: Int = 0
 
@@ -57,7 +57,7 @@ class OneFragment : BaseFragment() {
     private fun initAdapter() {
         recyclerViewOne?.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
 
-        mIndexAdapter = MultipleItemQuickAdapterForOneIndex(null)
+        mIndexAdapter = MultiItemAdapterForOne(null)
         mIndexAdapter?.setOnLoadMoreListener({
             if (mPosition < mIdList.size - 1) {
                 loadIndexData(++mPosition)
@@ -117,20 +117,20 @@ class OneFragment : BaseFragment() {
                         })
     }
 
-    private fun parseIndexData(index: Index): MutableList<OneIndexMultipleItem> {
-        val tempDataList: MutableList<OneIndexMultipleItem> = ArrayList()
+    private fun parseIndexData(index: Index): MutableList<OneMultiItemEntity> {
+        val tempDataList: MutableList<OneMultiItemEntity> = ArrayList()
 
         //if it is a drop-down refresh, add the weather UI
         val isPullToRefresh = mPosition == 0
         if (isPullToRefresh) {
-            tempDataList.add(OneIndexMultipleItem(OneIndexMultipleItem.WEATHER, null, index.data.weather))
+            tempDataList.add(OneMultiItemEntity(OneMultiItemEntity.WEATHER, null, index.data.weather))
         }
 
         //parse data
         val contentList = index.data.content_list
         for (i in contentList.indices) {
-            tempDataList.add(OneIndexMultipleItem(if (i == 0) OneIndexMultipleItem.TOP else OneIndexMultipleItem.READ, contentList[i], null))
-            tempDataList.add(OneIndexMultipleItem(OneIndexMultipleItem.BLANK, null, null))
+            tempDataList.add(OneMultiItemEntity(if (i == 0) OneMultiItemEntity.TOP else OneMultiItemEntity.READ, contentList[i], null))
+            tempDataList.add(OneMultiItemEntity(OneMultiItemEntity.BLANK, null, null))
         }
 
         //if the current value of mPosition is equal to the maximum value of mIdList, the end is loaded more

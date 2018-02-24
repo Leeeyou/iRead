@@ -4,7 +4,11 @@ import android.content.Context;
 import android.widget.Toast;
 
 /**
- * Toast统一管理类
+ * ClassName:   T                        
+ * Description: Toast unified management class
+ * 
+ * Author:      leeeyou                             
+ * Date:        2018/2/24 15:19                     
  */
 public class T {
 
@@ -15,10 +19,6 @@ public class T {
 
     public static boolean isShow = true;
 
-    /**
-     * 短时间显示Toast
-     *
-     */
     public static void showShort(Context context, CharSequence message) {
         if (isShow) {
             if (context != null && message != null) {
@@ -27,10 +27,6 @@ public class T {
         }
     }
 
-    /**
-     * 短时间显示Toast
-     *
-     */
     public static void showShort(Context context, int message) {
         if (isShow) {
             if (context != null) {
@@ -39,10 +35,6 @@ public class T {
         }
     }
 
-    /**
-     * 长时间显示Toast
-     *
-     */
     public static void showLong(Context context, CharSequence message) {
         if (isShow) {
             if (context != null && message != null) {
@@ -51,12 +43,6 @@ public class T {
         }
     }
 
-    /**
-     * 长时间显示Toast
-     *
-     * @param context
-     * @param message
-     */
     public static void showLong(Context context, int message) {
         if (isShow) {
             if (context != null) {
@@ -65,13 +51,6 @@ public class T {
         }
     }
 
-    /**
-     * 自定义显示Toast时间
-     *
-     * @param context
-     * @param message
-     * @param duration
-     */
     public static void show(Context context, CharSequence message, int duration) {
         if (isShow) {
             if (context != null && message != null)
@@ -79,13 +58,6 @@ public class T {
         }
     }
 
-    /**
-     * 自定义显示Toast时间
-     *
-     * @param context
-     * @param message
-     * @param duration
-     */
     public static void show(Context context, int message, int duration) {
         if (isShow) {
             if (context != null) {

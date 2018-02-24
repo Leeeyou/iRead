@@ -2,9 +2,6 @@ package com.xyz.leeeyou.zhihuribao.utils;
 
 import java.util.List;
 
-/**
- * Created by diff on 2016/2/4.
- */
 public class HtmlUtils {
     public static String structHtml(String oriStr, List<String> cssList) {
         StringBuilder htmlString = new StringBuilder("<html><head>");

@@ -8,7 +8,10 @@ import com.tencent.bugly.beta.Beta
 import net.danlew.android.joda.JodaTimeAndroid
 
 /**
- * Created by leeeyou on 2017/4/21.
+ * ClassName:   App
+ *
+ * Author:      leeeyou
+ * Date:        2018/2/24 14:27
  */
 class App : Application(){
     override fun onCreate() {

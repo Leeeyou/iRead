@@ -29,7 +29,7 @@ public class SampleApplicationLike extends DefaultApplicationLike {
         super.onCreate();
         JodaTimeAndroid.init(getApplication());
 
-        // 调试时，将第三个参数改为true
+        // Debugging, the third parameter to true
         Bugly.init(getApplication(), "8f4e37e626", true);
     }
 
@@ -41,7 +41,7 @@ public class SampleApplicationLike extends DefaultApplicationLike {
         // you must install multiDex whatever tinker is installed!
         MultiDex.install(base);
 
-        // 安装tinker
+        // install tinker
         Beta.installTinker(this);
     }
 

@@ -13,9 +13,11 @@ import android.widget.LinearLayout;
 import com.xyz.leeeyou.zhihuribao.R;
 
 /**
- * Created by leeeyou on 16/5/10.
- * <p/>
- * Toolbar辅助类,抽取Original和Center中的公共方法
+ * ClassName:   ToolbarHelper
+ * Description: Toolbar helper class to extract public methods from Original and Center
+ *
+ * Author:      leeeyou
+ * Date:        2016/5/10 15:18
  */
 public class ToolbarHelper {
 

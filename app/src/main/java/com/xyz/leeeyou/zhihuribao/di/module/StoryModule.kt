@@ -10,7 +10,11 @@ import rx.Observable
 import javax.inject.Singleton
 
 /**
- * Created by leeeyou on 2017/4/24.
+ * ClassName:   StoryModule
+ * Description:
+ *
+ * Author:      leeeyou
+ * Date:        2018/2/24 15:16
  */
 @Singleton
 @Module

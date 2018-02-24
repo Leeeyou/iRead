@@ -5,11 +5,15 @@ import com.xyz.leeeyou.zhihuribao.data.model.one.OneIndex
 import com.xyz.leeeyou.zhihuribao.data.model.one.Weather
 
 /**
- * Created by leeeyou on 2017/4/25.
+ * ClassName:   OneMultiItemEntity
+ * Description: [ One ] module, multi-layout entity class
+ * 
+ * Author:      leeeyou                             
+ * Date:        2018/2/24 14:31
  */
-class OneIndexMultipleItem(private val itemType: Int,
-                           val indexData: OneIndex? = null,
-                           val weather: Weather? = null) : MultiItemEntity {
+class OneMultiItemEntity(private val itemType: Int,
+                         val indexData: OneIndex? = null,
+                         val weather: Weather? = null) : MultiItemEntity {
     companion object {
         val BLANK = -1
         val WEATHER = 0

@@ -7,7 +7,11 @@ import retrofit.http.Path
 import rx.Observable
 
 /**
- * Created by leeeyou on 2017/4/24.
+ * ClassName: ZhiHuRiBaoService
+ * Description: [ ZhiHuRiBao ] module service
+ *
+ * Author:      leeeyou
+ * Date:        2018/4/24 15:14
  */
 interface ZhiHuRiBaoService {
     @GET("/api/4/news/before/{dateTime}")
