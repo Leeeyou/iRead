@@ -9,7 +9,11 @@ import com.xyz.leeeyou.zhihuribao.R;
 import com.xyz.leeeyou.zhihuribao.utils.ToolbarHelper;
 
 /**
- * 基类,Toolbar样式的BaseActivity,标题能居中显示
+ * ClassName:   BaseCenterActivity
+ * Description: The title can be centered
+ *
+ * Author:      leeeyou
+ * Date:        2017/8/17 09:19
  */
 public abstract class BaseCenterActivity extends AppCompatActivity {
 
@@ -36,11 +40,11 @@ public abstract class BaseCenterActivity extends AppCompatActivity {
     }
 
     private void setCenterTitle(String title) {
-        TextView toolbar_center_title = swithCenterTextVisible(View.VISIBLE);
+        TextView toolbar_center_title = switchCenterTextVisible(View.VISIBLE);
         toolbar_center_title.setText(title);
     }
 
-    private TextView swithCenterTextVisible(int visible) {
+    private TextView switchCenterTextVisible(int visible) {
         TextView toolbar_center_title = (TextView) findViewById(R.id.toolbar_center_title);
         if (toolbar_center_title != null) {
             toolbar_center_title.setVisibility(visible);
@@ -62,7 +66,7 @@ public abstract class BaseCenterActivity extends AppCompatActivity {
         ToolbarHelper.setLeftTitle(getSupportActionBar(), title);
         ToolbarHelper.hideHomeAsUp(getSupportActionBar());
 
-        swithCenterTextVisible(View.GONE);
+        switchCenterTextVisible(View.GONE);
     }
 
     public void setCenterTitleOnly(String title) {

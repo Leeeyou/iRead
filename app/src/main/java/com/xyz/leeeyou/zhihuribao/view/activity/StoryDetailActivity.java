@@ -44,11 +44,8 @@ public class StoryDetailActivity extends BaseOriginalActivity {
         String storyTitle = getIntent().getStringExtra("storyTitle");
 
         injectModule();
-
-        setLeftTitleAndDoNotDisplayHomeAsUp(storyTitle);
-
+        setLeftTitleAndDisplayHomeAsUp(storyTitle);
         initWebView();
-
         getStoryDetail();
     }
 
@@ -79,7 +76,7 @@ public class StoryDetailActivity extends BaseOriginalActivity {
                     @Override
                     public void call() {
                         mMaterialDialog = new MaterialDialog.Builder(StoryDetailActivity.this)
-                                .content("请等待...")
+                                .content("Loading ...")
                                 .progress(true, 0)
                                 .show();
                     }

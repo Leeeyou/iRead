@@ -8,10 +8,11 @@ import com.xyz.leeeyou.zhihuribao.R;
 import com.xyz.leeeyou.zhihuribao.utils.ToolbarHelper;
 
 /**
- * @author:         leeeyou
- * @filename:       基类
- * @description:    原生Toolbar样式的BaseActivity
- * @date:           2017/8/17 09:19
+ * ClassName:   BaseOriginalActivity
+ * Description: Toolbar native style
+ *
+ * Author:      leeeyou
+ * Date:        2017/8/17 09:19
  */
 public abstract class BaseOriginalActivity extends AppCompatActivity {
 
@@ -47,4 +48,9 @@ public abstract class BaseOriginalActivity extends AppCompatActivity {
         ToolbarHelper.showHomeAsUp(getSupportActionBar());
     }
 
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return super.onSupportNavigateUp();
+    }
 }

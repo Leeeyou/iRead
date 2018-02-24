@@ -46,7 +46,7 @@ class IndexActivity : BaseOriginalActivity() {
     }
 
     private fun initAdapter() {
-        //Create a collection object using arrayOf
+        //create a collection object using arrayOf
         val fragmentList = arrayOf(StoryFragment(), OneFragment())
         val titleList = arrayOf("知乎日报", "一个")
 
