@@ -70,7 +70,7 @@ dependencies {
     compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.14'
     compile 'net.danlew:android.joda:2.9.4.1'
     compile 'com.afollestad.material-dialogs:core:0.9.0.2'
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 
     compile 'in.srain.cube:ultra-ptr:1.0.11'
 
