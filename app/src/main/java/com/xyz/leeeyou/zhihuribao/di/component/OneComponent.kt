@@ -13,7 +13,7 @@ import javax.inject.Singleton
  * Date:        2018/2/24 15:15                     
  */
 @Singleton
-@Component(modules = arrayOf(OneModule::class))
+@Component(modules = [OneModule::class])
 interface OneComponent {
     fun inject(oneFragment: OneFragment)
 }

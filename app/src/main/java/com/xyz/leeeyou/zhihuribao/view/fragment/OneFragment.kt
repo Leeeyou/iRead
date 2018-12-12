@@ -38,33 +38,37 @@ class OneFragment : BaseFragment() {
     @Inject
     lateinit var mIdObservable: Observable<ID>
 
-    private var mNoMoreDataView: View? = null
-
     private lateinit var mIdList: Array<String>
-    private var mIndexAdapter: MultiItemAdapterForOne? = null
-
+    private lateinit var mIndexAdapter: MultiItemAdapterForOne
     private var mPosition: Int = 0
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?):
-            View? = container!!.inflate(R.layout.fragment_one)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return container?.inflate(R.layout.fragment_one)
+    }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        initAdapter()
+        initRecyclerView()
         updateData()
     }
 
-    private fun initAdapter() {
-        recyclerViewOne?.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+    private fun initRecyclerView() {
+        initLayoutManager()
+        initAdapter()
+    }
 
+    private fun initLayoutManager() {
+        recyclerViewOne.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+    }
+
+    private fun initAdapter() {
         mIndexAdapter = MultiItemAdapterForOne(null)
-        mIndexAdapter?.setOnLoadMoreListener({
+        mIndexAdapter.setOnLoadMoreListener({
             if (mPosition < mIdList.size - 1) {
                 loadIndexData(++mPosition)
             }
         }, recyclerViewOne)
-        mIndexAdapter?.openLoadAnimation(BaseQuickAdapter.SCALEIN)
-
+        mIndexAdapter.openLoadAnimation(BaseQuickAdapter.SCALEIN)
         recyclerViewOne.adapter = mIndexAdapter
     }
 
@@ -106,13 +110,12 @@ class OneFragment : BaseFragment() {
                             (activity as IndexActivity).refreshComplete()
 
                             val indexData = parseIndexData(it)
-
                             val isPullToRefresh = mPosition == 0
                             if (isPullToRefresh) {
-                                mIndexAdapter?.setNewData(indexData)
+                                mIndexAdapter.setNewData(indexData)
                             } else {
-                                mIndexAdapter?.addData(indexData)
-                                mIndexAdapter?.loadMoreComplete()
+                                mIndexAdapter.addData(indexData)
+                                mIndexAdapter.loadMoreComplete()
                             }
                         })
     }
@@ -128,8 +131,8 @@ class OneFragment : BaseFragment() {
 
         //parse data
         val contentList = index.data.content_list
-        for (i in contentList.indices) {
-            tempDataList.add(OneMultiItemEntity(if (i == 0) OneMultiItemEntity.TOP else OneMultiItemEntity.READ, contentList[i], null))
+        for (contentIndex in contentList.indices) {
+            tempDataList.add(OneMultiItemEntity(if (contentIndex == 0) OneMultiItemEntity.TOP else OneMultiItemEntity.READ, contentList[contentIndex], null))
             tempDataList.add(OneMultiItemEntity(OneMultiItemEntity.BLANK, null, null))
         }
 
@@ -145,21 +148,18 @@ class OneFragment : BaseFragment() {
     override fun checkCanDoRefresh(): Boolean = !recyclerViewOne.canScrollVertically(-1)
 
     override fun updateData() {
-        mIndexAdapter?.setEnableLoadMore(true)
-        mIndexAdapter?.removeAllFooterView()
+        mIndexAdapter.setEnableLoadMore(true)
+        mIndexAdapter.removeAllFooterView()
         DaggerOneComponent.builder().oneModule(OneModule()).build().inject(this)
         fetchIdData()
     }
 
-
     private fun loadMoreEnd() {
-        mIndexAdapter?.loadMoreEnd()
-        mIndexAdapter?.setEnableLoadMore(false)
-        if (mNoMoreDataView == null) {
-            @SuppressWarnings("unchecked")
-            mNoMoreDataView = LayoutInflater.from(context).inflate(R.layout.not_loading, null, false)
+        with(View.inflate(context, R.layout.not_loading, null)) {
+            mIndexAdapter.loadMoreEnd()
+            mIndexAdapter.setEnableLoadMore(false)
+            mIndexAdapter.addFooterView(this)
         }
-        mIndexAdapter?.addFooterView(mNoMoreDataView)
     }
 
 }

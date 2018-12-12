@@ -11,15 +11,17 @@ import javax.inject.Singleton
 
 /**
  * ClassName:   OneModule
- * Description:  
- * 
- * Author:      leeeyou                             
- * Date:        2018/2/24 15:16                     
+ * Description:
+ *
+ * Author:      leeeyou
+ * Date:        2018/2/24 15:16
  */
+
+private const val endPoint = "http://v3.wufazhuce.com:8000"
+
 @Singleton
 @Module
 class OneModule {
-    private val endPoint = "http://v3.wufazhuce.com:8000"
 
     var id: Int = 0
 
@@ -32,7 +34,7 @@ class OneModule {
     @Singleton
     @Provides
     fun provideOne(): Observable<Index> {
-        return ServiceFactory.Companion
+        return ServiceFactory
                 .createRxRetrofitService(OneService::class.java, endPoint)
                 .getIndexList(id)
     }
@@ -40,7 +42,7 @@ class OneModule {
     @Singleton
     @Provides
     fun provideIdList(): Observable<ID> {
-        return ServiceFactory.Companion
+        return ServiceFactory
                 .createRxRetrofitService(OneService::class.java, endPoint)
                 .getIdList()
     }
