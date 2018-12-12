@@ -14,7 +14,7 @@ import javax.inject.Singleton
  * Date:        2018/2/24 15:15
  */
 @Singleton
-@Component(modules = arrayOf(StoryModule::class))
+@Component(modules = [StoryModule::class])
 interface StoryComponent {
     fun inject(storyDetailActivity: StoryDetailActivity)
 

@@ -16,12 +16,11 @@ import javax.inject.Singleton
  * Author:      leeeyou
  * Date:        2018/2/24 15:16
  */
+private const val endPoint = "http://news-at.zhihu.com"
+
 @Singleton
 @Module
 class StoryModule {
-    private val endPoint = "http://news-at.zhihu.com"
-//    val endPoint2 = "http://news.at.zhihu.com"
-
     var storyId: Int = 0
     var date: String = ""
 
@@ -34,7 +33,7 @@ class StoryModule {
     @Singleton
     @Provides
     fun provideStories(): Observable<RiBao> {
-        return ServiceFactory.Companion
+        return ServiceFactory
                 .createRxRetrofitService(ZhiHuRiBaoService::class.java, endPoint)
                 .getLatestRiBao(date)
     }
@@ -42,7 +41,7 @@ class StoryModule {
     @Singleton
     @Provides
     fun provideStoryDetail(): Observable<StoryDetail> {
-        return ServiceFactory.Companion
+        return ServiceFactory
                 .createRxRetrofitService(ZhiHuRiBaoService::class.java, endPoint)
                 .getStoryDetailById(storyId)
     }

@@ -11,8 +11,9 @@ import com.xyz.leeeyou.zhihuribao.view.fragment.OneFragment
 import com.xyz.leeeyou.zhihuribao.view.fragment.StoryFragment
 import kotlinx.android.synthetic.main.activity_index.*
 
+private const val FIRST_PAGE_INDEX: Int = 0
+
 class IndexActivity : BaseOriginalActivity() {
-    private val FIRST_PAGE_INDEX: Int = 0
 
     private lateinit var mViewPagerAdapter: ViewPagerAdapter
 
@@ -22,7 +23,6 @@ class IndexActivity : BaseOriginalActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_index)
-
         initAdapter()
         initViewPager()
         initPtr()
