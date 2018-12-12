@@ -3,7 +3,6 @@ package com.xyz.leeeyou.zhihuribao.view.activity;
 import android.os.Bundle;
 import android.webkit.WebView;
 
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.xyz.leeeyou.zhihuribao.R;
 import com.xyz.leeeyou.zhihuribao.data.model.ribao.StoryDetail;
 import com.xyz.leeeyou.zhihuribao.di.component.DaggerStoryComponent;
@@ -31,7 +30,7 @@ public class StoryDetailActivity extends BaseOriginalActivity {
     private StoryComponent storyComponent;
     private StoryModule storyModule;
 
-    private MaterialDialog mMaterialDialog;
+//    private MaterialDialog mMaterialDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,10 +74,10 @@ public class StoryDetailActivity extends BaseOriginalActivity {
                 .doOnSubscribe(new Action0() {
                     @Override
                     public void call() {
-                        mMaterialDialog = new MaterialDialog.Builder(StoryDetailActivity.this)
-                                .content("Loading ...")
-                                .progress(true, 0)
-                                .show();
+//                        mMaterialDialog = new MaterialDialog.Builder(StoryDetailActivity.this)
+//                                .content("Loading ...")
+//                                .progress(true, 0)
+//                                .show();
                     }
                 })
                 .subscribeOn(AndroidSchedulers.mainThread())
@@ -86,12 +85,12 @@ public class StoryDetailActivity extends BaseOriginalActivity {
                 .subscribe(new Subscriber<StoryDetail>() {
                     @Override
                     public void onCompleted() {
-                        mMaterialDialog.dismiss();
+//                        mMaterialDialog.dismiss();
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        mMaterialDialog.dismiss();
+//                        mMaterialDialog.dismiss();
                         e.printStackTrace();
                     }
 
