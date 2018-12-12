@@ -21,4 +21,3 @@
 - 利用WebView展示详情
 - 引入Glide加载图片
 - 引入ultra-ptr:1.0实现上拉加载更多
-- 引入bugly tinker实现热修复功能
