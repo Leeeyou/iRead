@@ -12,8 +12,8 @@
 
 
 ## 特点
-- 引入Kotlin1.1.0版开发
-- 引入Dagger2.4结合Kotlin
+- 引入Kotlin1.3.0版开发
+- 引入Dagger2.12结合Kotlin
 - 引入Retrofit2.0结合Kotlin，抽取ServiceFactory
 - 引入RxAndroid和RxKotlin
 - 引入Toolbar并抽取基类

@@ -10,8 +10,8 @@ Rs(Read the selection) Kotlin Edition is a simple app developed by Kotlin, mainl
 '><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png' height="80px"/></a> 
 
 ## Features
-- Introduced Kotlin1.1.0 version development
-- Introduced Dagger 2.4 with Kotlin
+- Introduced Kotlin1.3.0 version development
+- Introduced Dagger 2.12 with Kotlin
 - Introduced Retrofit2.0 combined with Kotlin, extract ServiceFactory
 - Introduced RxAndroid and RxKotlin
 - Introduced the Toolbar and extracts the base class
