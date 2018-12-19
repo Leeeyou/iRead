@@ -1,24 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#fff"
-    android:orientation="vertical">
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="#fff"
+              android:orientation="vertical">
 
-    <com.ogaclejapan.smarttablayout.SmartTabLayout
-        android:id="@id/smartTabLayout"
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tabLayout"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/tab_height"
-        android:background="@color/primary"
-        android:paddingBottom="4dp"
-        app:stl_defaultTabTextColor="@color/white"
-        app:stl_defaultTabTextMinWidth="120dp"
-        app:stl_indicatorAlwaysInCenter="true"
-        app:stl_indicatorColor="@color/accent"
-        app:stl_indicatorCornerRadius="1.5dp"
-        app:stl_indicatorInterpolation="smart"
-        app:stl_indicatorThickness="3dp" />
+        android:layout_height="48dp"
+        android:layout_gravity="center_horizontal"
+        app:tabSelectedTextColor="#000070"
+        app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget"
+        app:tabTextColor="#000000"/>
 
     <in.srain.cube.views.ptr.PtrClassicFrameLayout
         android:id="@+id/store_house_ptr_frame"
@@ -29,7 +24,7 @@
             android:id="@id/viewPager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/smartTabLayout" />
+            android:layout_below="@id/smartTabLayout"/>
     </in.srain.cube.views.ptr.PtrClassicFrameLayout>
 </LinearLayout>
 

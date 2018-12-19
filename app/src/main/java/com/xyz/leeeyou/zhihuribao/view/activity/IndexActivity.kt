@@ -7,8 +7,9 @@ import android.support.v4.view.ViewPager
 import android.view.View
 import com.xyz.leeeyou.zhihuribao.R
 import com.xyz.leeeyou.zhihuribao.adapter.ViewPagerAdapter
-import com.xyz.leeeyou.zhihuribao.view.fragment.OneFragment
 import com.xyz.leeeyou.zhihuribao.view.fragment.StoryFragment
+import com.xyz.leeeyou.zhihuribao.view.fragment.WanAndroidFragment
+import com.xyz.leeeyou.zhihuribao.view.fragment.WeatherFragment
 import kotlinx.android.synthetic.main.activity_index.*
 
 private const val FIRST_PAGE_INDEX: Int = 0
@@ -42,13 +43,13 @@ class IndexActivity : BaseOriginalActivity() {
             }
         })
 
-        smartTabLayout.setViewPager(viewPager)
+        tabLayout.setupWithViewPager(viewPager)
     }
 
     private fun initAdapter() {
         //create a collection object using arrayOf
-        val fragmentList = arrayOf(StoryFragment(), OneFragment())
-        val titleList = arrayOf("知乎日报", "一个")
+        val fragmentList = arrayOf(WeatherFragment(), WanAndroidFragment(), StoryFragment())
+        val titleList = arrayOf("天气", "WanAndroid", "知乎日报")
 
         mViewPagerAdapter = ViewPagerAdapter(supportFragmentManager, fragmentList, titleList)
         mViewPagerAdapter.switchTo(FIRST_PAGE_INDEX)
@@ -58,7 +59,7 @@ class IndexActivity : BaseOriginalActivity() {
         store_house_ptr_frame.disableWhenHorizontalMove(true)
         store_house_ptr_frame.setPtrHandler(object : PtrHandler {
             override fun onRefreshBegin(frame: PtrFrameLayout?) {
-                mViewPagerAdapter.updateData()
+//                mViewPagerAdapter.updateData()
             }
 
             override fun checkCanDoRefresh(frame: PtrFrameLayout?, content: View?, header: View?):
