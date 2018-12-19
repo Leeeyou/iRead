@@ -10,8 +10,8 @@ import com.xyz.leeeyou.zhihuribao.utils.inflate
 import kotlinx.android.synthetic.main.fragment_wan_android.*
 
 /**
- * ClassName: WeatherFragment
- * Description: 天气展示
+ * ClassName:   WanAndroidFragment
+ * Description: 玩Android
  *
  * Author:      leeeyou
  * Date:        2017/4/24 13:46

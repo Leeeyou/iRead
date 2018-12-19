@@ -8,7 +8,7 @@ import com.xyz.leeeyou.zhihuribao.R
 import com.xyz.leeeyou.zhihuribao.utils.inflate
 
 /**
- * ClassName: WeatherFragment
+ * ClassName:   WeatherFragment
  * Description: 体系展示
  *
  * Author:      leeeyou

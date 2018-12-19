@@ -59,7 +59,7 @@ class IndexActivity : BaseOriginalActivity() {
         store_house_ptr_frame.disableWhenHorizontalMove(true)
         store_house_ptr_frame.setPtrHandler(object : PtrHandler {
             override fun onRefreshBegin(frame: PtrFrameLayout?) {
-//                mViewPagerAdapter.updateData()
+                mViewPagerAdapter.updateData()
             }
 
             override fun checkCanDoRefresh(frame: PtrFrameLayout?, content: View?, header: View?):

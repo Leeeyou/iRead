@@ -8,7 +8,7 @@ import com.xyz.leeeyou.zhihuribao.R
 import com.xyz.leeeyou.zhihuribao.utils.inflate
 
 /**
- * ClassName: WeatherFragment
+ * ClassName:   WeatherFragment
  * Description: 推荐展示
  *
  * Author:      leeeyou
@@ -20,7 +20,7 @@ class WanAndroidRecommendFragment : BaseFragment() {
     }
 
     override fun checkCanDoRefresh(): Boolean {
-        return false
+        return true
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
