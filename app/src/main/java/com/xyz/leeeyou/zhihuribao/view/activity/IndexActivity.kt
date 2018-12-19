@@ -30,8 +30,8 @@ class IndexActivity : BaseOriginalActivity() {
     }
 
     private fun initViewPager() {
-        viewPager.adapter = mViewPagerAdapter
-        viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+        indexViewPager.adapter = mViewPagerAdapter
+        indexViewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrollStateChanged(state: Int) {
             }
 
@@ -43,7 +43,7 @@ class IndexActivity : BaseOriginalActivity() {
             }
         })
 
-        tabLayout.setupWithViewPager(viewPager)
+        indexTabLayout.setupWithViewPager(indexViewPager)
     }
 
     private fun initAdapter() {
