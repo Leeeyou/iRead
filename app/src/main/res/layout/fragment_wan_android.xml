@@ -7,10 +7,11 @@
               android:orientation="vertical">
 
     <android.support.design.widget.TabLayout
-        android:id="@+id/indexTabLayout"
+        android:id="@+id/wanAndroidTabLayout"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_gravity="center_horizontal"
+        app:tabMode="fixed"
         app:tabSelectedTextColor="#000070"
         app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget"
         app:tabTextColor="#000000"/>
@@ -21,7 +22,7 @@
         android:layout_height="match_parent">
 
         <android.support.v4.view.ViewPager
-            android:id="@+id/indexViewPager"
+            android:id="@+id/wanAndroidViewPager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/smartTabLayout"/>
