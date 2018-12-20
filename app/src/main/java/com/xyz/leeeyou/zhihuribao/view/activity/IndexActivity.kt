@@ -18,9 +18,6 @@ class IndexActivity : BaseOriginalActivity() {
 
     private lateinit var mViewPagerAdapter: ViewPagerAdapter
 
-    override fun setupActivityComponent() {
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_index)

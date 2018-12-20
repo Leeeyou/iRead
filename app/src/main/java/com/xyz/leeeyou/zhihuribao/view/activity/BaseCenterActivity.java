@@ -21,13 +21,8 @@ public abstract class BaseCenterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         super.setContentView(R.layout.activity_base_center);
-
-        setupActivityComponent();
-
         ToolbarHelper.checkSdkVersionToTranslucentFlag(getWindow());
     }
-
-    abstract void setupActivityComponent();
 
     @Override
     public void setContentView(int layoutResID) {

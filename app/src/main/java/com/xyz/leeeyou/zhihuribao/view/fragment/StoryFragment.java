@@ -14,16 +14,13 @@ import com.xyz.leeeyou.zhihuribao.R;
 import com.xyz.leeeyou.zhihuribao.adapter.StoryAdapter;
 import com.xyz.leeeyou.zhihuribao.data.model.ribao.RiBao;
 import com.xyz.leeeyou.zhihuribao.data.model.ribao.Story;
-import com.xyz.leeeyou.zhihuribao.di.component.DaggerStoryComponent;
-import com.xyz.leeeyou.zhihuribao.di.module.StoryModule;
+import com.xyz.leeeyou.zhihuribao.di.module.StoryModule2Kt;
 import com.xyz.leeeyou.zhihuribao.utils.T;
 import com.xyz.leeeyou.zhihuribao.view.activity.IndexActivity;
 
 import org.joda.time.DateTime;
 
 import java.util.List;
-
-import javax.inject.Inject;
 
 import rx.Observable;
 import rx.Subscriber;
@@ -34,7 +31,7 @@ import rx.schedulers.Schedulers;
 /**
  * ClassName: StoryFragment
  * Description: 【知乎日报】fragment , Java style
- *
+ * <p>
  * Author:      leeeyou
  * Date:        2017/4/24 13:46
  */
@@ -48,7 +45,6 @@ public class StoryFragment extends BaseFragment {
     private int mDatePosition = 0;
     private int mMostDate = 7;
 
-    @Inject
     Observable<RiBao> storyObservable;
 
     @Override
@@ -61,6 +57,7 @@ public class StoryFragment extends BaseFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
         initDateList();
         initAdapter();
         updateData();
@@ -76,7 +73,7 @@ public class StoryFragment extends BaseFragment {
             @Override
             public void onLoadMoreRequested() {
                 if (mDatePosition < mMostDate - 1) {
-                    DaggerStoryComponent.builder().storyModule(new StoryModule(dateList[++mDatePosition])).build().inject(StoryFragment.this);
+                    storyObservable = StoryModule2Kt.fetchStoryListByDate(dateList[++mDatePosition]);
                     fetchStoryData();
                 } else {
                     mAdapter.loadMoreEnd();
@@ -157,7 +154,7 @@ public class StoryFragment extends BaseFragment {
     public void updateData() {
         mAdapter.removeAllFooterView();
         mDatePosition = 0;
-        DaggerStoryComponent.builder().storyModule(new StoryModule(dateList[mDatePosition])).build().inject(this);
+        storyObservable = StoryModule2Kt.fetchStoryListByDate(dateList[mDatePosition]);
         fetchStoryData();
     }
 

@@ -5,14 +5,9 @@ import android.webkit.WebView;
 
 import com.xyz.leeeyou.zhihuribao.R;
 import com.xyz.leeeyou.zhihuribao.data.model.ribao.StoryDetail;
-import com.xyz.leeeyou.zhihuribao.di.component.DaggerStoryComponent;
-import com.xyz.leeeyou.zhihuribao.di.component.StoryComponent;
-import com.xyz.leeeyou.zhihuribao.di.module.StoryModule;
+import com.xyz.leeeyou.zhihuribao.di.module.StoryModule2Kt;
 import com.xyz.leeeyou.zhihuribao.utils.HtmlUtils;
 
-import javax.inject.Inject;
-
-import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action0;
@@ -24,33 +19,19 @@ public class StoryDetailActivity extends BaseOriginalActivity {
 
     WebView story_web;
 
-    @Inject
-    Observable<StoryDetail> detailObservable;
-
-    private StoryComponent storyComponent;
-    private StoryModule storyModule;
-
-//    private MaterialDialog mMaterialDialog;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_story_detail);
 
-        story_web = (WebView) findViewById(R.id.story_web);
+        story_web = findViewById(R.id.story_web);
 
         storyId = getIntent().getIntExtra("storyId", -1);
         String storyTitle = getIntent().getStringExtra("storyTitle");
 
-        injectModule();
         setLeftTitleAndDisplayHomeAsUp(storyTitle);
         initWebView();
         getStoryDetail();
-    }
-
-    private void injectModule() {
-        storyModule.setStoryId(storyId);
-        storyComponent.inject(this);
     }
 
     private void initWebView() {
@@ -58,18 +39,10 @@ public class StoryDetailActivity extends BaseOriginalActivity {
         story_web.getSettings().setDefaultTextEncodingName("UTF-8");
     }
 
-    @Override
-    void setupActivityComponent() {
-        storyModule = new StoryModule();
-
-        storyComponent = DaggerStoryComponent
-                .builder()
-                .storyModule(storyModule)
-                .build();
-    }
 
     public void getStoryDetail() {
-        detailObservable
+        StoryModule2Kt
+                .fetchStoryDetailById(storyId)
                 .subscribeOn(Schedulers.newThread())
                 .doOnSubscribe(new Action0() {
                     @Override
