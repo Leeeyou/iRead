@@ -5,7 +5,7 @@ import android.webkit.WebView;
 
 import com.xyz.leeeyou.zhihuribao.R;
 import com.xyz.leeeyou.zhihuribao.data.model.ribao.StoryDetail;
-import com.xyz.leeeyou.zhihuribao.di.module.StoryModule2Kt;
+import com.xyz.leeeyou.zhihuribao.di.module.ZhiHuDailyRepositoryKt;
 import com.xyz.leeeyou.zhihuribao.utils.HtmlUtils;
 
 import rx.Subscriber;
@@ -13,7 +13,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action0;
 import rx.schedulers.Schedulers;
 
-public class StoryDetailActivity extends BaseOriginalActivity {
+public class ZhiHuDailyDetailActivity extends BaseOriginalActivity {
 
     private int storyId;
 
@@ -41,7 +41,7 @@ public class StoryDetailActivity extends BaseOriginalActivity {
 
 
     public void getStoryDetail() {
-        StoryModule2Kt
+        ZhiHuDailyRepositoryKt
                 .fetchStoryDetailById(storyId)
                 .subscribeOn(Schedulers.newThread())
                 .doOnSubscribe(new Action0() {

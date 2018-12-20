@@ -7,7 +7,7 @@ import android.support.v4.view.ViewPager
 import android.view.View
 import com.xyz.leeeyou.zhihuribao.R
 import com.xyz.leeeyou.zhihuribao.adapter.ViewPagerAdapter
-import com.xyz.leeeyou.zhihuribao.view.fragment.StoryFragment
+import com.xyz.leeeyou.zhihuribao.view.fragment.ZhiHuDailyFragment
 import com.xyz.leeeyou.zhihuribao.view.fragment.WanAndroidFragment
 import com.xyz.leeeyou.zhihuribao.view.fragment.WeatherFragment
 import kotlinx.android.synthetic.main.activity_index.*
@@ -45,7 +45,7 @@ class IndexActivity : BaseOriginalActivity() {
 
     private fun initAdapter() {
         //create a collection object using arrayOf
-        val fragmentList = arrayOf(WeatherFragment(), WanAndroidFragment(), StoryFragment())
+        val fragmentList = arrayOf(WeatherFragment(), WanAndroidFragment(), ZhiHuDailyFragment())
         val titleList = arrayOf("天气", "WanAndroid", "知乎日报")
 
         mViewPagerAdapter = ViewPagerAdapter(supportFragmentManager, fragmentList, titleList)

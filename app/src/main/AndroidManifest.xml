@@ -24,7 +24,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".view.activity.StoryDetailActivity"
+            android:name=".view.activity.ZhiHuDailyDetailActivity"
             android:screenOrientation="portrait"/>
 
         <activity

@@ -11,10 +11,10 @@ import android.view.ViewGroup;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.xyz.leeeyou.zhihuribao.R;
-import com.xyz.leeeyou.zhihuribao.adapter.StoryAdapter;
+import com.xyz.leeeyou.zhihuribao.adapter.ZhiHuDailyAdapter;
 import com.xyz.leeeyou.zhihuribao.data.model.ribao.RiBao;
 import com.xyz.leeeyou.zhihuribao.data.model.ribao.Story;
-import com.xyz.leeeyou.zhihuribao.di.module.StoryModule2Kt;
+import com.xyz.leeeyou.zhihuribao.di.module.ZhiHuDailyRepositoryKt;
 import com.xyz.leeeyou.zhihuribao.utils.T;
 import com.xyz.leeeyou.zhihuribao.view.activity.IndexActivity;
 
@@ -35,10 +35,10 @@ import rx.schedulers.Schedulers;
  * Author:      leeeyou
  * Date:        2017/4/24 13:46
  */
-public class StoryFragment extends BaseFragment {
+public class ZhiHuDailyFragment extends BaseFragment {
 
     private RecyclerView mRecyclerView;
-    private StoryAdapter mAdapter;
+    private ZhiHuDailyAdapter mAdapter;
 
     //when loading more, up to the date of the data can be loaded
     private String[] dateList = new String[7];
@@ -64,7 +64,7 @@ public class StoryFragment extends BaseFragment {
     }
 
     private void initAdapter() {
-        mAdapter = new StoryAdapter(R.layout.item_lv_story, null);
+        mAdapter = new ZhiHuDailyAdapter(R.layout.item_lv_story, null);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         mRecyclerView.setAdapter(mAdapter);
 
@@ -73,7 +73,7 @@ public class StoryFragment extends BaseFragment {
             @Override
             public void onLoadMoreRequested() {
                 if (mDatePosition < mMostDate - 1) {
-                    storyObservable = StoryModule2Kt.fetchStoryListByDate(dateList[++mDatePosition]);
+                    storyObservable = ZhiHuDailyRepositoryKt.fetchStoryListByDate(dateList[++mDatePosition]);
                     fetchStoryData();
                 } else {
                     mAdapter.loadMoreEnd();
@@ -154,7 +154,7 @@ public class StoryFragment extends BaseFragment {
     public void updateData() {
         mAdapter.removeAllFooterView();
         mDatePosition = 0;
-        storyObservable = StoryModule2Kt.fetchStoryListByDate(dateList[mDatePosition]);
+        storyObservable = ZhiHuDailyRepositoryKt.fetchStoryListByDate(dateList[mDatePosition]);
         fetchStoryData();
     }
 
