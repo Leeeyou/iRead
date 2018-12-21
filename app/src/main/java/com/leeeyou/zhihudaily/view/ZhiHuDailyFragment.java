@@ -11,25 +11,26 @@ import android.view.ViewGroup;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.leeeyou.BaseFragment;
-import com.leeeyou.IndexActivity;
+import com.leeeyou.R;
 import com.leeeyou.zhihudaily.model.ZhiHuDailyRepositoryKt;
 import com.leeeyou.zhihudaily.model.bean.ZhiHuDaily;
 import com.leeeyou.zhihudaily.model.bean.ZhiHuDailyItem;
-import com.xyz.leeeyou.zhihuribao.R;
 
 import org.joda.time.DateTime;
 
 import java.util.List;
 
-import rx.Observable;
+import in.srain.cube.views.ptr.PtrClassicFrameLayout;
+import in.srain.cube.views.ptr.PtrDefaultHandler;
+import in.srain.cube.views.ptr.PtrFrameLayout;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 /**
- * ClassName: StoryFragment
- * Description: 【知乎日报】fragment , Java style
+ * ClassName:   ZhiHuDailyFragment
+ * Description: ZhiHuDailyFragment
  * <p>
  * Author:      leeeyou
  * Date:        2017/4/24 13:46
@@ -37,6 +38,7 @@ import rx.schedulers.Schedulers;
 public class ZhiHuDailyFragment extends BaseFragment {
 
     private RecyclerView mRecyclerView;
+    private PtrClassicFrameLayout mPtrFrame;
     private ZhiHuDailyAdapter mAdapter;
 
     //when loading more, up to the date of the data can be loaded
@@ -44,26 +46,42 @@ public class ZhiHuDailyFragment extends BaseFragment {
     private int mDatePosition = 0;
     private int mMostDate = 7;
 
-    Observable<ZhiHuDaily> storyObservable;
-
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View inflate = inflater.inflate(R.layout.activity_story, container, false);
-        mRecyclerView = (RecyclerView) inflate.findViewById(R.id.recyclerViewRiBao);
+        View inflate = inflater.inflate(R.layout.activity_zhihu_daily, container, false);
+        mRecyclerView = inflate.findViewById(R.id.recyclerViewRiBao);
+        mPtrFrame = inflate.findViewById(R.id.ptrFrame);
         return inflate;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
         initDateList();
+        initView();
+        fetchZhiHuDailyList();
+    }
+
+    private void initView() {
+        mPtrFrame.disableWhenHorizontalMove(true);
+        mPtrFrame.setPtrHandler(new PtrDefaultHandler() {
+            @Override
+            public void onRefreshBegin(PtrFrameLayout frame) {
+                mDatePosition = 0;
+                fetchZhiHuDailyList();
+            }
+
+            @Override
+            public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
+                return !mRecyclerView.canScrollVertically(-1);
+            }
+        });
+
         initAdapter();
-        updateData();
     }
 
     private void initAdapter() {
-        mAdapter = new ZhiHuDailyAdapter(R.layout.item_lv_story, null);
+        mAdapter = new ZhiHuDailyAdapter(R.layout.item_zhihu_daily, null);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         mRecyclerView.setAdapter(mAdapter);
 
@@ -72,8 +90,7 @@ public class ZhiHuDailyFragment extends BaseFragment {
             @Override
             public void onLoadMoreRequested() {
                 if (mDatePosition < mMostDate - 1) {
-                    storyObservable = ZhiHuDailyRepositoryKt.fetchStoryListByDate(dateList[++mDatePosition]);
-                    fetchStoryData();
+                    fetchZhiHuDailyList();
                 } else {
                     mAdapter.loadMoreEnd();
                 }
@@ -81,8 +98,9 @@ public class ZhiHuDailyFragment extends BaseFragment {
         }, mRecyclerView);
     }
 
-    private void fetchStoryData() {
-        storyObservable
+    private void fetchZhiHuDailyList() {
+        ZhiHuDailyRepositoryKt
+                .fetchZhiHuDailyListByDate(dateList[++mDatePosition])
                 .subscribeOn(Schedulers.newThread())
                 .filter(new Func1<ZhiHuDaily, Boolean>() {
                     @Override
@@ -97,8 +115,8 @@ public class ZhiHuDailyFragment extends BaseFragment {
                         }
 
                         List<ZhiHuDailyItem> stories = riBao.getStories();
-                        for (ZhiHuDailyItem story : stories) {
-                            story.setDate(sb.toString());
+                        for (ZhiHuDailyItem item : stories) {
+                            item.setDate(sb.toString());
                         }
 
                         return true;
@@ -113,24 +131,24 @@ public class ZhiHuDailyFragment extends BaseFragment {
 
                     @Override
                     public void onError(Throwable e) {
-                        ((IndexActivity) getActivity()).refreshComplete();
+                        mPtrFrame.refreshComplete();
                         e.printStackTrace();
                         com.leeeyou.util.T.showShort(getActivity(), "出错了:" + e.getMessage());
                     }
 
                     @Override
-                    public void onNext(ZhiHuDaily ribao) {
-                        ((IndexActivity) getActivity()).refreshComplete();
-                        setDataToAdapter(ribao.getStories());
+                    public void onNext(ZhiHuDaily zhiHuDaily) {
+                        mPtrFrame.refreshComplete();
+                        setDataToAdapter(zhiHuDaily.getStories());
                     }
                 });
     }
 
-    private void setDataToAdapter(@NonNull List<ZhiHuDailyItem> stories) {
+    private void setDataToAdapter(@NonNull List<ZhiHuDailyItem> zhiHuDailyItemList) {
         if (mDatePosition == 0) {
-            mAdapter.setNewData(stories);
+            mAdapter.setNewData(zhiHuDailyItemList);
         } else {
-            mAdapter.addData(stories);
+            mAdapter.addData(zhiHuDailyItemList);
         }
     }
 
@@ -143,18 +161,4 @@ public class ZhiHuDailyFragment extends BaseFragment {
                     (tempDateTime.getDayOfMonth() < 10 ? "0" + tempDateTime.getDayOfMonth() : tempDateTime.getDayOfMonth());
         }
     }
-
-    @Override
-    public boolean checkCanDoRefresh() {
-        return !mRecyclerView.canScrollVertically(-1);
-    }
-
-    @Override
-    public void updateData() {
-        mAdapter.removeAllFooterView();
-        mDatePosition = 0;
-        storyObservable = ZhiHuDailyRepositoryKt.fetchStoryListByDate(dateList[mDatePosition]);
-        fetchStoryData();
-    }
-
 }

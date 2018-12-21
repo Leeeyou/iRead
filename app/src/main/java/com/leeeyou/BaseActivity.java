@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
-import com.xyz.leeeyou.zhihuribao.R;
 import com.leeeyou.util.ToolbarHelper;
 
 /**
@@ -14,7 +13,7 @@ import com.leeeyou.util.ToolbarHelper;
  * Author:      leeeyou
  * Date:        2017/8/17 09:19
  */
-public abstract class BaseOriginalActivity extends AppCompatActivity {
+public abstract class BaseActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

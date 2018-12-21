@@ -10,7 +10,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 
-import com.xyz.leeeyou.zhihuribao.R;
+import com.leeeyou.R;
 
 /**
  * ClassName:   ToolbarHelper

@@ -16,14 +16,6 @@ import com.leeeyou.util.inflate
  * Date:        2017/4/24 13:46
  */
 class WeatherFragment : BaseFragment() {
-    override fun updateData() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun checkCanDoRefresh(): Boolean {
-        return false
-    }
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return container?.inflate(R.layout.fragment_weather)
     }

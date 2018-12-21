@@ -7,7 +7,4 @@ import android.support.v4.app.Fragment
  * @description:    fragment base class
  * @date:           2017/4/26
  */
-abstract class BaseFragment : Fragment() {
-    abstract fun checkCanDoRefresh(): Boolean
-    abstract fun updateData()
-}
+abstract class BaseFragment : Fragment()

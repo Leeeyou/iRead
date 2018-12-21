@@ -4,10 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.leeeyou.ViewPagerAdapter
-import com.leeeyou.util.inflate
 import com.leeeyou.BaseFragment
 import com.leeeyou.R
+import com.leeeyou.util.ViewPagerAdapter
+import com.leeeyou.util.inflate
 import kotlinx.android.synthetic.main.fragment_wan_android.*
 
 /**
@@ -19,14 +19,6 @@ import kotlinx.android.synthetic.main.fragment_wan_android.*
  */
 class WanAndroidFragment : BaseFragment() {
     private lateinit var mViewPagerAdapter: ViewPagerAdapter
-
-    override fun updateData() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun checkCanDoRefresh(): Boolean {
-        return false
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return container?.inflate(R.layout.fragment_wan_android)

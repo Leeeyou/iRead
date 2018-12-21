@@ -3,18 +3,18 @@ package com.leeeyou.zhihudaily.view;
 import android.os.Bundle;
 import android.webkit.WebView;
 
-import com.leeeyou.BaseOriginalActivity;
+import com.leeeyou.BaseActivity;
+import com.leeeyou.R;
 import com.leeeyou.util.HtmlUtils;
 import com.leeeyou.zhihudaily.model.ZhiHuDailyRepositoryKt;
 import com.leeeyou.zhihudaily.model.bean.ZhiHuDailyDetail;
-import com.xyz.leeeyou.zhihuribao.R;
 
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action0;
 import rx.schedulers.Schedulers;
 
-public class ZhiHuDailyDetailActivity extends BaseOriginalActivity {
+public class ZhiHuDailyDetailActivity extends BaseActivity {
 
     private int storyId;
 
@@ -43,7 +43,7 @@ public class ZhiHuDailyDetailActivity extends BaseOriginalActivity {
 
     public void getStoryDetail() {
         ZhiHuDailyRepositoryKt
-                .fetchStoryDetailById(storyId)
+                .fetchZhiHuDailyDetailById(storyId)
                 .subscribeOn(Schedulers.newThread())
                 .doOnSubscribe(new Action0() {
                     @Override

@@ -17,7 +17,7 @@
         app:tabTextColor="#000000"/>
 
     <in.srain.cube.views.ptr.PtrClassicFrameLayout
-        android:id="@+id/store_house_ptr_frame"
+        android:id="@+id/ptrFrame"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 

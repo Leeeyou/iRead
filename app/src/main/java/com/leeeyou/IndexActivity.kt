@@ -1,17 +1,15 @@
 package com.leeeyou
 
-import `in`.srain.cube.views.ptr.PtrFrameLayout
-import `in`.srain.cube.views.ptr.PtrHandler
 import android.os.Bundle
 import android.support.v4.view.ViewPager
-import android.view.View
+import com.leeeyou.util.ViewPagerAdapter
 import com.leeeyou.wanandroid.WanAndroidFragment
 import com.leeeyou.weather.WeatherFragment
 import kotlinx.android.synthetic.main.activity_index.*
 
 private const val FIRST_PAGE_INDEX: Int = 0
 
-class IndexActivity : BaseOriginalActivity() {
+class IndexActivity : BaseActivity() {
 
     private lateinit var mViewPagerAdapter: ViewPagerAdapter
 
@@ -20,7 +18,6 @@ class IndexActivity : BaseOriginalActivity() {
         setContentView(R.layout.activity_index)
         initAdapter()
         initViewPager()
-        initPtr()
     }
 
     private fun initViewPager() {
@@ -47,22 +44,6 @@ class IndexActivity : BaseOriginalActivity() {
 
         mViewPagerAdapter = ViewPagerAdapter(supportFragmentManager, fragmentList, titleList)
         mViewPagerAdapter.switchTo(FIRST_PAGE_INDEX)
-    }
-
-    private fun initPtr() {
-        store_house_ptr_frame.disableWhenHorizontalMove(true)
-        store_house_ptr_frame.setPtrHandler(object : PtrHandler {
-            override fun onRefreshBegin(frame: PtrFrameLayout?) {
-                mViewPagerAdapter.updateData()
-            }
-
-            override fun checkCanDoRefresh(frame: PtrFrameLayout?, content: View?, header: View?):
-                    Boolean = mViewPagerAdapter.checkCanDoRefresh()
-        })
-    }
-
-    fun refreshComplete() {
-        store_house_ptr_frame.refreshComplete()
     }
 
 }
