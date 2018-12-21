@@ -15,17 +15,23 @@
         app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget"
         app:tabTextColor="#000000"/>
 
-    <in.srain.cube.views.ptr.PtrClassicFrameLayout
-        android:id="@+id/store_house_ptr_frame"
+    <android.support.v4.view.ViewPager
+        android:id="@+id/indexViewPager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_below="@id/smartTabLayout"/>
 
-        <android.support.v4.view.ViewPager
-            android:id="@+id/indexViewPager"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@id/smartTabLayout"/>
-    </in.srain.cube.views.ptr.PtrClassicFrameLayout>
+    <!--<in.srain.cube.views.ptr.PtrClassicFrameLayout-->
+        <!--android:id="@+id/store_house_ptr_frame"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent">-->
+
+        <!--<android.support.v4.view.ViewPager-->
+            <!--android:id="@+id/indexViewPager"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_below="@id/smartTabLayout"/>-->
+    <!--</in.srain.cube.views.ptr.PtrClassicFrameLayout>-->
 </LinearLayout>
 
 
