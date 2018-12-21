@@ -10,7 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.leeeyou.BaseFragment;
+import com.leeeyou.manager.BaseFragment;
 import com.leeeyou.R;
 import com.leeeyou.zhihudaily.model.ZhiHuDailyRepositoryKt;
 import com.leeeyou.zhihudaily.model.bean.ZhiHuDaily;
@@ -30,7 +30,6 @@ import rx.schedulers.Schedulers;
 
 /**
  * ClassName:   ZhiHuDailyFragment
- * Description: ZhiHuDailyFragment
  * <p>
  * Author:      leeeyou
  * Date:        2017/4/24 13:46

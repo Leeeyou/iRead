@@ -4,15 +4,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.leeeyou.BaseFragment
 import com.leeeyou.R
+import com.leeeyou.manager.BaseFragment
 import com.leeeyou.util.ViewPagerAdapter
 import com.leeeyou.util.inflate
 import kotlinx.android.synthetic.main.fragment_wan_android.*
 
 /**
  * ClassName:   WanAndroidFragment
- * Description: 玩Android
+ * Description: Play Android
  *
  * Author:      leeeyou
  * Date:        2017/4/24 13:46

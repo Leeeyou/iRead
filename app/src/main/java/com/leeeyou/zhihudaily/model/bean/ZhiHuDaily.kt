@@ -1,7 +1,7 @@
 package com.leeeyou.zhihudaily.model.bean
 
 /**
- * ClassName:
+ * ClassName:    ZhiHuDaily
  * Description:  The data class is a very powerful class that
  *               lets you avoid creating boilerplate code in Java
  *               that holds POJOs that are state-controlled but have a very simple operation.

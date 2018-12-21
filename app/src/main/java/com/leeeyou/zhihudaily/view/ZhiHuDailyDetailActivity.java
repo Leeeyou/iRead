@@ -3,7 +3,7 @@ package com.leeeyou.zhihudaily.view;
 import android.os.Bundle;
 import android.webkit.WebView;
 
-import com.leeeyou.BaseActivity;
+import com.leeeyou.manager.BaseActivity;
 import com.leeeyou.R;
 import com.leeeyou.util.HtmlUtils;
 import com.leeeyou.zhihudaily.model.ZhiHuDailyRepositoryKt;
@@ -14,6 +14,13 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action0;
 import rx.schedulers.Schedulers;
 
+/**
+ * ClassName:   ZhiHuDailyDetailActivity
+ * Description:  
+ * 
+ * Author:      leeeyou                             
+ * Date:        2018/12/21 18:02                     
+ */
 public class ZhiHuDailyDetailActivity extends BaseActivity {
 
     private int storyId;

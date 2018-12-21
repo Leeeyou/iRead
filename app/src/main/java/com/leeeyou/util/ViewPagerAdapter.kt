@@ -3,7 +3,7 @@ package com.leeeyou.util
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentStatePagerAdapter
-import com.leeeyou.BaseFragment
+import com.leeeyou.manager.BaseFragment
 
 /**
  * ClassName:   ViewPagerAdapter

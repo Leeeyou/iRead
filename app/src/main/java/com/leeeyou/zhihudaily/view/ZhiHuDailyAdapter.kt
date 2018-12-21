@@ -8,7 +8,7 @@ import com.leeeyou.R
 import com.leeeyou.zhihudaily.model.bean.ZhiHuDailyItem
 
 /**
- * ClassName:   StoryAdapter
+ * ClassName:   ZhiHuDailyAdapter
  * Author:      leeeyou
  * Date:        2016/9/27 14:45
  */
