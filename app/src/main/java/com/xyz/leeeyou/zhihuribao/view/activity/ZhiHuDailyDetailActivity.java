@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.webkit.WebView;
 
 import com.xyz.leeeyou.zhihuribao.R;
-import com.xyz.leeeyou.zhihuribao.data.model.ribao.StoryDetail;
+import com.xyz.leeeyou.zhihuribao.data.model.ribao.ZhiHuDailyDetail;
 import com.xyz.leeeyou.zhihuribao.di.module.ZhiHuDailyRepositoryKt;
 import com.xyz.leeeyou.zhihuribao.utils.HtmlUtils;
 
@@ -55,7 +55,7 @@ public class ZhiHuDailyDetailActivity extends BaseOriginalActivity {
                 })
                 .subscribeOn(AndroidSchedulers.mainThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<StoryDetail>() {
+                .subscribe(new Subscriber<ZhiHuDailyDetail>() {
                     @Override
                     public void onCompleted() {
 //                        mMaterialDialog.dismiss();
@@ -68,7 +68,7 @@ public class ZhiHuDailyDetailActivity extends BaseOriginalActivity {
                     }
 
                     @Override
-                    public void onNext(StoryDetail storyDetail) {
+                    public void onNext(ZhiHuDailyDetail storyDetail) {
                         story_web.loadData(HtmlUtils.structHtml(storyDetail.getBody(), storyDetail.getCss()), "text/html; charset=UTF-8", null);
                     }
                 });

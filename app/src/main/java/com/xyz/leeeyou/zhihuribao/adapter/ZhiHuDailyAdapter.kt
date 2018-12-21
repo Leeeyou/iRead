@@ -5,7 +5,7 @@ import com.bumptech.glide.Glide
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.xyz.leeeyou.zhihuribao.R
-import com.xyz.leeeyou.zhihuribao.data.model.ribao.Story
+import com.xyz.leeeyou.zhihuribao.data.model.ribao.ZhiHuDailyItem
 import com.xyz.leeeyou.zhihuribao.view.activity.ZhiHuDailyDetailActivity
 
 /**
@@ -13,9 +13,9 @@ import com.xyz.leeeyou.zhihuribao.view.activity.ZhiHuDailyDetailActivity
  * Author:      leeeyou
  * Date:        2016/9/27 14:45
  */
-class ZhiHuDailyAdapter(layoutResId: Int, data: List<Story>?) : BaseQuickAdapter<Story, BaseViewHolder>(layoutResId, data) {
+class ZhiHuDailyAdapter(layoutResId: Int, data: List<ZhiHuDailyItem>?) : BaseQuickAdapter<ZhiHuDailyItem, BaseViewHolder>(layoutResId, data) {
 
-    override fun convert(vh: BaseViewHolder, story: Story?) {
+    override fun convert(vh: BaseViewHolder, story: ZhiHuDailyItem?) {
         if(story == null) return
 
         vh.setText(R.id.tv_story_title, story.title)

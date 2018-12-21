@@ -11,4 +11,4 @@ package com.xyz.leeeyou.zhihuribao.data.model.ribao
  * Author:      leeeyou
  * Date:        2017/4/21 15:07
  */
-data class RiBao(var date: String, var stories: List<Story>)
+data class ZhiHuDaily(var date: String, var stories: List<ZhiHuDailyItem>)

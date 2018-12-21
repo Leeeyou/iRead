@@ -1,7 +1,7 @@
 package com.xyz.leeeyou.zhihuribao.data.service
 
-import com.xyz.leeeyou.zhihuribao.data.model.ribao.RiBao
-import com.xyz.leeeyou.zhihuribao.data.model.ribao.StoryDetail
+import com.xyz.leeeyou.zhihuribao.data.model.ribao.ZhiHuDaily
+import com.xyz.leeeyou.zhihuribao.data.model.ribao.ZhiHuDailyDetail
 import retrofit.http.GET
 import retrofit.http.Path
 import rx.Observable
@@ -15,8 +15,8 @@ import rx.Observable
  */
 interface ZhiHuRiBaoService {
     @GET("/api/4/news/before/{dateTime}")
-    fun getLatestRiBao(@Path("dateTime") dateTime: String): Observable<RiBao>
+    fun getLatestZhiHuDaily(@Path("dateTime") dateTime: String): Observable<ZhiHuDaily>
 
     @GET("/api/4/news/{id}")
-    fun getStoryDetailById(@Path("id") id: Int): Observable<StoryDetail>
+    fun getZhiHuDailyDetailById(@Path("id") id: Int): Observable<ZhiHuDailyDetail>
 }

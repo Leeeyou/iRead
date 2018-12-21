@@ -12,8 +12,8 @@ import android.view.ViewGroup;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.xyz.leeeyou.zhihuribao.R;
 import com.xyz.leeeyou.zhihuribao.adapter.ZhiHuDailyAdapter;
-import com.xyz.leeeyou.zhihuribao.data.model.ribao.RiBao;
-import com.xyz.leeeyou.zhihuribao.data.model.ribao.Story;
+import com.xyz.leeeyou.zhihuribao.data.model.ribao.ZhiHuDaily;
+import com.xyz.leeeyou.zhihuribao.data.model.ribao.ZhiHuDailyItem;
 import com.xyz.leeeyou.zhihuribao.di.module.ZhiHuDailyRepositoryKt;
 import com.xyz.leeeyou.zhihuribao.utils.T;
 import com.xyz.leeeyou.zhihuribao.view.activity.IndexActivity;
@@ -45,7 +45,7 @@ public class ZhiHuDailyFragment extends BaseFragment {
     private int mDatePosition = 0;
     private int mMostDate = 7;
 
-    Observable<RiBao> storyObservable;
+    Observable<ZhiHuDaily> storyObservable;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -85,9 +85,9 @@ public class ZhiHuDailyFragment extends BaseFragment {
     private void fetchStoryData() {
         storyObservable
                 .subscribeOn(Schedulers.newThread())
-                .filter(new Func1<RiBao, Boolean>() {
+                .filter(new Func1<ZhiHuDaily, Boolean>() {
                     @Override
-                    public Boolean call(RiBao riBao) {
+                    public Boolean call(ZhiHuDaily riBao) {
                         StringBuilder sb = new StringBuilder();
                         char[] chars = riBao.getDate().toCharArray();
                         for (int i = 0; i < chars.length; i++) {
@@ -97,8 +97,8 @@ public class ZhiHuDailyFragment extends BaseFragment {
                             sb.append(chars[i]);
                         }
 
-                        List<Story> stories = riBao.getStories();
-                        for (Story story : stories) {
+                        List<ZhiHuDailyItem> stories = riBao.getStories();
+                        for (ZhiHuDailyItem story : stories) {
                             story.setDate(sb.toString());
                         }
 
@@ -106,7 +106,7 @@ public class ZhiHuDailyFragment extends BaseFragment {
                     }
                 })
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<RiBao>() {
+                .subscribe(new Subscriber<ZhiHuDaily>() {
                     @Override
                     public void onCompleted() {
                         mAdapter.loadMoreComplete();
@@ -120,14 +120,14 @@ public class ZhiHuDailyFragment extends BaseFragment {
                     }
 
                     @Override
-                    public void onNext(RiBao ribao) {
+                    public void onNext(ZhiHuDaily ribao) {
                         ((IndexActivity) getActivity()).refreshComplete();
                         setDataToAdapter(ribao.getStories());
                     }
                 });
     }
 
-    private void setDataToAdapter(@NonNull List<Story> stories) {
+    private void setDataToAdapter(@NonNull List<ZhiHuDailyItem> stories) {
         if (mDatePosition == 0) {
             mAdapter.setNewData(stories);
         } else {
