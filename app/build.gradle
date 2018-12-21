@@ -12,7 +12,7 @@ android {
     buildToolsVersion '28.0.3'
 
     defaultConfig {
-        applicationId "com.xyz.leeeyou.zhihuribao"
+        applicationId "com.leeeyou.readselection"
         minSdkVersion 15
         targetSdkVersion 28
         versionCode 115
