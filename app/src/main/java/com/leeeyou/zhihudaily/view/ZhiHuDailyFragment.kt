@@ -24,7 +24,6 @@ class ZhiHuDailyFragment : BaseFragment() {
     private val mMostDate = 7
     private val mDateList = Array(7) { "" }
     private var mDatePosition = 0
-
     private lateinit var mAdapter: ZhiHuDailyAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -38,41 +37,7 @@ class ZhiHuDailyFragment : BaseFragment() {
         fetchZhiHuDailyList(mDateList[0])
     }
 
-    private fun fetchZhiHuDailyList(date: String) {
-        fetchZhiHuDailyListByDate(date)
-                .subscribeOn(Schedulers.newThread())
-                .filter { zhiHuDaily ->
-                    for (item in zhiHuDaily.stories) {
-                        item.date = StringBuilder(zhiHuDaily.date)
-                                .insert(4, "-")
-                                .insert(7, "-")
-                                .toString()
-                    }
-
-                    true
-                }
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(object : Subscriber<ZhiHuDaily>() {
-                    override fun onNext(item: ZhiHuDaily?) {
-                        ptrFrameOfZhiHuDaily.refreshComplete()
-                        if (item != null) {
-                            setDataToAdapter(item.stories)
-                        }
-                    }
-
-                    override fun onCompleted() {
-                        mAdapter.loadMoreComplete()
-                    }
-
-                    override fun onError(e: Throwable?) {
-                        ptrFrameOfZhiHuDaily.refreshComplete()
-                        e?.printStackTrace()
-                        showShort(activity, "出错了:" + e?.message)
-                    }
-                })
-    }
-
-    private fun setDataToAdapter(zhiHuDailyItemList: List<ZhiHuDailyItem>) {
+    private fun updateAdapter(zhiHuDailyItemList: List<ZhiHuDailyItem>) {
         if (mDatePosition == 0) {
             mAdapter.setNewData(zhiHuDailyItemList)
         } else {
@@ -81,6 +46,11 @@ class ZhiHuDailyFragment : BaseFragment() {
     }
 
     private fun initView() {
+        initPtr()
+        initAdapter()
+    }
+
+    private fun initPtr() {
         ptrFrameOfZhiHuDaily.disableWhenHorizontalMove(true)
         ptrFrameOfZhiHuDaily.setPtrHandler(object : PtrDefaultHandler() {
             override fun onRefreshBegin(frame: PtrFrameLayout?) {
@@ -92,8 +62,6 @@ class ZhiHuDailyFragment : BaseFragment() {
                 return !recyclerViewRiBao.canScrollVertically(-1)
             }
         })
-
-        initAdapter()
     }
 
     private fun initAdapter() {
@@ -118,9 +86,39 @@ class ZhiHuDailyFragment : BaseFragment() {
             val month = if (tempDateTime.monthOfYear < 10) "0" + tempDateTime.monthOfYear else tempDateTime.monthOfYear.toString()
             val day = if (tempDateTime.dayOfMonth < 10) "0" + tempDateTime.dayOfMonth else tempDateTime.dayOfMonth.toString()
             mDateList[i] = year + month + day
-
         }
     }
 
+    private fun fetchZhiHuDailyList(date: String) {
+        fetchZhiHuDailyListByDate(date)
+                .subscribeOn(Schedulers.newThread())
+                .filter { zhiHuDaily ->
+                    for (item in zhiHuDaily.stories) {
+                        item.date = StringBuilder(zhiHuDaily.date)
+                                .insert(4, "-")
+                                .insert(7, "-")
+                                .toString()
+                    }
+                    true
+                }
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(object : Subscriber<ZhiHuDaily>() {
+                    override fun onNext(item: ZhiHuDaily?) {
+                        ptrFrameOfZhiHuDaily.refreshComplete()
+                        if (item != null) {
+                            updateAdapter(item.stories)
+                        }
+                    }
 
+                    override fun onCompleted() {
+                        mAdapter.loadMoreComplete()
+                    }
+
+                    override fun onError(e: Throwable?) {
+                        ptrFrameOfZhiHuDaily.refreshComplete()
+                        e?.printStackTrace()
+                        showShort(activity, "出错了:" + e?.message)
+                    }
+                })
+    }
 }
