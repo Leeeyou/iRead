@@ -9,7 +9,7 @@
     <android.support.design.widget.TabLayout
         android:id="@+id/wanAndroidTabLayout"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_height="30dp"
         android:layout_gravity="center_horizontal"
         app:tabMode="fixed"
         app:tabSelectedTextColor="#000070"

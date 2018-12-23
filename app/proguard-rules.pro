@@ -90,3 +90,8 @@
 -keepclassmembers class rx.internal.util.unsafe.BaseLinkedQueueConsumerNodeRef {
     rx.internal.util.atomic.LinkedQueueNode consumerNode;
 }
+
+# banner 的混淆代码
+-keep class com.youth.banner.** {
+    *;
+ }
