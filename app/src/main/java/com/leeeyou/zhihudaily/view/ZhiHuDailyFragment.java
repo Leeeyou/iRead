@@ -10,8 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.leeeyou.manager.BaseFragment;
 import com.leeeyou.R;
+import com.leeeyou.manager.BaseFragment;
 import com.leeeyou.zhihudaily.model.ZhiHuDailyRepositoryKt;
 import com.leeeyou.zhihudaily.model.bean.ZhiHuDaily;
 import com.leeeyou.zhihudaily.model.bean.ZhiHuDailyItem;
@@ -49,7 +49,7 @@ public class ZhiHuDailyFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View inflate = inflater.inflate(R.layout.activity_zhihu_daily, container, false);
         mRecyclerView = inflate.findViewById(R.id.recyclerViewRiBao);
-        mPtrFrame = inflate.findViewById(R.id.ptrFrame);
+        mPtrFrame = inflate.findViewById(R.id.ptrFrameOfZhiHuDaily);
         return inflate;
     }
 

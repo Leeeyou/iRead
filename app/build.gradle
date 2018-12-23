@@ -55,6 +55,9 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
+    configurations {
+        all*.exclude group: 'com.android.support', module: 'support-v13'
+    }
     testImplementation 'junit:junit:4.12'
     //noinspection GradleCompatible
     implementation 'com.android.support:appcompat-v7:28.0.0'
@@ -78,7 +81,7 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:4.6.1'
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.44'
     implementation 'net.danlew:android.joda:2.9.9.4'
-    implementation 'com.afollestad.material-dialogs:core:0.9.0.2'
+    implementation 'com.afollestad.material-dialogs:core:0.9.4.7'
     implementation 'in.srain.cube:ultra-ptr:1.0.11'
 
 }
