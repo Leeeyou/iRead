@@ -6,7 +6,7 @@ import com.leeeyou.manager.BaseActivity
 import com.leeeyou.util.ViewPagerAdapter
 import com.leeeyou.wanandroid.WanAndroidFragment
 import com.leeeyou.weather.WeatherFragment
-import com.leeeyou.zhihudaily.view.ZhiHuDailyFragment2
+import com.leeeyou.zhihudaily.view.ZhiHuDailyFragment
 import kotlinx.android.synthetic.main.activity_index.*
 
 private const val FIRST_PAGE_INDEX: Int = 0
@@ -47,7 +47,7 @@ class IndexActivity : BaseActivity() {
 
     private fun initAdapter() {
         //create a collection object using arrayOf
-        val fragmentList = arrayOf(WeatherFragment(), WanAndroidFragment(), ZhiHuDailyFragment2())
+        val fragmentList = arrayOf(WeatherFragment(), WanAndroidFragment(), ZhiHuDailyFragment())
         val titleList = arrayOf("天气", "WanAndroid", "知乎日报")
 
         mViewPagerAdapter = ViewPagerAdapter(supportFragmentManager, fragmentList, titleList)

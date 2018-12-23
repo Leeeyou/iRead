@@ -20,7 +20,7 @@ import rx.Subscriber
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 
-class ZhiHuDailyFragment2 : BaseFragment() {
+class ZhiHuDailyFragment : BaseFragment() {
     private val mMostDate = 7
     private val mDateList = Array(7) { "" }
     private var mDatePosition = 0
