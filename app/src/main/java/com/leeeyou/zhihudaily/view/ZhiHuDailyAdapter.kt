@@ -21,7 +21,7 @@ class ZhiHuDailyAdapter(layoutResId: Int, data: List<ZhiHuDailyItem>?)
         vh.setText(R.id.tv_story_title, story.title)
                 .setText(R.id.tv_story_time, story.date)
                 .setOnClickListener(R.id.rl_item_recommend) {
-                    mContext.startActivity(Intent(mContext, ZhiHuDailyDetailActivity::class.java)
+                    mContext.startActivity(Intent(mContext, ZhiHuDailyDetailActivity2::class.java)
                             .putExtra("storyId", story.id)
                             .putExtra("storyTitle", story.title))
                 }
