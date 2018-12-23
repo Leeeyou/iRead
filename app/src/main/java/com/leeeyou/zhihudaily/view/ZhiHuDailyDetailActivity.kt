@@ -12,7 +12,7 @@ import rx.Subscriber
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 
-class ZhiHuDailyDetailActivity2 : BaseActivity() {
+class ZhiHuDailyDetailActivity : BaseActivity() {
     internal lateinit var mMaterialDialog: MaterialDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,7 +27,7 @@ class ZhiHuDailyDetailActivity2 : BaseActivity() {
         fetchZhiHuDailyDetailById(intent.getIntExtra("storyId", -1))
                 .subscribeOn(Schedulers.newThread())
                 .doOnSubscribe {
-                    mMaterialDialog = MaterialDialog.Builder(this@ZhiHuDailyDetailActivity2)
+                    mMaterialDialog = MaterialDialog.Builder(this@ZhiHuDailyDetailActivity)
                             .content("Loading...")
                             .progress(true, 0)
                             .show()
