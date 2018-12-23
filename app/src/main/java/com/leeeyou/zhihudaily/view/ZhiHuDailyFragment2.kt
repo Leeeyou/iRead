@@ -4,7 +4,6 @@ import `in`.srain.cube.views.ptr.PtrDefaultHandler
 import `in`.srain.cube.views.ptr.PtrFrameLayout
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,7 +19,6 @@ import org.joda.time.DateTime
 import rx.Subscriber
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
-import java.util.*
 
 class ZhiHuDailyFragment2 : BaseFragment() {
     private val mMostDate = 7
@@ -110,22 +108,18 @@ class ZhiHuDailyFragment2 : BaseFragment() {
                 mAdapter.loadMoreEnd()
             }
         }, recyclerViewRiBao)
-
     }
 
     private fun initDataList() {
         val now = DateTime.now().plusDays(1)
-        Log.e("xxx", now.toString())
-
         for (i in 0 until mMostDate) {
             val tempDateTime = now.minusDays(i)
-            Log.e("xxx", i.toString() + " - " + tempDateTime.toString())
-            mDateList[i] = tempDateTime.year.toString() +
-                    (if (tempDateTime.monthOfYear < 10) "0" + tempDateTime.monthOfYear else tempDateTime.monthOfYear) +
-                    if (tempDateTime.dayOfMonth < 10) "0" + tempDateTime.dayOfMonth else tempDateTime.dayOfMonth
+            val year = tempDateTime.year.toString()
+            val month = if (tempDateTime.monthOfYear < 10) "0" + tempDateTime.monthOfYear else tempDateTime.monthOfYear.toString()
+            val day = if (tempDateTime.dayOfMonth < 10) "0" + tempDateTime.dayOfMonth else tempDateTime.dayOfMonth.toString()
+            mDateList[i] = year + month + day
 
         }
-        Log.e("xxx", Arrays.toString(mDateList))
     }
 
 
