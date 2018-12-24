@@ -1,6 +1,6 @@
 package com.leeeyou.zhihudaily.model
 
-import com.leeeyou.ServiceFactory
+import com.leeeyou.factory.ServiceFactory
 import com.leeeyou.zhihudaily.model.bean.ZhiHuDaily
 import com.leeeyou.zhihudaily.model.bean.ZhiHuDailyDetail
 import com.leeeyou.zhihudaily.service.ZhiHuDailyService

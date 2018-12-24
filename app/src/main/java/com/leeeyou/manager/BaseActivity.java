@@ -1,13 +1,14 @@
-package com.leeeyou;
+package com.leeeyou.manager;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
+import com.leeeyou.R;
 import com.leeeyou.util.ToolbarHelper;
 
 /**
- * ClassName:   BaseOriginalActivity
+ * ClassName:   BaseActivity
  * Description: Toolbar native style
  *
  * Author:      leeeyou

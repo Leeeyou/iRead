@@ -1,11 +1,11 @@
-package com.leeeyou
+package com.leeeyou.factory
 
 import retrofit.GsonConverterFactory
 import retrofit.Retrofit
 import retrofit.RxJavaCallAdapterFactory
 
 /**
- * ClassName: ServiceFactory
+ * ClassName:   ServiceFactory
  * Description: The factory class mainly offers two kinds of Retrofit services, Rx mode and normal mode
  * 
  * Author:      leeeyou                             
