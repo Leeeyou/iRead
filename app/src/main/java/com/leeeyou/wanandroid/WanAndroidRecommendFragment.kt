@@ -22,6 +22,7 @@ import kotlinx.android.synthetic.main.fragment_wan_android_recommend.*
 import rx.Subscriber
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
+import timber.log.Timber
 
 
 /**
@@ -38,19 +39,7 @@ class WanAndroidRecommendFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        banner.setImageLoader(object : ImageLoader() {
-            override fun displayImage(context: Context?, path: Any?, imageView: ImageView?) {
-                if (context != null && imageView != null) {
-                    Glide.with(context)
-                            .load(path)
-                            .apply(RequestOptions()
-                                    .override(banner.width, banner.height)
-                                    .fitCenter()
-                                    .transforms(CenterCrop(), RoundedCorners(30)))
-                            .into(imageView)
-                }
-            }
-        })
+        initBanner()
 
         fetchBannerList()
                 .subscribeOn(Schedulers.newThread())
@@ -75,6 +64,26 @@ class WanAndroidRecommendFragment : BaseFragment() {
                         println("fetchBannerList onError")
                     }
                 })
+    }
+
+    private fun initBanner() {
+        banner.setImageLoader(object : ImageLoader() {
+            override fun displayImage(context: Context?, path: Any?, imageView: ImageView?) {
+                if (context != null && imageView != null) {
+                    Glide.with(context)
+                            .load(path)
+                            .apply(RequestOptions()
+                                    .override(banner.width, banner.height)
+                                    .fitCenter()
+                                    .transforms(CenterCrop(), RoundedCorners(30)))
+                            .into(imageView)
+                }
+            }
+        })
+        banner.setDelayTime(3000)
+        banner.setOnBannerListener {
+            Timber.d("click position is %s", it.toString())
+        }
     }
 
     private fun renderBanner(bannerList: List<Banner>) {
