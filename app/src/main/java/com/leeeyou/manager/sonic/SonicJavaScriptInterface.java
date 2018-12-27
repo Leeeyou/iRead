@@ -57,7 +57,7 @@ public class SonicJavaScriptInterface {
                     Runnable callbackRunnable = new Runnable() {
                         @Override
                         public void run() {
-                            String jsCode = "javascript:" + jsCallbackFunc + "('" + toJsString(resultData) + "')";
+                            String jsCode = "javascript:" + jsCallbackFunc + "('"+ toJsString(resultData) + "')";
                             sessionClient.getWebView().loadUrl(jsCode);
                         }
                     };
@@ -88,10 +88,10 @@ public class SonicJavaScriptInterface {
     }
 
     /*
-     * * From RFC 4627, "All Unicode characters may be placed within the quotation marks except
-     * for the characters that must be escaped: quotation mark,
-     * reverse solidus, and the control characters (U+0000 through U+001F)."
-     */
+    * * From RFC 4627, "All Unicode characters may be placed within the quotation marks except
+    * for the characters that must be escaped: quotation mark,
+    * reverse solidus, and the control characters (U+0000 through U+001F)."
+    */
     private static String toJsString(String value) {
         if (value == null) {
             return "null";

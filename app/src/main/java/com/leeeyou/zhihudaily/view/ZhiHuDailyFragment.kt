@@ -2,6 +2,7 @@ package com.leeeyou.zhihudaily.view
 
 import `in`.srain.cube.views.ptr.PtrDefaultHandler
 import `in`.srain.cube.views.ptr.PtrFrameLayout
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
@@ -10,15 +11,22 @@ import android.view.ViewGroup
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.leeeyou.R
 import com.leeeyou.manager.BaseFragment
+import com.leeeyou.manager.sonic.BrowserActivity
+import com.leeeyou.manager.sonic.BrowserActivity.*
+import com.leeeyou.manager.sonic.MODE_SONIC
+import com.leeeyou.manager.sonic.SonicJavaScriptInterface
 import com.leeeyou.util.T.showShort
 import com.leeeyou.zhihudaily.model.bean.ZhiHuDaily
+import com.leeeyou.zhihudaily.model.bean.ZhiHuDailyDetail
 import com.leeeyou.zhihudaily.model.bean.ZhiHuDailyItem
+import com.leeeyou.zhihudaily.model.fetchZhiHuDailyDetailById
 import com.leeeyou.zhihudaily.model.fetchZhiHuDailyListByDate
 import kotlinx.android.synthetic.main.activity_zhihu_daily.*
 import org.joda.time.DateTime
 import rx.Subscriber
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
+import timber.log.Timber
 
 class ZhiHuDailyFragment : BaseFragment() {
     private val mMostDate = 7
@@ -66,9 +74,29 @@ class ZhiHuDailyFragment : BaseFragment() {
 
     private fun initAdapter() {
         mAdapter = ZhiHuDailyAdapter(R.layout.item_zhihu_daily, null)
-        recyclerViewRiBao.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-        recyclerViewRiBao.adapter = mAdapter
         mAdapter.openLoadAnimation(BaseQuickAdapter.SCALEIN)
+        mAdapter.setOnItemChildClickListener { adapter, _, position ->
+            val item: ZhiHuDailyItem? = adapter.getItem(position) as ZhiHuDailyItem
+            item?.let {
+                fetchZhiHuDailyDetailById(it.id)
+                        .subscribeOn(Schedulers.newThread())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(object : Subscriber<ZhiHuDailyDetail>() {
+                            override fun onCompleted() {
+                                Timber.i("fetchZhiHuDailyDetailById onCompleted")
+                            }
+
+                            override fun onError(e: Throwable) {
+                                Timber.e(e)
+                            }
+
+                            override fun onNext(storyDetail: ZhiHuDailyDetail) {
+                                Timber.i("fetchZhiHuDailyDetailById onNext")
+                                startBrowserActivity(MODE_SONIC, storyDetail.share_url, it.title)
+                            }
+                        })
+            }
+        }
         mAdapter.setOnLoadMoreListener({
             if (mDatePosition < mMostDate - 1) {
                 fetchZhiHuDailyList(mDateList[++mDatePosition])
@@ -76,6 +104,18 @@ class ZhiHuDailyFragment : BaseFragment() {
                 mAdapter.loadMoreEnd()
             }
         }, recyclerViewRiBao)
+
+        recyclerViewRiBao.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        recyclerViewRiBao.adapter = mAdapter
+    }
+
+    private fun startBrowserActivity(mode: Int, url: String, title: String) {
+        val intent = Intent(activity, BrowserActivity::class.java)
+        intent.putExtra(PARAM_URL, url)
+        intent.putExtra(PARAM_MODE, mode)
+        intent.putExtra(PARAM_TITLE, title)
+        intent.putExtra(SonicJavaScriptInterface.PARAM_CLICK_TIME, System.currentTimeMillis())
+        startActivity(intent)
     }
 
     private fun initDataList() {

@@ -23,9 +23,6 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity
-            android:name=".zhihudaily.view.ZhiHuDailyDetailActivity"
-            android:screenOrientation="portrait"/>
 
         <activity
             android:name="com.tencent.bugly.beta.ui.BetaActivity"
@@ -43,7 +40,7 @@
         </provider>
 
         <activity
-            android:name=".manager.BrowserActivity"
+            android:name=".manager.sonic.BrowserActivity"
             android:screenOrientation="portrait"/>
     </application>
 
