@@ -86,5 +86,7 @@ dependencies {
     implementation 'com.afollestad.material-dialogs:core:0.9.4.7'
     implementation 'in.srain.cube:ultra-ptr:1.0.11'
     implementation 'com.youth.banner:banner:1.4.10'
+    implementation 'com.jakewharton.timber:timber:4.7.1'
+    implementation 'com.tencent.sonic:sdk:3.1.0'
 
 }
