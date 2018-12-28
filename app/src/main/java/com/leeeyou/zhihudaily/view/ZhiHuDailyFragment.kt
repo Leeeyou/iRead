@@ -73,7 +73,7 @@ class ZhiHuDailyFragment : BaseFragment() {
         mAdapter.openLoadAnimation(BaseQuickAdapter.SCALEIN)
         mAdapter.setOnItemChildClickListener { adapter, _, position ->
             val item: ZhiHuDailyItem? = adapter.getItem(position) as ZhiHuDailyItem
-            item?.let { it ->
+            item?.let {
                 fetchZhiHuDailyDetailById(it.id)
                         .subscribeOn(Schedulers.newThread())
                         .observeOn(AndroidSchedulers.mainThread())
@@ -88,7 +88,7 @@ class ZhiHuDailyFragment : BaseFragment() {
 
                             override fun onNext(storyDetail: ZhiHuDailyDetail) {
                                 Timber.i("fetchZhiHuDailyDetailById onNext")
-                                startBrowserActivity(context!!, storyDetail.share_url, it.title)
+                                startBrowserActivity(context!!, storyDetail.share_url, storyDetail.title)
                             }
                         })
             }

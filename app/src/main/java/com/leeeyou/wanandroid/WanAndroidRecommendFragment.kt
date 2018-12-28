@@ -47,7 +47,7 @@ class WanAndroidRecommendFragment : BaseFragment() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(object : Subscriber<ResponseBanner>() {
                     override fun onNext(responseBanner: ResponseBanner) {
-                        println("fetchBannerList onNext")
+                        Timber.d("fetchBannerList onNext")
                         println(responseBanner)
 
                         responseBanner.takeIf {
@@ -58,11 +58,11 @@ class WanAndroidRecommendFragment : BaseFragment() {
                     }
 
                     override fun onCompleted() {
-                        println("fetchBannerList onCompleted")
+                        Timber.d("fetchBannerList onCompleted")
                     }
 
                     override fun onError(e: Throwable?) {
-                        println("fetchBannerList onError")
+                        Timber.d("fetchBannerList onError")
                     }
                 })
     }
@@ -70,14 +70,16 @@ class WanAndroidRecommendFragment : BaseFragment() {
     private fun initBanner() {
         banner.setImageLoader(object : ImageLoader() {
             override fun displayImage(context: Context?, path: Any?, imageView: ImageView?) {
-                if (context != null && imageView != null) {
-                    Glide.with(context)
-                            .load(path)
-                            .apply(RequestOptions()
-                                    .override(banner.width, banner.height)
-                                    .fitCenter()
-                                    .transforms(CenterCrop(), RoundedCorners(30)))
-                            .into(imageView)
+                context?.let {
+                    imageView?.let {
+                        Glide.with(context)
+                                .load(path)
+                                .apply(RequestOptions()
+                                        .override(banner.width, banner.height)
+                                        .fitCenter()
+                                        .transforms(CenterCrop(), RoundedCorners(30)))
+                                .into(imageView)
+                    }
                 }
             }
         })
