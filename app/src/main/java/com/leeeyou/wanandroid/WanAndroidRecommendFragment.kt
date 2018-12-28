@@ -13,6 +13,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.leeeyou.R
 import com.leeeyou.manager.BaseFragment
 import com.leeeyou.util.inflate
+import com.leeeyou.util.startBrowserActivity
 import com.leeeyou.wanandroid.model.bean.Banner
 import com.leeeyou.wanandroid.model.bean.ResponseBanner
 import com.leeeyou.wanandroid.model.fetchBannerList
@@ -45,15 +46,15 @@ class WanAndroidRecommendFragment : BaseFragment() {
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(object : Subscriber<ResponseBanner>() {
-                    override fun onNext(t: ResponseBanner) {
+                    override fun onNext(responseBanner: ResponseBanner) {
                         println("fetchBannerList onNext")
-                        println(t)
+                        println(responseBanner)
 
-                        t.takeIf {
+                        responseBanner.takeIf {
                             it.errorCode >= 0
                         }?.also {
                             renderBanner(it.data)
-                        } ?: onError(IllegalArgumentException("接口返回异常"))
+                        } ?: onError(IllegalArgumentException("Banner接口返回异常"))
                     }
 
                     override fun onCompleted() {
@@ -81,15 +82,17 @@ class WanAndroidRecommendFragment : BaseFragment() {
             }
         })
         banner.setDelayTime(3000)
-        banner.setOnBannerListener {
-            Timber.d("click position is %s", it.toString())
-        }
     }
 
     private fun renderBanner(bannerList: List<Banner>) {
         bannerList.map { it.imagePath }.run {
             banner.setImages(this)
             banner.setBannerAnimation(Transformer.Default)
+            banner.setOnBannerListener { it ->
+                val banner = bannerList[it]
+                Timber.d("click banner position is %s , the url is %s", it, banner.url)
+                startBrowserActivity(context!!, banner.url, banner.title)
+            }
             banner.start()
         }
     }
