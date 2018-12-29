@@ -41,7 +41,10 @@ class WanAndroidRecommendFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initBanner()
+        fetchBannerListFromServer()
+    }
 
+    private fun fetchBannerListFromServer() {
         fetchBannerList()
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())

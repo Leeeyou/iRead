@@ -2,7 +2,7 @@ package com.leeeyou
 
 import android.os.Bundle
 import android.support.v4.view.ViewPager
-import com.leeeyou.manager.BaseActivity
+import android.support.v7.app.AppCompatActivity
 import com.leeeyou.util.ViewPagerAdapter
 import com.leeeyou.wanandroid.WanAndroidFragment
 import com.leeeyou.weather.WeatherFragment
@@ -17,7 +17,7 @@ private const val FIRST_PAGE_INDEX: Int = 0
  * Author:      leeeyou
  * Date:        2018/12/21 18:02
  */
-class IndexActivity : BaseActivity() {
+class IndexActivity : AppCompatActivity() {
 
     private lateinit var mViewPagerAdapter: ViewPagerAdapter
 
