@@ -75,12 +75,10 @@ class WanAndroidRecommendFragment : BaseFragment() {
             override fun displayImage(context: Context?, path: Any?, imageView: ImageView?) {
                 context?.let {
                     imageView?.let {
-                        Glide.with(context)
-                                .load(path)
-                                .apply(RequestOptions()
-                                        .override(banner.width, banner.height)
-                                        .fitCenter()
-                                        .transforms(CenterCrop(), RoundedCorners(30)))
+                        Glide.with(context).load(path).apply(RequestOptions()
+                                .override(banner.width, banner.height)
+                                .fitCenter()
+                                .transforms(CenterCrop(), RoundedCorners(35)))
                                 .into(imageView)
                     }
                 }
