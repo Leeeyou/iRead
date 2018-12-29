@@ -2,7 +2,6 @@ package com.leeeyou.zhihudaily.view
 
 import `in`.srain.cube.views.ptr.PtrDefaultHandler
 import `in`.srain.cube.views.ptr.PtrFrameLayout
-import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
@@ -11,11 +10,8 @@ import android.view.ViewGroup
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.leeeyou.R
 import com.leeeyou.manager.BaseFragment
-import com.leeeyou.manager.sonic.BrowserActivity
-import com.leeeyou.manager.sonic.BrowserActivity.*
-import com.leeeyou.manager.sonic.MODE_SONIC
-import com.leeeyou.manager.sonic.SonicJavaScriptInterface
 import com.leeeyou.util.T.showShort
+import com.leeeyou.util.startBrowserActivity
 import com.leeeyou.zhihudaily.model.bean.ZhiHuDaily
 import com.leeeyou.zhihudaily.model.bean.ZhiHuDailyDetail
 import com.leeeyou.zhihudaily.model.bean.ZhiHuDailyItem
@@ -92,7 +88,7 @@ class ZhiHuDailyFragment : BaseFragment() {
 
                             override fun onNext(storyDetail: ZhiHuDailyDetail) {
                                 Timber.i("fetchZhiHuDailyDetailById onNext")
-                                startBrowserActivity(MODE_SONIC, storyDetail.share_url, it.title)
+                                startBrowserActivity(context!!, storyDetail.share_url, storyDetail.title)
                             }
                         })
             }
@@ -107,15 +103,6 @@ class ZhiHuDailyFragment : BaseFragment() {
 
         recyclerViewRiBao.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         recyclerViewRiBao.adapter = mAdapter
-    }
-
-    private fun startBrowserActivity(mode: Int, url: String, title: String) {
-        val intent = Intent(activity, BrowserActivity::class.java)
-        intent.putExtra(PARAM_URL, url)
-        intent.putExtra(PARAM_MODE, mode)
-        intent.putExtra(PARAM_TITLE, title)
-        intent.putExtra(SonicJavaScriptInterface.PARAM_CLICK_TIME, System.currentTimeMillis())
-        startActivity(intent)
     }
 
     private fun initDataList() {

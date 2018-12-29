@@ -1,15 +1,21 @@
 package com.leeeyou
 
 import android.os.Bundle
-import android.support.v4.view.ViewPager
-import com.leeeyou.manager.BaseActivity
-import com.leeeyou.util.ViewPagerAdapter
+import android.support.v7.app.AppCompatActivity
+import android.view.LayoutInflater
+import android.view.Window
+import android.widget.ImageView
 import com.leeeyou.wanandroid.WanAndroidFragment
 import com.leeeyou.weather.WeatherFragment
 import com.leeeyou.zhihudaily.view.ZhiHuDailyFragment
+import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItem
+import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter
+import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems
 import kotlinx.android.synthetic.main.activity_index.*
 
-private const val FIRST_PAGE_INDEX: Int = 0
+private const val INDEX_VIEWPAGER_WEATHER_STR = "天气"
+private const val INDEX_VIEWPAGER_ANDROID_STR = "安卓"
+private const val INDEX_VIEWPAGER_ZHIHU_STR = "知乎"
 
 /**
  * ClassName:   IndexActivity
@@ -17,41 +23,40 @@ private const val FIRST_PAGE_INDEX: Int = 0
  * Author:      leeeyou
  * Date:        2018/12/21 18:02
  */
-class IndexActivity : BaseActivity() {
-
-    private lateinit var mViewPagerAdapter: ViewPagerAdapter
+class IndexActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        requestWindowFeature(Window.FEATURE_NO_TITLE)
         setContentView(R.layout.activity_index)
-        initAdapter()
         initViewPager()
     }
 
     private fun initViewPager() {
-        indexViewPager.adapter = mViewPagerAdapter
-        indexViewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
-            override fun onPageScrollStateChanged(state: Int) {
-            }
+        val pages = FragmentPagerItems(this)
+        arrayOf(INDEX_VIEWPAGER_WEATHER_STR, INDEX_VIEWPAGER_ANDROID_STR, INDEX_VIEWPAGER_ZHIHU_STR)
+                .forEach {
+                    when (it) {
+                        INDEX_VIEWPAGER_WEATHER_STR -> pages.add(FragmentPagerItem.of("", WeatherFragment::class.java))
+                        INDEX_VIEWPAGER_ANDROID_STR -> pages.add(FragmentPagerItem.of("", WanAndroidFragment::class.java))
+                        INDEX_VIEWPAGER_ZHIHU_STR -> pages.add(FragmentPagerItem.of("", ZhiHuDailyFragment::class.java))
+                    }
+                }
 
-            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
-            }
+        indexTabLayout.setCustomTabView { container, position, _ ->
+            val icon = LayoutInflater.from(this@IndexActivity).inflate(R.layout.custom_tab_icon1, container, false) as ImageView
+            val res = this@IndexActivity.resources
 
-            override fun onPageSelected(position: Int) {
-                mViewPagerAdapter.switchTo(position)
+            when (position) {
+                0 -> icon.setImageDrawable(res.getDrawable(R.mipmap.index_icon_weather))
+                1 -> icon.setImageDrawable(res.getDrawable(R.mipmap.index_icon_android))
+                2 -> icon.setImageDrawable(res.getDrawable(R.mipmap.index_icon_zhihu))
+                else -> throw IllegalStateException("Invalid position: $position")
             }
-        })
+            icon
+        }
 
-        indexTabLayout.setupWithViewPager(indexViewPager)
+        indexViewPager.adapter = FragmentPagerItemAdapter(supportFragmentManager, pages)
+        indexTabLayout.setViewPager(indexViewPager)
     }
-
-    private fun initAdapter() {
-        //create a collection object using arrayOf
-        val fragmentList = arrayOf(WeatherFragment(), WanAndroidFragment(), ZhiHuDailyFragment())
-        val titleList = arrayOf("天气", "WanAndroid", "知乎日报")
-
-        mViewPagerAdapter = ViewPagerAdapter(supportFragmentManager, fragmentList, titleList)
-        mViewPagerAdapter.switchTo(FIRST_PAGE_INDEX)
-    }
-
 }

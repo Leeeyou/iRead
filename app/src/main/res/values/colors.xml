@@ -16,9 +16,9 @@
     <color name="transparent">#00000000</color>
 
     <color name="text_enabled">#FFFFFFFF</color>
-    <color name="text_disabled">#4DFFFFFF</color>
+    <color name="text_disabled">#626262</color>
 
-    <color name="icon_enabled">#FFFFFFFF</color>
+    <color name="icon_enabled">#DC4037</color>
     <color name="icon_disabled">#FF63727B</color>
 
     <color name="medium_text_enabled">#FF000000</color>

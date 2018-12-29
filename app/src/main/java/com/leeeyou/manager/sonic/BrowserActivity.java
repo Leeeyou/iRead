@@ -13,13 +13,12 @@
 
 package com.leeeyou.manager.sonic;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.text.TextUtils;
-import android.view.View;
 import android.view.WindowManager;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebResourceResponse;
@@ -67,6 +66,7 @@ public class BrowserActivity extends BaseActivity {
 
     private SonicSession sonicSession;
 
+    @SuppressLint({"SetJavaScriptEnabled", "AddJavascriptInterface"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -128,18 +128,8 @@ public class BrowserActivity extends BaseActivity {
         setContentView(R.layout.activity_browser);
         setLeftTitleAndDisplayHomeAsUp(intent.getStringExtra(PARAM_TITLE));
 
-        FloatingActionButton btnFab = findViewById(R.id.btn_refresh);
-        btnFab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (sonicSession != null) {
-                    sonicSession.refresh();
-                }
-            }
-        });
-
-        // init webview
-        WebView webView = (WebView) findViewById(R.id.webview);
+        // init webView
+        WebView webView = findViewById(R.id.webView);
         webView.setWebViewClient(new WebViewClient() {
             @Override
             public void onPageFinished(WebView view, String url) {
@@ -175,7 +165,7 @@ public class BrowserActivity extends BaseActivity {
         intent.putExtra(SonicJavaScriptInterface.PARAM_LOAD_URL_TIME, System.currentTimeMillis());
         webView.addJavascriptInterface(new SonicJavaScriptInterface(sonicSessionClient, intent), "sonic");
 
-        // init webview settings
+        // init webView settings
         webSettings.setAllowContentAccess(true);
         webSettings.setDatabaseEnabled(true);
         webSettings.setDomStorageEnabled(true);
@@ -186,7 +176,7 @@ public class BrowserActivity extends BaseActivity {
         webSettings.setLoadWithOverviewMode(true);
 
 
-        // webview is ready now, just tell session client to bind
+        // webView is ready now, just tell session client to bind
         if (sonicSessionClient != null) {
             sonicSessionClient.bindWebView(webView);
             sonicSessionClient.clientReady();
@@ -214,9 +204,9 @@ public class BrowserActivity extends BaseActivity {
 
         private final WeakReference<Context> context;
 
-        public OfflinePkgSessionConnection(Context context, SonicSession session, Intent intent) {
+        OfflinePkgSessionConnection(Context context, SonicSession session, Intent intent) {
             super(session, intent);
-            this.context = new WeakReference<Context>(context);
+            this.context = new WeakReference<>(context);
         }
 
         @Override

@@ -13,6 +13,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.leeeyou.R
 import com.leeeyou.manager.BaseFragment
 import com.leeeyou.util.inflate
+import com.leeeyou.util.startBrowserActivity
 import com.leeeyou.wanandroid.model.bean.Banner
 import com.leeeyou.wanandroid.model.bean.ResponseBanner
 import com.leeeyou.wanandroid.model.fetchBannerList
@@ -40,28 +41,31 @@ class WanAndroidRecommendFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initBanner()
+        fetchBannerListFromServer()
+    }
 
+    private fun fetchBannerListFromServer() {
         fetchBannerList()
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(object : Subscriber<ResponseBanner>() {
-                    override fun onNext(t: ResponseBanner) {
-                        println("fetchBannerList onNext")
-                        println(t)
+                    override fun onNext(responseBanner: ResponseBanner) {
+                        Timber.d("fetchBannerList onNext")
+                        println(responseBanner)
 
-                        t.takeIf {
+                        responseBanner.takeIf {
                             it.errorCode >= 0
                         }?.also {
                             renderBanner(it.data)
-                        } ?: onError(IllegalArgumentException("接口返回异常"))
+                        } ?: onError(IllegalArgumentException("Banner接口返回异常"))
                     }
 
                     override fun onCompleted() {
-                        println("fetchBannerList onCompleted")
+                        Timber.d("fetchBannerList onCompleted")
                     }
 
                     override fun onError(e: Throwable?) {
-                        println("fetchBannerList onError")
+                        Timber.d("fetchBannerList onError")
                     }
                 })
     }
@@ -69,27 +73,29 @@ class WanAndroidRecommendFragment : BaseFragment() {
     private fun initBanner() {
         banner.setImageLoader(object : ImageLoader() {
             override fun displayImage(context: Context?, path: Any?, imageView: ImageView?) {
-                if (context != null && imageView != null) {
-                    Glide.with(context)
-                            .load(path)
-                            .apply(RequestOptions()
-                                    .override(banner.width, banner.height)
-                                    .fitCenter()
-                                    .transforms(CenterCrop(), RoundedCorners(30)))
-                            .into(imageView)
+                context?.let {
+                    imageView?.let {
+                        Glide.with(context).load(path).apply(RequestOptions()
+                                .override(banner.width, banner.height)
+                                .fitCenter()
+                                .transforms(CenterCrop(), RoundedCorners(35)))
+                                .into(imageView)
+                    }
                 }
             }
         })
         banner.setDelayTime(3000)
-        banner.setOnBannerListener {
-            Timber.d("click position is %s", it.toString())
-        }
     }
 
     private fun renderBanner(bannerList: List<Banner>) {
         bannerList.map { it.imagePath }.run {
             banner.setImages(this)
             banner.setBannerAnimation(Transformer.Default)
+            banner.setOnBannerListener { it ->
+                val banner = bannerList[it]
+                Timber.d("click banner position is %s , the url is %s", it, banner.url)
+                startBrowserActivity(context!!, banner.url, banner.title)
+            }
             banner.start()
         }
     }

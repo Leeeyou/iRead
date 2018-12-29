@@ -29,7 +29,7 @@ public class ToolbarHelper {
     }
 
     public static void initToolbar(AppCompatActivity activity) {
-        Toolbar toolbar = (Toolbar) activity.findViewById(R.id.toolbar);
+        Toolbar toolbar = activity.findViewById(R.id.toolbar);
 
         if (toolbar != null) activity.setSupportActionBar(toolbar);
     }
@@ -39,7 +39,7 @@ public class ToolbarHelper {
     }
 
     public static void setContentView(AppCompatActivity activity, View view) {
-        LinearLayout rootLayout = (LinearLayout) activity.findViewById(R.id.rootLayout);
+        LinearLayout rootLayout = activity.findViewById(R.id.rootLayout);
 
         if (rootLayout == null) return;
 
