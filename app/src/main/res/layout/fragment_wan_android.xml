@@ -11,6 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="35dp"
         android:layout_gravity="center_horizontal"
+        app:tabIndicatorColor="@color/icon_enabled"
+        app:tabIndicatorHeight="1dp"
         app:tabMode="fixed"
         app:tabSelectedTextColor="@color/icon_enabled"
         app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget"
