@@ -9,12 +9,12 @@
     <android.support.design.widget.TabLayout
         android:id="@+id/wanAndroidTabLayout"
         android:layout_width="match_parent"
-        android:layout_height="30dp"
+        android:layout_height="35dp"
         android:layout_gravity="center_horizontal"
         app:tabMode="fixed"
-        app:tabSelectedTextColor="#000070"
+        app:tabSelectedTextColor="@color/icon_enabled"
         app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget"
-        app:tabTextColor="#000000"/>
+        app:tabTextColor="@color/icon_disabled"/>
 
     <in.srain.cube.views.ptr.PtrClassicFrameLayout
         android:id="@+id/ptrFrame"
