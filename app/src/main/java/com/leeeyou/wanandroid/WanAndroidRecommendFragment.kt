@@ -15,8 +15,10 @@ import com.leeeyou.manager.BaseFragment
 import com.leeeyou.util.inflate
 import com.leeeyou.util.startBrowserActivity
 import com.leeeyou.wanandroid.model.bean.Banner
+import com.leeeyou.wanandroid.model.bean.RecommendList
 import com.leeeyou.wanandroid.model.bean.ResponseBanner
 import com.leeeyou.wanandroid.model.fetchBannerList
+import com.leeeyou.wanandroid.model.fetchRecommendList
 import com.youth.banner.Transformer
 import com.youth.banner.loader.ImageLoader
 import kotlinx.android.synthetic.main.fragment_wan_android_recommend.*
@@ -42,6 +44,35 @@ class WanAndroidRecommendFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         initBanner()
         fetchBannerListFromServer()
+        fetchRecommendListFromServer()
+    }
+
+    private fun fetchRecommendListFromServer() {
+        fetchRecommendList(0)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnNext {
+                    Timber.d("fetchRecommendListFromServer doOnNext")
+
+                    it.takeIf {
+                        it.errorCode >= 0
+                    }?.also {
+                        Timber.d(it.data.toString())
+                        renderRecommendList(it.data)
+                    } ?: IllegalArgumentException("fetchRecommendListFromServer接口返回异常")
+                }
+                .doOnError {
+                    Timber.d("fetchRecommendListFromServer doOnError")
+                    println(it)
+                }
+                .doOnCompleted {
+                    Timber.d("fetchRecommendListFromServer doOnCompleted")
+                }
+                .subscribe()
+    }
+
+    private fun renderRecommendList(data: RecommendList) {
+
     }
 
     private fun fetchBannerListFromServer() {
@@ -51,7 +82,7 @@ class WanAndroidRecommendFragment : BaseFragment() {
                 .subscribe(object : Subscriber<ResponseBanner>() {
                     override fun onNext(responseBanner: ResponseBanner) {
                         Timber.d("fetchBannerList onNext")
-                        println(responseBanner)
+                        Timber.d(responseBanner.toString())
 
                         responseBanner.takeIf {
                             it.errorCode >= 0
