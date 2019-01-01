@@ -2,6 +2,7 @@ package com.leeeyou.wanandroid
 
 import android.content.Context
 import android.os.Bundle
+import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,11 +11,14 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
+import com.chad.library.adapter.base.BaseQuickAdapter
+import com.chad.library.adapter.base.BaseViewHolder
 import com.leeeyou.R
 import com.leeeyou.manager.BaseFragment
 import com.leeeyou.util.inflate
 import com.leeeyou.util.startBrowserActivity
 import com.leeeyou.wanandroid.model.bean.Banner
+import com.leeeyou.wanandroid.model.bean.RecommendItem
 import com.leeeyou.wanandroid.model.bean.RecommendList
 import com.leeeyou.wanandroid.model.bean.ResponseBanner
 import com.leeeyou.wanandroid.model.fetchBannerList
@@ -72,7 +76,15 @@ class WanAndroidRecommendFragment : BaseFragment() {
     }
 
     private fun renderRecommendList(data: RecommendList) {
-
+        recyclerViewRecommend.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        recyclerViewRecommend.adapter = object : BaseQuickAdapter<RecommendItem, BaseViewHolder>(R.layout.item_recommend, data.datas) {
+            override fun convert(helper: BaseViewHolder?, item: RecommendItem?) {
+                helper?.setText(R.id.tv_title, item?.title)
+                helper?.setText(R.id.tv_author, item?.author)
+                helper?.setText(R.id.tv_category, item?.superChapterName + " " + item?.chapterName)
+                helper?.setText(R.id.tv_niceDate, item?.niceDate)
+            }
+        }
     }
 
     private fun fetchBannerListFromServer() {
