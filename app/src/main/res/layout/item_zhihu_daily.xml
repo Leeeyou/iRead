@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/rl_item_recommend"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@drawable/selector_item">
+                android:id="@+id/rl_item_recommend"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/selector_item">
 
     <ImageView
         android:id="@+id/iv_story_image"
         android:layout_width="140dp"
         android:layout_height="90dp"
         android:padding="10dp"
-        android:scaleType="centerCrop" />
+        android:scaleType="centerCrop"/>
 
     <TextView
         android:id="@+id/tv_story_title"
@@ -22,7 +22,7 @@
         android:layout_toRightOf="@id/iv_story_image"
         android:text="南京宝马撞人案肇事者将重查是否患精神疾病"
         android:textColor="#222831"
-        android:textSize="15sp" />
+        android:textSize="15sp"/>
 
     <TextView
         android:id="@+id/tv_story_time"
@@ -33,11 +33,14 @@
         android:layout_toRightOf="@id/iv_story_image"
         android:text="2016-09-01"
         android:textColor="@color/primary_gray_dark"
-        android:textSize="12sp" />
+        android:textSize="12sp"/>
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="10dp"
+        android:layout_height="1px"
         android:layout_below="@+id/iv_story_image"
-        android:background="#fbfbfb" />
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/default_item_divider"/>
 </RelativeLayout>
