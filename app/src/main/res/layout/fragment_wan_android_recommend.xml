@@ -1,20 +1,28 @@
-<in.srain.cube.views.ptr.PtrFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/ptrFrame"
+<?xml version="1.0" encoding="utf-8"?>
+<in.srain.cube.views.ptr.PtrClassicFrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:cube_ptr="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/ptrFrameRecommend"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    cube_ptr:ptr_pull_to_fresh="true">
 
-    <com.youth.banner.Banner
-        android:id="@+id/banner"
-        android:layout_width="match_parent"
-        android:layout_height="130dp"
-        android:paddingLeft="5dp"
-        android:paddingRight="5dp"
-        android:paddingTop="10dp" />
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerViewRecommend"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="150dp" />
+        android:orientation="vertical">
 
-</in.srain.cube.views.ptr.PtrFrameLayout>
+        <com.youth.banner.Banner
+            android:id="@+id/banner"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="10dp"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerViewRecommend"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </LinearLayout>
+</in.srain.cube.views.ptr.PtrClassicFrameLayout>

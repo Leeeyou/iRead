@@ -1,5 +1,7 @@
 package com.leeeyou.wanandroid
 
+import `in`.srain.cube.views.ptr.PtrFrameLayout
+import `in`.srain.cube.views.ptr.PtrHandler
 import android.content.Context
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
@@ -8,9 +10,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.bitmap.CenterCrop
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners
-import com.bumptech.glide.request.RequestOptions
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.leeeyou.R
@@ -40,50 +39,123 @@ import timber.log.Timber
  * Date:        2017/4/24 13:46
  */
 class WanAndroidRecommendFragment : BaseFragment() {
+    lateinit var mLinearLayoutManager: LinearLayoutManager
+    var mPageIndex: Int = 0
+    private lateinit var mRecommendAdapter: BaseQuickAdapter<RecommendItem, BaseViewHolder>
+    private var mPageCount: Int = 0
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return container?.inflate(R.layout.fragment_wan_android_recommend)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        initBanner()
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        initView()
         fetchBannerListFromServer()
-        fetchRecommendListFromServer()
+        fetchRecommendListFromServer(mPageIndex)
     }
 
-    private fun fetchRecommendListFromServer() {
-        fetchRecommendList(0)
+    private fun initView() {
+        initBanner()
+        initPtrFrame()
+        initRecyclerView()
+    }
+
+    private fun initRecyclerView() {
+        mLinearLayoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        mRecommendAdapter = object : BaseQuickAdapter<RecommendItem, BaseViewHolder>(R.layout.item_recommend, null) {
+            override fun convert(helper: BaseViewHolder?, item: RecommendItem?) {
+                item?.takeIf { it.visible == 1 }?.also {
+                    helper?.setText(R.id.tv_title, it.title)
+                            ?.setText(R.id.tv_author, "作者:" + it.author)
+                            ?.setText(R.id.tv_category, "分类:" + it.superChapterName + " / " + it.chapterName)
+                            ?.setText(R.id.tv_niceDate, it.niceDate)
+                            ?.setGone(R.id.tv_refresh, it.fresh)
+                }
+            }
+        }
+        mRecommendAdapter.setOnLoadMoreListener({
+            if (mPageIndex + 1 == mPageCount) {
+                mRecommendAdapter.loadMoreEnd()
+            } else {
+                fetchRecommendListFromServer(++mPageIndex)
+            }
+        }, recyclerViewRecommend)
+        mRecommendAdapter.setOnItemClickListener { adapter, _, position ->
+            val item: RecommendItem = adapter.getItem(position) as RecommendItem
+            startBrowserActivity(context!!, item.link, item.title)
+        }
+        mRecommendAdapter.openLoadAnimation(BaseQuickAdapter.SCALEIN)
+
+        recyclerViewRecommend.layoutManager = mLinearLayoutManager
+        recyclerViewRecommend.adapter = mRecommendAdapter
+    }
+
+    private fun initBanner() {
+        banner.setImageLoader(object : ImageLoader() {
+            override fun displayImage(context: Context?, path: Any?, imageView: ImageView?) {
+                context?.let {
+                    imageView?.let {
+                        Glide.with(context).load(path).into(imageView)
+                    }
+                }
+            }
+        })
+        banner.setDelayTime(3000)
+    }
+
+    private fun initPtrFrame() {
+        ptrFrameRecommend.disableWhenHorizontalMove(true)
+        ptrFrameRecommend.setPtrHandler(object : PtrHandler {
+            override fun onRefreshBegin(frame: PtrFrameLayout?) {
+                fetchBannerListFromServer()
+
+                mPageIndex = 0
+                fetchRecommendListFromServer(mPageIndex)
+            }
+
+            override fun checkCanDoRefresh(frame: PtrFrameLayout?, content: View?, header: View?): Boolean {
+                return mLinearLayoutManager.findFirstCompletelyVisibleItemPosition() <= 0
+            }
+        })
+    }
+
+    private fun fetchRecommendListFromServer(pageIndex: Int) {
+        fetchRecommendList(pageIndex)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnNext {
                     Timber.d("fetchRecommendListFromServer doOnNext")
 
-                    it.takeIf {
-                        it.errorCode >= 0
-                    }?.also {
-                        Timber.d(it.data.toString())
-                        renderRecommendList(it.data)
+                    ptrFrameRecommend.refreshComplete()
+
+                    it.takeIf { response ->
+                        response.errorCode >= 0
+                    }?.also { response ->
+                        Timber.d(response.data.toString())
+                        renderRecommendList(pageIndex, response.data)
                     } ?: IllegalArgumentException("fetchRecommendListFromServer接口返回异常")
                 }
                 .doOnError {
-                    Timber.d("fetchRecommendListFromServer doOnError")
-                    println(it)
+                    ptrFrameRecommend.refreshComplete()
+                    Timber.e(it, "fetchRecommendListFromServer doOnError")
                 }
                 .doOnCompleted {
                     Timber.d("fetchRecommendListFromServer doOnCompleted")
+                    if (mPageIndex > 0) {
+                        mRecommendAdapter.loadMoreComplete()
+                    }
+
                 }
                 .subscribe()
     }
 
-    private fun renderRecommendList(data: RecommendList) {
-        recyclerViewRecommend.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-        recyclerViewRecommend.adapter = object : BaseQuickAdapter<RecommendItem, BaseViewHolder>(R.layout.item_recommend, data.datas) {
-            override fun convert(helper: BaseViewHolder?, item: RecommendItem?) {
-                helper?.setText(R.id.tv_title, item?.title)
-                helper?.setText(R.id.tv_author, item?.author)
-                helper?.setText(R.id.tv_category, item?.superChapterName + " " + item?.chapterName)
-                helper?.setText(R.id.tv_niceDate, item?.niceDate)
-            }
+    private fun renderRecommendList(witchPage: Int, data: RecommendList) {
+        if (witchPage == 0) {
+            mRecommendAdapter.setNewData(data.datas)
+        } else {
+            mPageCount = data.pageCount
+            mRecommendAdapter.addData(data.datas)
         }
     }
 
@@ -93,8 +165,7 @@ class WanAndroidRecommendFragment : BaseFragment() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(object : Subscriber<ResponseBanner>() {
                     override fun onNext(responseBanner: ResponseBanner) {
-                        Timber.d("fetchBannerList onNext")
-                        Timber.d(responseBanner.toString())
+                        Timber.d("fetchBannerList onNext , result is %s ", responseBanner.toString())
 
                         responseBanner.takeIf {
                             it.errorCode >= 0
@@ -108,26 +179,9 @@ class WanAndroidRecommendFragment : BaseFragment() {
                     }
 
                     override fun onError(e: Throwable?) {
-                        Timber.d("fetchBannerList onError")
+                        Timber.d(e, "fetchBannerList onError")
                     }
                 })
-    }
-
-    private fun initBanner() {
-        banner.setImageLoader(object : ImageLoader() {
-            override fun displayImage(context: Context?, path: Any?, imageView: ImageView?) {
-                context?.let {
-                    imageView?.let {
-                        Glide.with(context).load(path).apply(RequestOptions()
-                                .override(banner.width, banner.height)
-                                .fitCenter()
-                                .transforms(CenterCrop(), RoundedCorners(35)))
-                                .into(imageView)
-                    }
-                }
-            }
-        })
-        banner.setDelayTime(3000)
     }
 
     private fun renderBanner(bannerList: List<Banner>) {

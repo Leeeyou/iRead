@@ -18,9 +18,6 @@
     <color name="text_enabled">#FFFFFFFF</color>
     <color name="text_disabled">#626262</color>
 
-    <color name="icon_enabled">#DC4037</color>
-    <color name="icon_disabled">#FF63727B</color>
-
     <color name="medium_text_enabled">#FF000000</color>
     <color name="medium_text_disabled">#4D000000</color>
 
@@ -37,5 +34,14 @@
         <item>@color/green_500</item>
         <item>@color/light_green_500</item>
     </integer-array>
+
+    <color name="icon_enabled">@color/default_red</color>
+    <color name="icon_disabled">#FF63727B</color>
+
+    <color name="item_pressed">#f0f0f0</color>
+    <color name="item_default">@color/default_white</color>
+
+    <color name="default_red">#DC4037</color>
+    <color name="default_white">#ffffff</color>
 
 </resources>

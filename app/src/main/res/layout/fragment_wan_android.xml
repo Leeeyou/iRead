@@ -18,17 +18,10 @@
         app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget"
         app:tabTextColor="@color/icon_disabled"/>
 
-    <in.srain.cube.views.ptr.PtrClassicFrameLayout
-        android:id="@+id/ptrFrame"
+    <android.support.v4.view.ViewPager
+        android:id="@+id/wanAndroidViewPager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <android.support.v4.view.ViewPager
-            android:id="@+id/wanAndroidViewPager"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@id/smartTabLayout"/>
-    </in.srain.cube.views.ptr.PtrClassicFrameLayout>
+        android:layout_height="match_parent"/>
 </LinearLayout>
 
 
