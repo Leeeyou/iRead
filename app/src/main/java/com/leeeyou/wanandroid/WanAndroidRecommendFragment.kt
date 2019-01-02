@@ -108,16 +108,24 @@ class WanAndroidRecommendFragment : BaseFragment() {
         ptrFrameRecommend.disableWhenHorizontalMove(true)
         ptrFrameRecommend.setPtrHandler(object : PtrHandler {
             override fun onRefreshBegin(frame: PtrFrameLayout?) {
-                fetchBannerListFromServer()
-
-                mPageIndex = 0
-                fetchRecommendListFromServer(mPageIndex)
+                pullDownToRefresh()
             }
 
-            override fun checkCanDoRefresh(frame: PtrFrameLayout?, content: View?, header: View?): Boolean {
-                return mLinearLayoutManager.findFirstCompletelyVisibleItemPosition() <= 0
-            }
+            override fun checkCanDoRefresh(frame: PtrFrameLayout?, content: View?, header: View?): Boolean = recyclerViewFirstItemCanVisible()
         })
+    }
+
+    private fun recyclerViewFirstItemCanVisible() =
+            mLinearLayoutManager.findFirstCompletelyVisibleItemPosition() <= 0
+
+    fun gotoFirstPage() {
+        if (!recyclerViewFirstItemCanVisible()) pullDownToRefresh()
+    }
+
+    private fun pullDownToRefresh() {
+        fetchBannerListFromServer()
+        mPageIndex = 0
+        fetchRecommendListFromServer(mPageIndex)
     }
 
     private fun fetchRecommendListFromServer(pageIndex: Int) {
@@ -145,7 +153,6 @@ class WanAndroidRecommendFragment : BaseFragment() {
                     if (mPageIndex > 0) {
                         mRecommendAdapter.loadMoreComplete()
                     }
-
                 }
                 .subscribe()
     }
