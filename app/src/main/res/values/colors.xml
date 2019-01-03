@@ -36,12 +36,13 @@
     </integer-array>
 
     <color name="icon_enabled">@color/default_red</color>
-    <color name="icon_disabled">#FF63727B</color>
+    <color name="icon_disabled">@color/default_gray</color>
 
     <color name="item_pressed">#f0f0f0</color>
     <color name="item_default">@color/default_white</color>
 
     <color name="default_red">#DC4037</color>
+    <color name="default_gray">#FF63727B</color>
     <color name="default_white">#ffffff</color>
     <color name="default_item_divider">#c5c5c5</color>
 
