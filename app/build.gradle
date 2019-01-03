@@ -88,6 +88,7 @@ dependencies {
     implementation 'com.youth.banner:banner:1.4.10'
     implementation 'com.jakewharton.timber:timber:4.7.1'
     implementation 'com.tencent.sonic:sdk:3.1.0'
+    implementation 'com.hyman:flowlayout-lib:1.1.2'
 
     //smarttablayout
     implementation 'com.ogaclejapan.smarttablayout:library:1.6.1@aar'

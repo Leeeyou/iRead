@@ -3,6 +3,7 @@ package com.leeeyou.wanandroid.model
 import com.leeeyou.factory.ServiceFactory
 import com.leeeyou.wanandroid.model.bean.ResponseBanner
 import com.leeeyou.wanandroid.model.bean.ResponseRecommendList
+import com.leeeyou.wanandroid.model.bean.ResponseSystemTag
 import com.leeeyou.wanandroid.service.WanAndroidService
 import rx.Observable
 
@@ -18,4 +19,10 @@ fun fetchRecommendList(index: Int = 0): Observable<ResponseRecommendList> {
     return ServiceFactory
             .createRxRetrofitService(WanAndroidService::class.java, endPoint)
             .getRecommendList(index)
+}
+
+fun fetchSystemTagList(): Observable<ResponseSystemTag> {
+    return ServiceFactory
+            .createRxRetrofitService(WanAndroidService::class.java, endPoint)
+            .getSystemTagList()
 }

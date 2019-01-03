@@ -5,5 +5,5 @@ package com.leeeyou.wanandroid.model.bean
 //    "url": "/wxarticle/list/408/1"
 //}
 
-data class Tag(val name: String,
-               val url: String)
+data class RecommendTag(val name: String,
+                        val url: String)

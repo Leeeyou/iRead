@@ -1,7 +1,14 @@
 <in.srain.cube.views.ptr.PtrFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                        xmlns:zhy="http://schemas.android.com/apk/res-auto"
                                         android:id="@+id/ptrFrame"
                                         android:layout_width="match_parent"
                                         android:layout_height="match_parent">
 
+    <com.zhy.view.flowlayout.TagFlowLayout
+        android:id="@+id/systemFlowLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="20dp"
+        zhy:max_select="-1"/>
 
 </in.srain.cube.views.ptr.PtrFrameLayout>
