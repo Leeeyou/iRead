@@ -8,4 +8,4 @@
     android:paddingLeft="15dp"
     android:paddingRight="15dp"
     android:scaleType="center"
-    app:tint="@color/custom_tab_icon"/>
+    app:tint="@color/index_custom_tab_icon_color_selector"/>

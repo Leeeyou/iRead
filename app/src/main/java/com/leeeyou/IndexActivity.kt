@@ -44,7 +44,7 @@ class IndexActivity : AppCompatActivity() {
                 }
 
         indexTabLayout.setCustomTabView { container, position, _ ->
-            val icon = LayoutInflater.from(this@IndexActivity).inflate(R.layout.custom_tab_icon1, container, false) as ImageView
+            val icon = LayoutInflater.from(this@IndexActivity).inflate(R.layout.index_custom_tab_icon, container, false) as ImageView
             val res = this@IndexActivity.resources
 
             when (position) {
