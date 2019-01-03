@@ -3,7 +3,7 @@
                 android:id="@+id/rl_item_recommend"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/selector_item">
+                android:background="@drawable/list_selector">
 
     <ImageView
         android:id="@+id/iv_story_image"
