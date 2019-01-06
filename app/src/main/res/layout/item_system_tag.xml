@@ -5,4 +5,5 @@
     android:layout_height="wrap_content"
     android:background="@drawable/system_tag_bg"
     android:textColor="@color/system_tag_text_color_selector"
+    android:textSize="14sp"
     tools:text="HelloWorld" />

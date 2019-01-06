@@ -1,9 +1,9 @@
 <in.srain.cube.views.ptr.PtrClassicFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                        xmlns:app="http://schemas.android.com/apk/res-auto"
-                                        xmlns:tools="http://schemas.android.com/tools"
-                                        android:id="@+id/ptrFrameSystemTag"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="match_parent">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ptrFrameSystemTag"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -22,7 +22,7 @@
                 android:gravity="center_vertical"
                 android:paddingLeft="10dp"
                 android:text="开发环境 / gradle"
-                tools:text="开发环境 / gradle"/>
+                tools:text="开发环境 / gradle" />
 
             <ImageView
                 android:id="@+id/iv_arrow_right"
@@ -32,42 +32,61 @@
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:src="@mipmap/icon_arrow_right"
-                android:tint="@color/default_white"/>
+                android:tint="@color/default_white" />
         </RelativeLayout>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerViewSystem"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/rl_system_tag_combine"/>
+            android:layout_below="@id/rl_system_tag_combine" />
 
         <ScrollView
             android:id="@+id/sv_system_tag_all"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/rl_system_tag_combine"
-            android:background="@color/default_debug"
+            android:background="@color/default_white"
             android:fillViewport="true"
-            android:visibility="gone">
+            android:visibility="visible">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="10dp"
+                    android:text="一级分类"
+                    android:textColor="@color/default_gray"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
                 <com.zhy.view.flowlayout.TagFlowLayout
                     android:id="@+id/system_tag_parent"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="10dp"
-                    app:max_select="1"/>
+                    app:max_select="1" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:text="二级分类"
+                    android:textColor="@color/default_gray"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
 
                 <com.zhy.view.flowlayout.TagFlowLayout
                     android:id="@+id/system_tag_child"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:padding="10dp"
-                    app:max_select="1"/>
+                    app:max_select="1" />
             </LinearLayout>
         </ScrollView>
     </RelativeLayout>
