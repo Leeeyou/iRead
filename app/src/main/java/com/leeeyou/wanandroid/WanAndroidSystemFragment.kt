@@ -54,6 +54,46 @@ class WanAndroidSystemFragment : BaseFragment() {
         return container?.inflate(R.layout.fragment_wan_android_system)
     }
 
+    private fun showDetailTagAnimation() {
+        val rotateAnimation = RotateAnimation(0f, 90f, (iv_arrow_right.width / 2).toFloat(), (iv_arrow_right.height / 2).toFloat())
+        rotateAnimation.duration = 100
+        rotateAnimation.fillAfter = true
+        rotateAnimation.interpolator = AccelerateInterpolator()
+        iv_arrow_right.startAnimation(rotateAnimation)
+
+        rotateAnimation.setAnimationListener(object : Animation.AnimationListener {
+            override fun onAnimationRepeat(animation: Animation?) {
+            }
+
+            override fun onAnimationEnd(animation: Animation?) {
+                sv_system_tag_all.visibility = View.VISIBLE
+            }
+
+            override fun onAnimationStart(animation: Animation?) {
+            }
+        })
+    }
+
+    private fun hiddenDetailTagAnimation() {
+        val rotateAnimation = RotateAnimation(90f, 0f, (iv_arrow_right.width / 2).toFloat(), (iv_arrow_right.height / 2).toFloat())
+        rotateAnimation.duration = 100
+        rotateAnimation.fillAfter = true
+        rotateAnimation.interpolator = AccelerateInterpolator()
+        iv_arrow_right.startAnimation(rotateAnimation)
+
+        rotateAnimation.setAnimationListener(object : Animation.AnimationListener {
+            override fun onAnimationRepeat(animation: Animation?) {
+            }
+
+            override fun onAnimationEnd(animation: Animation?) {
+                sv_system_tag_all.visibility = View.GONE
+            }
+
+            override fun onAnimationStart(animation: Animation?) {
+            }
+        })
+    }
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
@@ -61,31 +101,7 @@ class WanAndroidSystemFragment : BaseFragment() {
         initPtrFrame()
 
         rl_system_tag_combine.setOnClickListener {
-            val animation: RotateAnimation = if (sv_system_tag_all.visibility == View.VISIBLE) {
-                RotateAnimation(90f, 0f, (iv_arrow_right.width / 2).toFloat(), (iv_arrow_right.height / 2).toFloat())
-            } else {
-                RotateAnimation(0f, 90f, (iv_arrow_right.width / 2).toFloat(), (iv_arrow_right.height / 2).toFloat())
-            }
-            animation.duration = 100
-            animation.fillAfter = true
-            animation.interpolator = AccelerateInterpolator()
-            iv_arrow_right.startAnimation(animation)
-
-            animation.setAnimationListener(object : Animation.AnimationListener {
-                override fun onAnimationRepeat(animation: Animation?) {
-                }
-
-                override fun onAnimationEnd(animation: Animation?) {
-                    if (sv_system_tag_all.visibility == View.VISIBLE) {
-                        sv_system_tag_all.visibility = View.GONE
-                    } else {
-                        sv_system_tag_all.visibility = View.VISIBLE
-                    }
-                }
-
-                override fun onAnimationStart(animation: Animation?) {
-                }
-            })
+            if (sv_system_tag_all.visibility == View.VISIBLE) hiddenDetailTagAnimation() else showDetailTagAnimation()
         }
 
         fetchSystemTagList()
@@ -188,7 +204,7 @@ class WanAndroidSystemFragment : BaseFragment() {
             }
             updateSystemTagCombineShow()
             pullDownToRefresh()
-            sv_system_tag_all.visibility = View.GONE
+            hiddenDetailTagAnimation()
             true
         }
     }
@@ -223,28 +239,6 @@ class WanAndroidSystemFragment : BaseFragment() {
             mPageCount = data.pageCount
             mSystemTagArticleAdapter.addData(data.datas)
         }
-
-        // recyclerViewSystem.getChildAt(0)?.height * itemCount < recyclerViewSystem.height ->  removeFooter 否则 addFooter
-
-//        val countHeight = recyclerViewSystem.height
-//        val itemHeight = recyclerViewSystem.getChildAt(0)?.height
-//
-//        itemHeight?.let {
-//            val currentHeight: Int = mSystemTagArticleAdapter.itemCount * it
-//            if (currentHeight < countHeight) {
-//
-//                mSystemTagArticleAdapter.refreshNotifyItemChanged(mSystemTagArticleAdapter.itemCount - 1)
-//
-////                mSystemTagArticleAdapter.removeAllFooterView()
-////                mSystemTagArticleAdapter.notifyItemRemoved()
-//
-//                Timber.d("recyclerViewSystem.childCount  %s ", recyclerViewSystem.childCount)
-//                Timber.d("mSystemTagArticleAdapter.itemCount  %s ", mSystemTagArticleAdapter.itemCount)
-//            }
-//        }
-//
-//        Timber.d("recyclerViewSystem.height %s ", countHeight)
-//        Timber.d("recyclerViewSystem.getChildAt(0).height %s ", recyclerViewSystem.getChildAt(0)?.height)
     }
 
     private fun isFullScreen(llm: LinearLayoutManager): Boolean {
@@ -280,10 +274,7 @@ class WanAndroidSystemFragment : BaseFragment() {
 
         updateSystemTagCombineShow()
         pullDownToRefresh()
-
-        if (childTagList.size == 1) {
-            sv_system_tag_all.visibility = View.GONE
-        }
+        childTagList.size.takeIf { it == 1 }.also { hiddenDetailTagAnimation() }
     }
 
     @SuppressLint("SetTextI18n")
