@@ -248,11 +248,12 @@ class WanAndroidSystemFragment : BaseFragment() {
     private fun renderParentTag(parentTagList: List<SystemTag>) {
         system_tag_parent.adapter = object : TagAdapter<SystemTag>(parentTagList) {
             override fun getView(parent: FlowLayout?, position: Int, systemTag: SystemTag?): View {
+                val parentTag = layoutInflater.inflate(R.layout.item_system_tag, null) as TextView
                 systemTag?.let {
-                    val parentTag = layoutInflater.inflate(R.layout.item_system_tag, null) as TextView
                     parentTag.text = it.name
                     return parentTag
                 }
+                return parentTag
             }
         }
         system_tag_parent.adapter.setSelectedList(mSelectedParentTagPosition)
@@ -262,11 +263,12 @@ class WanAndroidSystemFragment : BaseFragment() {
     private fun renderChildTag(childTagList: List<SystemTag>) {
         system_tag_child.adapter = object : TagAdapter<SystemTag>(childTagList) {
             override fun getView(parent: FlowLayout?, position: Int, systemTag: SystemTag?): View {
+                val childTag = layoutInflater.inflate(R.layout.item_system_tag, null) as TextView
                 systemTag?.let {
-                    val childTag = layoutInflater.inflate(R.layout.item_system_tag, null) as TextView
                     childTag.text = it.name
                     return childTag
                 }
+                return childTag
             }
         }
         system_tag_child.adapter.setSelectedList(mSelectedChildTagPosition)
