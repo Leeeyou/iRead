@@ -104,7 +104,7 @@ class WanAndroidSystemFragment : BaseFragment() {
         mLinearLayoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         mSystemTagArticleAdapter = object : BaseQuickAdapter<RecommendItem, BaseViewHolder>(R.layout.item_recommend, null) {
             override fun convert(helper: BaseViewHolder?, item: RecommendItem?) {
-                item?.takeIf { it.visible == 1 }?.also {
+                item?.also {
                     helper?.setText(R.id.tv_title, it.title)
                             ?.setText(R.id.tv_author, "作者:" + it.author)
                             ?.setText(R.id.tv_category, "分类:" + it.superChapterName + " / " + it.chapterName)
@@ -120,6 +120,7 @@ class WanAndroidSystemFragment : BaseFragment() {
                 fetchSystemTagArticleList(++mPageIndex)
             }
         }, recyclerViewSystem)
+        mSystemTagArticleAdapter.disableLoadMoreIfNotFullPage()
         mSystemTagArticleAdapter.setOnItemClickListener { adapter, _, position ->
             val item: RecommendItem = adapter.getItem(position) as RecommendItem
             startBrowserActivity(context!!, item.link, item.title)
@@ -217,11 +218,37 @@ class WanAndroidSystemFragment : BaseFragment() {
 
     private fun renderSystemTagArticleList(pageIndex: Int, data: SystemTagArticleList) {
         if (pageIndex == 0) {
-            mSystemTagArticleAdapter.setNewData(data.datas)
+            mSystemTagArticleAdapter.setNewData(ArrayList(data.datas))
         } else {
             mPageCount = data.pageCount
             mSystemTagArticleAdapter.addData(data.datas)
         }
+
+        // recyclerViewSystem.getChildAt(0)?.height * itemCount < recyclerViewSystem.height ->  removeFooter 否则 addFooter
+
+//        val countHeight = recyclerViewSystem.height
+//        val itemHeight = recyclerViewSystem.getChildAt(0)?.height
+//
+//        itemHeight?.let {
+//            val currentHeight: Int = mSystemTagArticleAdapter.itemCount * it
+//            if (currentHeight < countHeight) {
+//
+//                mSystemTagArticleAdapter.refreshNotifyItemChanged(mSystemTagArticleAdapter.itemCount - 1)
+//
+////                mSystemTagArticleAdapter.removeAllFooterView()
+////                mSystemTagArticleAdapter.notifyItemRemoved()
+//
+//                Timber.d("recyclerViewSystem.childCount  %s ", recyclerViewSystem.childCount)
+//                Timber.d("mSystemTagArticleAdapter.itemCount  %s ", mSystemTagArticleAdapter.itemCount)
+//            }
+//        }
+//
+//        Timber.d("recyclerViewSystem.height %s ", countHeight)
+//        Timber.d("recyclerViewSystem.getChildAt(0).height %s ", recyclerViewSystem.getChildAt(0)?.height)
+    }
+
+    private fun isFullScreen(llm: LinearLayoutManager): Boolean {
+        return llm.findLastCompletelyVisibleItemPosition() + 1 != mSystemTagArticleAdapter.itemCount || llm.findFirstCompletelyVisibleItemPosition() != 0
     }
 
     private fun renderParentTag(parentTagList: List<SystemTag>) {
