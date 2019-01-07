@@ -54,56 +54,15 @@ class WanAndroidSystemFragment : BaseFragment() {
         return container?.inflate(R.layout.fragment_wan_android_system)
     }
 
-    private fun showDetailTagAnimation() {
-        val rotateAnimation = RotateAnimation(0f, 90f, (iv_arrow_right.width / 2).toFloat(), (iv_arrow_right.height / 2).toFloat())
-        rotateAnimation.duration = 100
-        rotateAnimation.fillAfter = true
-        rotateAnimation.interpolator = AccelerateInterpolator()
-        iv_arrow_right.startAnimation(rotateAnimation)
-
-        rotateAnimation.setAnimationListener(object : Animation.AnimationListener {
-            override fun onAnimationRepeat(animation: Animation?) {
-            }
-
-            override fun onAnimationEnd(animation: Animation?) {
-                sv_system_tag_all.visibility = View.VISIBLE
-            }
-
-            override fun onAnimationStart(animation: Animation?) {
-            }
-        })
-    }
-
-    private fun hiddenDetailTagAnimation() {
-        val rotateAnimation = RotateAnimation(90f, 0f, (iv_arrow_right.width / 2).toFloat(), (iv_arrow_right.height / 2).toFloat())
-        rotateAnimation.duration = 100
-        rotateAnimation.fillAfter = true
-        rotateAnimation.interpolator = AccelerateInterpolator()
-        iv_arrow_right.startAnimation(rotateAnimation)
-
-        rotateAnimation.setAnimationListener(object : Animation.AnimationListener {
-            override fun onAnimationRepeat(animation: Animation?) {
-            }
-
-            override fun onAnimationEnd(animation: Animation?) {
-                sv_system_tag_all.visibility = View.GONE
-            }
-
-            override fun onAnimationStart(animation: Animation?) {
-            }
-        })
-    }
-
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
         initRecyclerView()
         initPtrFrame()
+        initSystemTagUI()
+        fetchSystemTagListFromServer()
+    }
 
-        rl_system_tag_combine.setOnClickListener {
-            if (sv_system_tag_all.visibility == View.VISIBLE) hiddenDetailTagAnimation() else showDetailTagAnimation()
-        }
-
+    private fun fetchSystemTagListFromServer() {
         fetchSystemTagList().subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(object : DefaultHttpResultSubscriber<List<SystemTag>>() {
                     override fun onSuccess(t: List<SystemTag>?) {
@@ -112,6 +71,12 @@ class WanAndroidSystemFragment : BaseFragment() {
                         }
                     }
                 })
+    }
+
+    private fun initSystemTagUI() {
+        rl_system_tag_combine.setOnClickListener {
+            if (sv_system_tag_all.visibility == View.VISIBLE) hiddenDetailTagAnimation() else showDetailTagAnimation()
+        }
     }
 
     private fun initRecyclerView() {
@@ -204,6 +169,46 @@ class WanAndroidSystemFragment : BaseFragment() {
             hiddenDetailTagAnimation()
             true
         }
+    }
+
+    private fun showDetailTagAnimation() {
+        val rotateAnimation = RotateAnimation(0f, 90f, (iv_arrow_right.width / 2).toFloat(), (iv_arrow_right.height / 2).toFloat())
+        rotateAnimation.duration = 100
+        rotateAnimation.fillAfter = true
+        rotateAnimation.interpolator = AccelerateInterpolator()
+        iv_arrow_right.startAnimation(rotateAnimation)
+
+        rotateAnimation.setAnimationListener(object : Animation.AnimationListener {
+            override fun onAnimationRepeat(animation: Animation?) {
+            }
+
+            override fun onAnimationEnd(animation: Animation?) {
+                sv_system_tag_all.visibility = View.VISIBLE
+            }
+
+            override fun onAnimationStart(animation: Animation?) {
+            }
+        })
+    }
+
+    private fun hiddenDetailTagAnimation() {
+        val rotateAnimation = RotateAnimation(90f, 0f, (iv_arrow_right.width / 2).toFloat(), (iv_arrow_right.height / 2).toFloat())
+        rotateAnimation.duration = 100
+        rotateAnimation.fillAfter = true
+        rotateAnimation.interpolator = AccelerateInterpolator()
+        iv_arrow_right.startAnimation(rotateAnimation)
+
+        rotateAnimation.setAnimationListener(object : Animation.AnimationListener {
+            override fun onAnimationRepeat(animation: Animation?) {
+            }
+
+            override fun onAnimationEnd(animation: Animation?) {
+                sv_system_tag_all.visibility = View.GONE
+            }
+
+            override fun onAnimationStart(animation: Animation?) {
+            }
+        })
     }
 
     private fun fetchSystemTagArticleList(pageIndex: Int) {
