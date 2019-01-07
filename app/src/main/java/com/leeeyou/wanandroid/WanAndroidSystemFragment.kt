@@ -16,10 +16,10 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.leeeyou.R
 import com.leeeyou.manager.BaseFragment
+import com.leeeyou.service.subscriber.DefaultHttpResultSubscriber
 import com.leeeyou.util.inflate
 import com.leeeyou.util.startBrowserActivity
 import com.leeeyou.wanandroid.model.bean.RecommendItem
-import com.leeeyou.wanandroid.model.bean.ResponseSystemTag
 import com.leeeyou.wanandroid.model.bean.SystemTag
 import com.leeeyou.wanandroid.model.bean.SystemTagArticleList
 import com.leeeyou.wanandroid.model.fetchSystemTagArticleList
@@ -104,16 +104,14 @@ class WanAndroidSystemFragment : BaseFragment() {
             if (sv_system_tag_all.visibility == View.VISIBLE) hiddenDetailTagAnimation() else showDetailTagAnimation()
         }
 
-        fetchSystemTagList()
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnNext {
-                    it.takeIf { response ->
-                        response.errorCode >= 0
-                    }?.also { response ->
-                        renderSystemTag(response)
-                    } ?: IllegalArgumentException("fetchSystemTagList接口返回异常")
-                }.subscribe()
+        fetchSystemTagList().subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(object : DefaultHttpResultSubscriber<List<SystemTag>>() {
+                    override fun onSuccess(t: List<SystemTag>?) {
+                        t?.let {
+                            renderSystemTag(it)
+                        }
+                    }
+                })
     }
 
     private fun initRecyclerView() {
@@ -167,11 +165,10 @@ class WanAndroidSystemFragment : BaseFragment() {
     private fun recyclerViewFirstItemCanVisible() =
             mLinearLayoutManager.findFirstCompletelyVisibleItemPosition() <= 0
 
-    private fun renderSystemTag(response: ResponseSystemTag) {
+    private fun renderSystemTag(parentTagList: List<SystemTag>) {
         mSelectedParentTagPosition = 0
         mSelectedChildTagPosition = 0
 
-        val parentTagList = response.data
         val childTagList = parentTagList[mSelectedParentTagPosition].children
 
         mSelectedParentTagId = parentTagList[mSelectedParentTagPosition].id
@@ -179,17 +176,17 @@ class WanAndroidSystemFragment : BaseFragment() {
 
         renderParentTag(parentTagList)
         renderChildTag(childTagList)
-        processClickEvent(response)
+        processClickEvent(parentTagList)
     }
 
-    private fun processClickEvent(response: ResponseSystemTag) {
+    private fun processClickEvent(parentTagList: List<SystemTag>) {
         system_tag_parent.setOnTagClickListener { _, position, parent ->
             mSelectedParentTagPosition = position
             mSelectedChildTagPosition = 0
-            mSelectedParentTagId = response.data[mSelectedParentTagPosition].id
-            mSelectedChildTagId = response.data[mSelectedParentTagPosition].children[mSelectedChildTagPosition].id
+            mSelectedParentTagId = parentTagList[mSelectedParentTagPosition].id
+            mSelectedChildTagId = parentTagList[mSelectedParentTagPosition].children[mSelectedChildTagPosition].id
 
-            renderChildTag(response.data[mSelectedParentTagPosition].children)
+            renderChildTag(parentTagList[mSelectedParentTagPosition].children)
             for (index in 0..parent.childCount) {
                 parent.getChildAt(index)?.isClickable = mSelectedParentTagPosition != index
             }
@@ -198,7 +195,7 @@ class WanAndroidSystemFragment : BaseFragment() {
 
         system_tag_child.setOnTagClickListener { _, position, parent ->
             mSelectedChildTagPosition = position
-            mSelectedChildTagId = response.data[mSelectedParentTagPosition].children[mSelectedChildTagPosition].id
+            mSelectedChildTagId = parentTagList[mSelectedParentTagPosition].children[mSelectedChildTagPosition].id
             for (index in 0..parent.childCount) {
                 parent.getChildAt(index)?.isClickable = mSelectedChildTagPosition != index
             }
@@ -211,25 +208,26 @@ class WanAndroidSystemFragment : BaseFragment() {
 
     private fun fetchSystemTagArticleList(pageIndex: Int) {
         Timber.d("fetchSystemTagArticleList ,  parent id is %s , child id is %s", mSelectedParentTagId, mSelectedChildTagId)
-        fetchSystemTagArticleList(pageIndex, mSelectedChildTagId)
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnNext {
-                    ptrFrameSystemTag?.refreshComplete()
-
-                    it.takeIf { response ->
-                        response.errorCode >= 0
-                    }?.also { response ->
-                        Timber.d(it.data.toString())
-                        renderSystemTagArticleList(pageIndex, response.data)
-
-                        mSystemTagArticleAdapter.loadMoreComplete()
-                        if (mPageIndex == 0 && response.data.datas.size <= response.data.size) {
-                            mSystemTagArticleAdapter.loadMoreEnd()
+        fetchSystemTagArticleList(pageIndex, mSelectedChildTagId).subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(object : DefaultHttpResultSubscriber<SystemTagArticleList>() {
+                    override fun onSuccess(t: SystemTagArticleList?) {
+                        t?.let {
+                            renderSystemTagArticleList(pageIndex, t)
+                            if (mPageIndex == 0 && t.datas.size < t.size) {
+                                mSystemTagArticleAdapter.loadMoreEnd()
+                            } else if (mPageIndex > 0) {
+                                mSystemTagArticleAdapter.loadMoreComplete()
+                            }
                         }
-                    } ?: IllegalArgumentException("fetchSystemTagArticleList接口返回异常")
-                }
-                .subscribe()
+                    }
+
+                    override fun onCompleted() {
+                        ptrFrameSystemTag.refreshComplete()
+                        if (mPageIndex > 0) {
+                            mSystemTagArticleAdapter.loadMoreComplete()
+                        }
+                    }
+                })
     }
 
     private fun renderSystemTagArticleList(pageIndex: Int, data: SystemTagArticleList) {
@@ -239,10 +237,6 @@ class WanAndroidSystemFragment : BaseFragment() {
             mPageCount = data.pageCount
             mSystemTagArticleAdapter.addData(data.datas)
         }
-    }
-
-    private fun isFullScreen(llm: LinearLayoutManager): Boolean {
-        return llm.findLastCompletelyVisibleItemPosition() + 1 != mSystemTagArticleAdapter.itemCount || llm.findFirstCompletelyVisibleItemPosition() != 0
     }
 
     private fun renderParentTag(parentTagList: List<SystemTag>) {
