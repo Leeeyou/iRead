@@ -1,25 +1,25 @@
 package com.leeeyou.wanandroid.service
 
-import com.leeeyou.wanandroid.model.bean.ResponseBanner
-import com.leeeyou.wanandroid.model.bean.ResponseRecommendList
-import com.leeeyou.wanandroid.model.bean.ResponseSystemTag
-import com.leeeyou.wanandroid.model.bean.ResponseSystemTagArticleList
-import retrofit.http.GET
-import retrofit.http.Path
-import retrofit.http.Query
+import com.leeeyou.service.entity.HttpResultEntity
+import com.leeeyou.wanandroid.model.bean.Banner
+import com.leeeyou.wanandroid.model.bean.RecommendList
+import com.leeeyou.wanandroid.model.bean.SystemTag
+import com.leeeyou.wanandroid.model.bean.SystemTagArticleList
+import retrofit2.http.GET
+import retrofit2.http.Path
+import retrofit2.http.Query
 import rx.Observable
 
 interface WanAndroidService {
-
     @GET("banner/json")
-    fun getBannerList(): Observable<ResponseBanner>
+    fun getBannerList(): Observable<HttpResultEntity<List<Banner>>>
 
     @GET("article/list/{index}/json")
-    fun getRecommendList(@Path("index") index: Int): Observable<ResponseRecommendList>
+    fun getRecommendList(@Path("index") index: Int): Observable<HttpResultEntity<RecommendList>>
 
     @GET("tree/json")
-    fun getSystemTagList(): Observable<ResponseSystemTag>
+    fun getSystemTagList(): Observable<HttpResultEntity<List<SystemTag>>>
 
     @GET("article/list/{pageIndex}/json")
-    fun getSystemTagArticleList(@Path("pageIndex") pageIndex: Int, @Query("cid") cid: Int): Observable<ResponseSystemTagArticleList>
+    fun getSystemTagArticleList(@Path("pageIndex") pageIndex: Int, @Query("cid") cid: Int): Observable<HttpResultEntity<SystemTagArticleList>>
 }

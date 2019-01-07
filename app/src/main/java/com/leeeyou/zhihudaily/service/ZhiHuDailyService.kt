@@ -2,8 +2,8 @@ package com.leeeyou.zhihudaily.service
 
 import com.leeeyou.zhihudaily.model.bean.ZhiHuDaily
 import com.leeeyou.zhihudaily.model.bean.ZhiHuDailyDetail
-import retrofit.http.GET
-import retrofit.http.Path
+import retrofit2.http.GET
+import retrofit2.http.Path
 import rx.Observable
 
 /**

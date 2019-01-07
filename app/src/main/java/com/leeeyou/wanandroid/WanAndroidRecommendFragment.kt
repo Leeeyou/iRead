@@ -14,18 +14,17 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.leeeyou.R
 import com.leeeyou.manager.BaseFragment
+import com.leeeyou.service.subscriber.DefaultHttpResultSubscriber
 import com.leeeyou.util.inflate
 import com.leeeyou.util.startBrowserActivity
 import com.leeeyou.wanandroid.model.bean.Banner
 import com.leeeyou.wanandroid.model.bean.RecommendItem
 import com.leeeyou.wanandroid.model.bean.RecommendList
-import com.leeeyou.wanandroid.model.bean.ResponseBanner
 import com.leeeyou.wanandroid.model.fetchBannerList
 import com.leeeyou.wanandroid.model.fetchRecommendList
 import com.youth.banner.Transformer
 import com.youth.banner.loader.ImageLoader
 import kotlinx.android.synthetic.main.fragment_wan_android_recommend.*
-import rx.Subscriber
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 import timber.log.Timber
@@ -39,7 +38,7 @@ import timber.log.Timber
  * Date:        2017/4/24 13:46
  */
 class WanAndroidRecommendFragment : BaseFragment() {
-    lateinit var mLinearLayoutManager: LinearLayoutManager
+    private lateinit var mLinearLayoutManager: LinearLayoutManager
     var mPageIndex: Int = 0
     private lateinit var mRecommendAdapter: BaseQuickAdapter<RecommendItem, BaseViewHolder>
     private var mPageCount: Int = 0
@@ -129,32 +128,23 @@ class WanAndroidRecommendFragment : BaseFragment() {
     }
 
     private fun fetchRecommendListFromServer(pageIndex: Int) {
-        fetchRecommendList(pageIndex)
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnNext {
-                    Timber.d("fetchRecommendListFromServer doOnNext")
-
-                    ptrFrameRecommend.refreshComplete()
-
-                    it.takeIf { response ->
-                        response.errorCode >= 0
-                    }?.also { response ->
-                        Timber.d(response.data.toString())
-                        renderRecommendList(pageIndex, response.data)
-                    } ?: IllegalArgumentException("fetchRecommendListFromServer接口返回异常")
-                }
-                .doOnError {
-                    ptrFrameRecommend.refreshComplete()
-                    Timber.e(it, "fetchRecommendListFromServer doOnError")
-                }
-                .doOnCompleted {
-                    Timber.d("fetchRecommendListFromServer doOnCompleted")
-                    if (mPageIndex > 0) {
-                        mRecommendAdapter.loadMoreComplete()
+        fetchRecommendList(pageIndex).subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(object : DefaultHttpResultSubscriber<RecommendList>() {
+                    override fun onSuccess(t: RecommendList?) {
+                        t?.let {
+                            renderRecommendList(pageIndex, it)
+                            if (mPageIndex == 0 && it.datas.size < it.size) {
+                                mRecommendAdapter.loadMoreEnd()
+                            } else if (mPageIndex > 0) {
+                                mRecommendAdapter.loadMoreComplete()
+                            }
+                        }
                     }
-                }
-                .subscribe()
+
+                    override fun onCompleted() {
+                        ptrFrameRecommend.refreshComplete()
+                    }
+                })
     }
 
     private fun renderRecommendList(witchPage: Int, data: RecommendList) {
@@ -167,26 +157,10 @@ class WanAndroidRecommendFragment : BaseFragment() {
     }
 
     private fun fetchBannerListFromServer() {
-        fetchBannerList()
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(object : Subscriber<ResponseBanner>() {
-                    override fun onNext(responseBanner: ResponseBanner) {
-                        Timber.d("fetchBannerList onNext , result is %s ", responseBanner.toString())
-
-                        responseBanner.takeIf {
-                            it.errorCode >= 0
-                        }?.also {
-                            renderBanner(it.data)
-                        } ?: onError(IllegalArgumentException("Banner接口返回异常"))
-                    }
-
-                    override fun onCompleted() {
-                        Timber.d("fetchBannerList onCompleted")
-                    }
-
-                    override fun onError(e: Throwable?) {
-                        Timber.d(e, "fetchBannerList onError")
+        fetchBannerList().subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(object : DefaultHttpResultSubscriber<List<Banner>>() {
+                    override fun onSuccess(t: List<Banner>?) {
+                        t?.let { renderBanner(it) }
                     }
                 })
     }
