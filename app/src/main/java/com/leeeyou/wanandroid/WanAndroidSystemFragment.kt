@@ -276,7 +276,8 @@ class WanAndroidSystemFragment : BaseFragment() {
 
         updateSystemTagCombineShow()
         pullDownToRefresh()
-        childTagList.size.takeIf { it == 1 }.also { hiddenDetailTagAnimation() }
+        childTagList.size.takeIf { it == 1 }?.also { hiddenDetailTagAnimation() }
+                ?: Timber.d("childTagList.size != 1")
     }
 
     @SuppressLint("SetTextI18n")
