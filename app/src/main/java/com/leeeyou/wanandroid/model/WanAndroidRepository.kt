@@ -34,3 +34,8 @@ fun fetchSystemTagArticleList(pageIndex: Int, cid: Int): Observable<HttpResultEn
             .createRxRetrofitService(WanAndroidService::class.java, endPoint)
             .getSystemTagArticleList(pageIndex, cid)
 }
+
+fun fetchProjectList(pageIndex: Int): Observable<HttpResultEntity<RecommendList>> {
+    return ServiceFactory.createRxRetrofitService(WanAndroidService::class.java, endPoint)
+            .getProjectList(pageIndex)
+}

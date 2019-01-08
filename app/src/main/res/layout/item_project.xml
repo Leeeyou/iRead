@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:id="@+id/rl_recommend_item"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/list_selector">
+
+    <ImageView
+        android:id="@+id/iv_project"
+        android:layout_width="80dp"
+        android:layout_height="130dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/ic_launcher"/>
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/iv_project"
+        android:layout_marginRight="10dp"
+        android:layout_toRightOf="@id/iv_project"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        tools:text="Android 开发高手课 文章更新学习笔记Android "/>
+
+    <TextView
+        android:id="@+id/tv_author"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/tv_title"
+        android:layout_below="@id/tv_title"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/primary_gray_dark"
+        android:textSize="12sp"
+        tools:text="作者：鸿洋"/>
+
+    <TextView
+        android:id="@+id/tv_niceDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/tv_author"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@id/tv_author"
+        android:textColor="@color/primary_gray_dark"
+        android:textSize="12sp"
+        tools:text="时间：2018-12-18"/>
+
+    <TextView
+        android:id="@+id/tv_view_similar_projects"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/tv_author"
+        android:layout_below="@id/tv_author"
+        android:drawablePadding="5dp"
+        android:drawableRight="@mipmap/icon_arrow_right_project"
+        android:drawableTint="@color/black"
+        android:gravity="center"
+        android:paddingBottom="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="10dp"
+        android:text="查看同类项目"
+        android:textColor="@color/black"
+        android:textSize="13sp"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_alignLeft="@id/iv_project"
+        android:layout_alignRight="@id/tv_title"
+        android:layout_below="@id/iv_project"
+        android:layout_marginTop="13dp"
+        android:background="@color/primary_gray_dark"/>
+
+</RelativeLayout>

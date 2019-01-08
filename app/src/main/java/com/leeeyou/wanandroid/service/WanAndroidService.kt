@@ -22,4 +22,8 @@ interface WanAndroidService {
 
     @GET("article/list/{pageIndex}/json")
     fun getSystemTagArticleList(@Path("pageIndex") pageIndex: Int, @Query("cid") cid: Int): Observable<HttpResultEntity<SystemTagArticleList>>
+
+    @GET("article/listproject/{pageIndex}/json")
+    fun getProjectList(@Path("pageIndex") pageIndex: Int): Observable<HttpResultEntity<RecommendList>>
+
 }
