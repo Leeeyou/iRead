@@ -7,7 +7,11 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AccelerateInterpolator
+import android.view.animation.Animation
+import android.view.animation.RotateAnimation
 import android.widget.ImageView
+import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
@@ -19,7 +23,12 @@ import com.leeeyou.util.inflate
 import com.leeeyou.util.startBrowserActivity
 import com.leeeyou.wanandroid.model.bean.RecommendItem
 import com.leeeyou.wanandroid.model.bean.RecommendList
+import com.leeeyou.wanandroid.model.bean.SystemTag
+import com.leeeyou.wanandroid.model.fetchProjectCategory
 import com.leeeyou.wanandroid.model.fetchProjectList
+import com.leeeyou.wanandroid.model.fetchProjectListByCategory
+import com.zhy.view.flowlayout.FlowLayout
+import com.zhy.view.flowlayout.TagAdapter
 import kotlinx.android.synthetic.main.fragment_wan_android_project.*
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
@@ -37,6 +46,9 @@ class WanAndroidProjectFragment : BaseFragment() {
     private var mPageCount: Int = 0
     private var mPageIndex: Int = 0
 
+    private var mSelectedCategoryPosition: Int = 0
+    private var mSelectedCategoryId: Int = 0
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return container?.inflate(R.layout.fragment_wan_android_project)
     }
@@ -45,7 +57,77 @@ class WanAndroidProjectFragment : BaseFragment() {
         super.onActivityCreated(savedInstanceState)
         initRecyclerView()
         initPtrFrame()
-        fetchProjectListFromServer(mPageIndex)
+        initProjectCategoryUI()
+        fetchProjectCategoryFromServer()
+    }
+
+    private fun initProjectCategoryUI() {
+        rl_project_category.setOnClickListener {
+            if (sv_project_category.visibility == View.VISIBLE) hiddenDetailTagAnimation() else showDetailTagAnimation()
+        }
+    }
+
+    private fun fetchProjectCategoryFromServer() {
+        fetchProjectCategory().subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(object : DefaultHttpResultSubscriber<List<SystemTag>>() {
+                    override fun onSuccess(t: List<SystemTag>?) {
+                        t?.let {
+                            renderProjectCategory(it)
+                        }
+                    }
+                })
+    }
+
+    private fun renderProjectCategory(categoryList: List<SystemTag>) {
+        mSelectedCategoryPosition = 0
+        mSelectedCategoryId = categoryList[mSelectedCategoryPosition].id
+        renderCategory(categoryList)
+        processClickEvent(categoryList)
+    }
+
+    private fun processClickEvent(categoryList: List<SystemTag>) {
+        flowLayout_project_category.setOnTagClickListener { _, position, parent ->
+            mSelectedCategoryPosition = position
+            mSelectedCategoryId = categoryList[mSelectedCategoryPosition].id
+
+            for (index in 0..parent.childCount) {
+                parent.getChildAt(index)?.isClickable = mSelectedCategoryPosition != index
+            }
+
+            updateCategoryShow()
+            clickToRefreshList()
+            hiddenDetailTagAnimation()
+
+            true
+        }
+    }
+
+    private fun clickToRefreshList() {
+        mPageIndex = 0
+        fetchProjectListByCategoryFromServer(mPageIndex)
+    }
+
+    private fun renderCategory(categoryList: List<SystemTag>) {
+        flowLayout_project_category.adapter = object : TagAdapter<SystemTag>(categoryList) {
+            override fun getView(parent: FlowLayout?, position: Int, systemTag: SystemTag?): View {
+                val parentTag = layoutInflater.inflate(R.layout.item_system_tag, null) as TextView
+                systemTag?.let {
+                    parentTag.text = it.name
+                    return parentTag
+                }
+                return parentTag
+            }
+        }
+        flowLayout_project_category.adapter.setSelectedList(mSelectedCategoryPosition)
+        flowLayout_project_category.getChildAt(mSelectedCategoryPosition)?.isClickable = false
+
+        updateCategoryShow()
+        pullDownToRefresh()
+    }
+
+    private fun updateCategoryShow() {
+        val parentTag: SystemTag = flowLayout_project_category?.adapter?.getItem(mSelectedCategoryPosition) as SystemTag
+        tv_project_category.text = parentTag.name
     }
 
     private fun initRecyclerView() {
@@ -129,6 +211,29 @@ class WanAndroidProjectFragment : BaseFragment() {
                 })
     }
 
+    private fun fetchProjectListByCategoryFromServer(pageIndex: Int) {
+        fetchProjectListByCategory(pageIndex, mSelectedCategoryId).subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(object : DefaultHttpResultSubscriber<RecommendList>() {
+                    override fun onSuccess(t: RecommendList?) {
+                        t?.let {
+                            renderProjectList(pageIndex, t)
+                            if (pageIndex == 0 && t.datas.size < t.size) {
+                                mProjectAdapter.loadMoreEnd()
+                            } else if (pageIndex > 0) {
+                                mProjectAdapter.loadMoreComplete()
+                            }
+                        }
+                    }
+
+                    override fun onCompleted() {
+                        ptrFrameProject?.refreshComplete()
+                        if (pageIndex > 0) {
+                            mProjectAdapter.loadMoreComplete()
+                        }
+                    }
+                })
+    }
+
     private fun renderProjectList(pageIndex: Int, data: RecommendList) {
         if (pageIndex == 0) {
             mProjectAdapter.setNewData(ArrayList(data.datas))
@@ -136,6 +241,46 @@ class WanAndroidProjectFragment : BaseFragment() {
             mPageCount = data.pageCount
             mProjectAdapter.addData(data.datas)
         }
+    }
+
+    private fun showDetailTagAnimation() {
+        val rotateAnimation = RotateAnimation(0f, 90f, (iv_arrow_right.width / 2).toFloat(), (iv_arrow_right.height / 2).toFloat())
+        rotateAnimation.duration = 100
+        rotateAnimation.fillAfter = true
+        rotateAnimation.interpolator = AccelerateInterpolator()
+        iv_arrow_right.startAnimation(rotateAnimation)
+
+        rotateAnimation.setAnimationListener(object : Animation.AnimationListener {
+            override fun onAnimationRepeat(animation: Animation?) {
+            }
+
+            override fun onAnimationEnd(animation: Animation?) {
+                sv_project_category.visibility = View.VISIBLE
+            }
+
+            override fun onAnimationStart(animation: Animation?) {
+            }
+        })
+    }
+
+    private fun hiddenDetailTagAnimation() {
+        val rotateAnimation = RotateAnimation(90f, 0f, (iv_arrow_right.width / 2).toFloat(), (iv_arrow_right.height / 2).toFloat())
+        rotateAnimation.duration = 100
+        rotateAnimation.fillAfter = true
+        rotateAnimation.interpolator = AccelerateInterpolator()
+        iv_arrow_right.startAnimation(rotateAnimation)
+
+        rotateAnimation.setAnimationListener(object : Animation.AnimationListener {
+            override fun onAnimationRepeat(animation: Animation?) {
+            }
+
+            override fun onAnimationEnd(animation: Animation?) {
+                sv_project_category.visibility = View.GONE
+            }
+
+            override fun onAnimationStart(animation: Animation?) {
+            }
+        })
     }
 
 }
