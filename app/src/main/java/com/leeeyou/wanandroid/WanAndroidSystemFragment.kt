@@ -17,6 +17,7 @@ import com.chad.library.adapter.base.BaseViewHolder
 import com.leeeyou.R
 import com.leeeyou.manager.BaseFragment
 import com.leeeyou.service.subscriber.DefaultHttpResultSubscriber
+import com.leeeyou.util.HtmlUtils
 import com.leeeyou.util.inflate
 import com.leeeyou.util.startBrowserActivity
 import com.leeeyou.wanandroid.model.bean.RecommendItem
@@ -84,7 +85,7 @@ class WanAndroidSystemFragment : BaseFragment() {
         mSystemTagArticleAdapter = object : BaseQuickAdapter<RecommendItem, BaseViewHolder>(R.layout.item_recommend, null) {
             override fun convert(helper: BaseViewHolder?, item: RecommendItem?) {
                 item?.also {
-                    helper?.setText(R.id.tv_title, it.title)
+                    helper?.setText(R.id.tv_title, HtmlUtils.translation(it.title))
                             ?.setText(R.id.tv_author, "作者:" + it.author)
                             ?.setText(R.id.tv_category, "分类:" + it.superChapterName + " / " + it.chapterName)
                             ?.setText(R.id.tv_niceDate, it.niceDate)
@@ -227,7 +228,7 @@ class WanAndroidSystemFragment : BaseFragment() {
                     }
 
                     override fun onCompleted() {
-                        ptrFrameSystemTag.refreshComplete()
+                        ptrFrameSystemTag?.refreshComplete()
                         if (mPageIndex > 0) {
                             mSystemTagArticleAdapter.loadMoreComplete()
                         }
@@ -249,7 +250,7 @@ class WanAndroidSystemFragment : BaseFragment() {
             override fun getView(parent: FlowLayout?, position: Int, systemTag: SystemTag?): View {
                 val parentTag = layoutInflater.inflate(R.layout.item_system_tag, null) as TextView
                 systemTag?.let {
-                    parentTag.text = it.name
+                    parentTag.text = HtmlUtils.translation(it.name)
                     return parentTag
                 }
                 return parentTag
@@ -264,7 +265,7 @@ class WanAndroidSystemFragment : BaseFragment() {
             override fun getView(parent: FlowLayout?, position: Int, systemTag: SystemTag?): View {
                 val childTag = layoutInflater.inflate(R.layout.item_system_tag, null) as TextView
                 systemTag?.let {
-                    childTag.text = it.name
+                    childTag.text = HtmlUtils.translation(it.name)
                     return childTag
                 }
                 return childTag

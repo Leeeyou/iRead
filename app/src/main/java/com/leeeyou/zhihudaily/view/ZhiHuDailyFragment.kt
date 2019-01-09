@@ -131,7 +131,7 @@ class ZhiHuDailyFragment : BaseFragment() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(object : Subscriber<ZhiHuDaily>() {
                     override fun onNext(item: ZhiHuDaily?) {
-                        ptrFrameOfZhiHuDaily.refreshComplete()
+                        ptrFrameOfZhiHuDaily?.refreshComplete()
                         if (item != null) {
                             updateAdapter(item.stories)
                         }
@@ -142,7 +142,7 @@ class ZhiHuDailyFragment : BaseFragment() {
                     }
 
                     override fun onError(e: Throwable?) {
-                        ptrFrameOfZhiHuDaily.refreshComplete()
+                        ptrFrameOfZhiHuDaily?.refreshComplete()
                         e?.printStackTrace()
                         showShort(activity, "出错了:" + e?.message)
                     }

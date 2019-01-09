@@ -18,4 +18,14 @@ public class HtmlUtils {
     public static String structCssLink(String css) {
         return "<link type=\\\"text/css\\\" rel=\\\"stylesheet\\\" href=\\\"" + css + "\">";
     }
+
+    public static String translation(String content) {
+        return content.replace("&lt;", "<")
+                .replace("&gt;", ">")
+                .replace("&amp;", "&")
+                .replace("&quot;", "\"")
+                .replace("&mdash;", "—")
+                .replace("&copy;", "©");
+    }
+
 }

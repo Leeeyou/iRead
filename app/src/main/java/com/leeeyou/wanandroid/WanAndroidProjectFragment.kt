@@ -18,6 +18,7 @@ import com.chad.library.adapter.base.BaseViewHolder
 import com.leeeyou.R
 import com.leeeyou.manager.BaseFragment
 import com.leeeyou.service.subscriber.DefaultHttpResultSubscriber
+import com.leeeyou.util.HtmlUtils
 import com.leeeyou.util.T
 import com.leeeyou.util.inflate
 import com.leeeyou.util.startBrowserActivity
@@ -146,7 +147,7 @@ class WanAndroidProjectFragment : BaseFragment() {
             override fun getView(parent: FlowLayout?, position: Int, systemTag: SystemTag?): View {
                 val parentTag = layoutInflater.inflate(R.layout.item_system_tag, null) as TextView
                 systemTag?.let {
-                    parentTag.text = it.name
+                    parentTag.text = HtmlUtils.translation(it.name)
                     return parentTag
                 }
                 return parentTag
@@ -166,7 +167,7 @@ class WanAndroidProjectFragment : BaseFragment() {
             tv_project_category.text = "最新热门推荐"
         } else {
             val parentTag: SystemTag = flowLayout_project_category?.adapter?.getItem(mSelectedCategoryPosition) as SystemTag
-            tv_project_category.text = parentTag.name
+            tv_project_category.text = HtmlUtils.translation(parentTag.name)
         }
     }
 
@@ -176,7 +177,7 @@ class WanAndroidProjectFragment : BaseFragment() {
             override fun convert(helper: BaseViewHolder?, item: RecommendItem?) {
                 item?.also {
                     helper?.also { helper ->
-                        helper.setText(R.id.tv_title, it.title)
+                        helper.setText(R.id.tv_title, HtmlUtils.translation(it.title))
                                 .setText(R.id.tv_author, it.author)
                                 .setText(R.id.tv_niceDate, it.niceDate)
 
