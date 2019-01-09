@@ -15,6 +15,7 @@ import com.chad.library.adapter.base.BaseViewHolder
 import com.leeeyou.R
 import com.leeeyou.manager.BaseFragment
 import com.leeeyou.service.subscriber.DefaultHttpResultSubscriber
+import com.leeeyou.util.HtmlUtils
 import com.leeeyou.util.inflate
 import com.leeeyou.util.startBrowserActivity
 import com.leeeyou.wanandroid.model.bean.Banner
@@ -65,7 +66,7 @@ class WanAndroidRecommendFragment : BaseFragment() {
         mRecommendAdapter = object : BaseQuickAdapter<RecommendItem, BaseViewHolder>(R.layout.item_recommend, null) {
             override fun convert(helper: BaseViewHolder?, item: RecommendItem?) {
                 item?.takeIf { it.visible == 1 }?.also {
-                    helper?.setText(R.id.tv_title, it.title)
+                    helper?.setText(R.id.tv_title, HtmlUtils.translation(it.title))
                             ?.setText(R.id.tv_author, "作者:" + it.author)
                             ?.setText(R.id.tv_category, "分类:" + it.superChapterName + " / " + it.chapterName)
                             ?.setText(R.id.tv_niceDate, it.niceDate)
@@ -142,7 +143,7 @@ class WanAndroidRecommendFragment : BaseFragment() {
                     }
 
                     override fun onCompleted() {
-                        ptrFrameRecommend.refreshComplete()
+                        ptrFrameRecommend?.refreshComplete()
                     }
                 })
     }

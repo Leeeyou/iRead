@@ -1,7 +1,68 @@
-<in.srain.cube.views.ptr.PtrFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                        android:id="@+id/ptrFrame"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="match_parent">
+<in.srain.cube.views.ptr.PtrClassicFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                               xmlns:app="http://schemas.android.com/apk/res-auto"
+                                               xmlns:tools="http://schemas.android.com/tools"
+                                               android:id="@+id/ptrFrameProject"
+                                               android:layout_width="match_parent"
+                                               android:layout_height="match_parent">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-</in.srain.cube.views.ptr.PtrFrameLayout>
+        <RelativeLayout
+            android:id="@+id/rl_project_category"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@color/default_gray">
+
+            <TextView
+                android:id="@+id/tv_project_category"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:paddingLeft="10dp"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                tools:text="最新推荐项目"/>
+
+            <ImageView
+                android:id="@+id/iv_arrow_right"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:src="@mipmap/icon_arrow_right"
+                android:tint="@color/default_white"/>
+        </RelativeLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerViewProject"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/rl_project_category"/>
+
+        <ScrollView
+            android:id="@+id/sv_project_category"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/rl_project_category"
+            android:background="@color/default_white"
+            android:fillViewport="true"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <com.zhy.view.flowlayout.TagFlowLayout
+                    android:id="@+id/flowLayout_project_category"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    app:max_select="1"/>
+            </LinearLayout>
+        </ScrollView>
+    </RelativeLayout>
+</in.srain.cube.views.ptr.PtrClassicFrameLayout>

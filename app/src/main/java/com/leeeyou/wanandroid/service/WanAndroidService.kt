@@ -22,4 +22,13 @@ interface WanAndroidService {
 
     @GET("article/list/{pageIndex}/json")
     fun getSystemTagArticleList(@Path("pageIndex") pageIndex: Int, @Query("cid") cid: Int): Observable<HttpResultEntity<SystemTagArticleList>>
+
+    @GET("article/listproject/{pageIndex}/json")
+    fun getProjectListByRecommend(@Path("pageIndex") pageIndex: Int): Observable<HttpResultEntity<RecommendList>>
+
+    @GET("project/list/{pageIndex}/json")
+    fun getProjectListByCategory(@Path("pageIndex") pageIndex: Int, @Query("cid") cid: Int): Observable<HttpResultEntity<RecommendList>>
+
+    @GET("project/tree/json")
+    fun getProjectCategory(): Observable<HttpResultEntity<List<SystemTag>>>
 }
