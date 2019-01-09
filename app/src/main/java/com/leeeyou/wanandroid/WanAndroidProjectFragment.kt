@@ -25,8 +25,8 @@ import com.leeeyou.wanandroid.model.bean.RecommendItem
 import com.leeeyou.wanandroid.model.bean.RecommendList
 import com.leeeyou.wanandroid.model.bean.SystemTag
 import com.leeeyou.wanandroid.model.fetchProjectCategory
-import com.leeeyou.wanandroid.model.fetchProjectList
 import com.leeeyou.wanandroid.model.fetchProjectListByCategory
+import com.leeeyou.wanandroid.model.fetchProjectListByRecommend
 import com.zhy.view.flowlayout.FlowLayout
 import com.zhy.view.flowlayout.TagAdapter
 import kotlinx.android.synthetic.main.fragment_wan_android_project.*
@@ -49,6 +49,8 @@ class WanAndroidProjectFragment : BaseFragment() {
     private var mSelectedCategoryPosition: Int = 0
     private var mSelectedCategoryId: Int = 0
 
+    private var inRecommendMode: Boolean = true //is it currently in recommended mode
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return container?.inflate(R.layout.fragment_wan_android_project)
     }
@@ -58,7 +60,38 @@ class WanAndroidProjectFragment : BaseFragment() {
         initRecyclerView()
         initPtrFrame()
         initProjectCategoryUI()
-        fetchProjectCategoryFromServer()
+        fetchProjectCategoryListFromServer()
+    }
+
+    private fun fetchProjectListFromServer() {
+        if (inRecommendMode) {
+            fetchProjectListByRecommendFromServer(mPageIndex)
+        } else {
+            fetchProjectListByCategoryFromServer(mPageIndex)
+        }
+    }
+
+    private fun fetchProjectListByRecommendFromServer(pageIndex: Int) {
+        fetchProjectListByRecommend(pageIndex).subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(object : DefaultHttpResultSubscriber<RecommendList>() {
+                    override fun onSuccess(t: RecommendList?) {
+                        t?.let {
+                            renderProjectList(pageIndex, t)
+                            if (mPageIndex == 0 && t.datas.size < t.size) {
+                                mProjectAdapter.loadMoreEnd()
+                            } else if (mPageIndex > 0) {
+                                mProjectAdapter.loadMoreComplete()
+                            }
+                        }
+                    }
+
+                    override fun onCompleted() {
+                        ptrFrameProject?.refreshComplete()
+                        if (mPageIndex > 0) {
+                            mProjectAdapter.loadMoreComplete()
+                        }
+                    }
+                })
     }
 
     private fun initProjectCategoryUI() {
@@ -67,7 +100,7 @@ class WanAndroidProjectFragment : BaseFragment() {
         }
     }
 
-    private fun fetchProjectCategoryFromServer() {
+    private fun fetchProjectCategoryListFromServer() {
         fetchProjectCategory().subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(object : DefaultHttpResultSubscriber<List<SystemTag>>() {
                     override fun onSuccess(t: List<SystemTag>?) {
@@ -87,6 +120,7 @@ class WanAndroidProjectFragment : BaseFragment() {
 
     private fun processClickEvent(categoryList: List<SystemTag>) {
         flowLayout_project_category.setOnTagClickListener { _, position, parent ->
+            inRecommendMode = false
             mSelectedCategoryPosition = position
             mSelectedCategoryId = categoryList[mSelectedCategoryPosition].id
 
@@ -122,12 +156,18 @@ class WanAndroidProjectFragment : BaseFragment() {
         flowLayout_project_category.getChildAt(mSelectedCategoryPosition)?.isClickable = false
 
         updateCategoryShow()
-        pullDownToRefresh()
+
+        mPageIndex = 0
+        fetchProjectListFromServer()
     }
 
     private fun updateCategoryShow() {
-        val parentTag: SystemTag = flowLayout_project_category?.adapter?.getItem(mSelectedCategoryPosition) as SystemTag
-        tv_project_category.text = parentTag.name
+        if (inRecommendMode) {
+            tv_project_category.text = "最新热门推荐"
+        } else {
+            val parentTag: SystemTag = flowLayout_project_category?.adapter?.getItem(mSelectedCategoryPosition) as SystemTag
+            tv_project_category.text = parentTag.name
+        }
     }
 
     private fun initRecyclerView() {
@@ -154,7 +194,8 @@ class WanAndroidProjectFragment : BaseFragment() {
             if (mPageIndex + 1 == mPageCount) {
                 mProjectAdapter.loadMoreEnd()
             } else {
-                fetchProjectListFromServer(++mPageIndex)
+                mPageIndex++
+                fetchProjectListFromServer()
             }
         }, recyclerViewProject)
         mProjectAdapter.disableLoadMoreIfNotFullPage()
@@ -172,7 +213,8 @@ class WanAndroidProjectFragment : BaseFragment() {
         ptrFrameProject.disableWhenHorizontalMove(true)
         ptrFrameProject.setPtrHandler(object : PtrHandler {
             override fun onRefreshBegin(frame: PtrFrameLayout?) {
-                pullDownToRefresh()
+                mPageIndex = 0
+                fetchProjectListFromServer()
             }
 
             override fun checkCanDoRefresh(frame: PtrFrameLayout?, content: View?, header: View?): Boolean =
@@ -182,34 +224,6 @@ class WanAndroidProjectFragment : BaseFragment() {
 
     private fun recyclerViewFirstItemCanVisible() =
             mLinearLayoutManager.findFirstCompletelyVisibleItemPosition() <= 0
-
-    private fun pullDownToRefresh() {
-        mPageIndex = 0
-        fetchProjectListFromServer(mPageIndex)
-    }
-
-    private fun fetchProjectListFromServer(pageIndex: Int) {
-        fetchProjectList(pageIndex).subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread())
-                .subscribe(object : DefaultHttpResultSubscriber<RecommendList>() {
-                    override fun onSuccess(t: RecommendList?) {
-                        t?.let {
-                            renderProjectList(pageIndex, t)
-                            if (mPageIndex == 0 && t.datas.size < t.size) {
-                                mProjectAdapter.loadMoreEnd()
-                            } else if (mPageIndex > 0) {
-                                mProjectAdapter.loadMoreComplete()
-                            }
-                        }
-                    }
-
-                    override fun onCompleted() {
-                        ptrFrameProject?.refreshComplete()
-                        if (mPageIndex > 0) {
-                            mProjectAdapter.loadMoreComplete()
-                        }
-                    }
-                })
-    }
 
     private fun fetchProjectListByCategoryFromServer(pageIndex: Int) {
         fetchProjectListByCategory(pageIndex, mSelectedCategoryId).subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread())

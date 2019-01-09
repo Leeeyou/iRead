@@ -21,10 +21,9 @@
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
                 android:paddingLeft="10dp"
-                android:text="开源完整项目"
                 android:textSize="14sp"
                 android:textStyle="bold"
-                tools:text="开源完整项目"/>
+                tools:text="最新推荐项目"/>
 
             <ImageView
                 android:id="@+id/iv_arrow_right"
