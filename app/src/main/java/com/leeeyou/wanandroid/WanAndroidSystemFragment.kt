@@ -16,6 +16,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.leeeyou.R
 import com.leeeyou.manager.BaseFragment
+import com.leeeyou.manager.MyLoadMoreView
 import com.leeeyou.service.subscriber.DefaultHttpResultSubscriber
 import com.leeeyou.util.HtmlUtils
 import com.leeeyou.util.inflate
@@ -114,6 +115,7 @@ class WanAndroidSystemFragment : BaseFragment() {
             startBrowserActivity(context!!, item.link, item.title)
         }
         mSystemTagArticleAdapter.openLoadAnimation(BaseQuickAdapter.SCALEIN)
+        mSystemTagArticleAdapter.setLoadMoreView(MyLoadMoreView())
 
         recyclerViewSystem.layoutManager = mLinearLayoutManager
         recyclerViewSystem.adapter = mSystemTagArticleAdapter

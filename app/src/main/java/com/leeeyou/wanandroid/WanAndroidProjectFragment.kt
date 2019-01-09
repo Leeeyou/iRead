@@ -17,6 +17,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.leeeyou.R
 import com.leeeyou.manager.BaseFragment
+import com.leeeyou.manager.MyLoadMoreView
 import com.leeeyou.service.subscriber.DefaultHttpResultSubscriber
 import com.leeeyou.util.HtmlUtils
 import com.leeeyou.util.T
@@ -205,6 +206,7 @@ class WanAndroidProjectFragment : BaseFragment() {
             startBrowserActivity(context!!, item.link, item.title)
         }
         mProjectAdapter.openLoadAnimation(BaseQuickAdapter.SCALEIN)
+        mProjectAdapter.setLoadMoreView(MyLoadMoreView())
 
         recyclerViewProject.layoutManager = mLinearLayoutManager
         recyclerViewProject.adapter = mProjectAdapter

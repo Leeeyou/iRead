@@ -14,6 +14,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.leeeyou.R
 import com.leeeyou.manager.BaseFragment
+import com.leeeyou.manager.MyLoadMoreView
 import com.leeeyou.service.subscriber.DefaultHttpResultSubscriber
 import com.leeeyou.util.HtmlUtils
 import com.leeeyou.util.inflate
@@ -86,6 +87,7 @@ class WanAndroidRecommendFragment : BaseFragment() {
             startBrowserActivity(context!!, item.link, item.title)
         }
         mRecommendAdapter.openLoadAnimation(BaseQuickAdapter.SCALEIN)
+        mRecommendAdapter.setLoadMoreView(MyLoadMoreView())
 
         recyclerViewRecommend.layoutManager = mLinearLayoutManager
         recyclerViewRecommend.adapter = mRecommendAdapter
