@@ -232,8 +232,11 @@ class WanAndroidProjectFragment : BaseFragment() {
                     override fun onSuccess(t: RecommendList?) {
                         t?.let {
                             renderProjectList(pageIndex, t)
-                            if (pageIndex == 0 && t.datas.size < t.size) {
-                                mProjectAdapter.loadMoreEnd()
+                            if (pageIndex == 0) {
+                                recyclerViewProject.smoothScrollToPosition(0)
+                                if (t.datas.size < t.size) {
+                                    mProjectAdapter.loadMoreEnd()
+                                }
                             } else if (pageIndex > 0) {
                                 mProjectAdapter.loadMoreComplete()
                             }

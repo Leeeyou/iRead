@@ -40,6 +40,7 @@ class WanAndroidFragment : BaseFragment() {
 
         mViewPagerAdapter = ViewPagerAdapter(activity!!.supportFragmentManager, fragmentList, titleList)
 
+        wanAndroidViewPager.offscreenPageLimit = 3
         wanAndroidViewPager.adapter = mViewPagerAdapter
         wanAndroidTabLayout.setupWithViewPager(wanAndroidViewPager)
         wanAndroidTabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
