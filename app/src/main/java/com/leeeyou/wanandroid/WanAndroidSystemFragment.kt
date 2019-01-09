@@ -16,6 +16,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.leeeyou.R
 import com.leeeyou.manager.BaseFragment
+import com.leeeyou.manager.MyAnimationListener
 import com.leeeyou.manager.MyLoadMoreView
 import com.leeeyou.service.subscriber.DefaultHttpResultSubscriber
 import com.leeeyou.util.HtmlUtils
@@ -190,15 +191,9 @@ class WanAndroidSystemFragment : BaseFragment() {
             rotateAnimation.interpolator = AccelerateInterpolator()
             iv_arrow_right.startAnimation(rotateAnimation)
 
-            rotateAnimation.setAnimationListener(object : Animation.AnimationListener {
-                override fun onAnimationRepeat(animation: Animation?) {
-                }
-
+            rotateAnimation.setAnimationListener(object : MyAnimationListener() {
                 override fun onAnimationEnd(animation: Animation?) {
                     sv_system_tag_all?.visibility = View.VISIBLE
-                }
-
-                override fun onAnimationStart(animation: Animation?) {
                 }
             })
         }
@@ -212,15 +207,9 @@ class WanAndroidSystemFragment : BaseFragment() {
             rotateAnimation.interpolator = AccelerateInterpolator()
             iv_arrow_right.startAnimation(rotateAnimation)
 
-            rotateAnimation.setAnimationListener(object : Animation.AnimationListener {
-                override fun onAnimationRepeat(animation: Animation?) {
-                }
-
+            rotateAnimation.setAnimationListener(object : MyAnimationListener() {
                 override fun onAnimationEnd(animation: Animation?) {
                     sv_system_tag_all.visibility = View.GONE
-                }
-
-                override fun onAnimationStart(animation: Animation?) {
                 }
             })
         }

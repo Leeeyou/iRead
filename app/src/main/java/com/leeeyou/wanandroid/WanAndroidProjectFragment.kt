@@ -17,6 +17,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.leeeyou.R
 import com.leeeyou.manager.BaseFragment
+import com.leeeyou.manager.MyAnimationListener
 import com.leeeyou.manager.MyLoadMoreView
 import com.leeeyou.service.subscriber.DefaultHttpResultSubscriber
 import com.leeeyou.util.HtmlUtils
@@ -63,6 +64,14 @@ class WanAndroidProjectFragment : BaseFragment() {
         initPtrFrame()
         initProjectCategoryUI()
         fetchProjectCategoryListFromServer()
+    }
+
+    override fun setUserVisibleHint(isVisibleToUser: Boolean) {
+        super.setUserVisibleHint(isVisibleToUser)
+        // onPause
+        if (!isVisibleToUser) {
+            hiddenDetailTagAnimation()
+        }
     }
 
     private fun fetchProjectListFromServer() {
@@ -264,43 +273,35 @@ class WanAndroidProjectFragment : BaseFragment() {
     }
 
     private fun showDetailTagAnimation() {
-        val rotateAnimation = RotateAnimation(0f, 90f, (iv_arrow_right.width / 2).toFloat(), (iv_arrow_right.height / 2).toFloat())
-        rotateAnimation.duration = 100
-        rotateAnimation.fillAfter = true
-        rotateAnimation.interpolator = AccelerateInterpolator()
-        iv_arrow_right.startAnimation(rotateAnimation)
+        iv_arrow_right?.let {
+            val rotateAnimation = RotateAnimation(0f, 90f, (iv_arrow_right.width / 2).toFloat(), (iv_arrow_right.height / 2).toFloat())
+            rotateAnimation.duration = 100
+            rotateAnimation.fillAfter = true
+            rotateAnimation.interpolator = AccelerateInterpolator()
+            iv_arrow_right.startAnimation(rotateAnimation)
 
-        rotateAnimation.setAnimationListener(object : Animation.AnimationListener {
-            override fun onAnimationRepeat(animation: Animation?) {
-            }
-
-            override fun onAnimationEnd(animation: Animation?) {
-                sv_project_category.visibility = View.VISIBLE
-            }
-
-            override fun onAnimationStart(animation: Animation?) {
-            }
-        })
+            rotateAnimation.setAnimationListener(object : MyAnimationListener() {
+                override fun onAnimationEnd(animation: Animation?) {
+                    sv_project_category.visibility = View.VISIBLE
+                }
+            })
+        }
     }
 
     private fun hiddenDetailTagAnimation() {
-        val rotateAnimation = RotateAnimation(90f, 0f, (iv_arrow_right.width / 2).toFloat(), (iv_arrow_right.height / 2).toFloat())
-        rotateAnimation.duration = 100
-        rotateAnimation.fillAfter = true
-        rotateAnimation.interpolator = AccelerateInterpolator()
-        iv_arrow_right.startAnimation(rotateAnimation)
+        iv_arrow_right?.let {
+            val rotateAnimation = RotateAnimation(90f, 0f, (iv_arrow_right.width / 2).toFloat(), (iv_arrow_right.height / 2).toFloat())
+            rotateAnimation.duration = 100
+            rotateAnimation.fillAfter = true
+            rotateAnimation.interpolator = AccelerateInterpolator()
+            iv_arrow_right.startAnimation(rotateAnimation)
 
-        rotateAnimation.setAnimationListener(object : Animation.AnimationListener {
-            override fun onAnimationRepeat(animation: Animation?) {
-            }
-
-            override fun onAnimationEnd(animation: Animation?) {
-                sv_project_category.visibility = View.GONE
-            }
-
-            override fun onAnimationStart(animation: Animation?) {
-            }
-        })
+            rotateAnimation.setAnimationListener(object : MyAnimationListener() {
+                override fun onAnimationEnd(animation: Animation?) {
+                    sv_project_category.visibility = View.GONE
+                }
+            })
+        }
     }
 
 }
