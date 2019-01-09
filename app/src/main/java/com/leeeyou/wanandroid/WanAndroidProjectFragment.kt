@@ -2,6 +2,8 @@ package com.leeeyou.wanandroid
 
 import `in`.srain.cube.views.ptr.PtrFrameLayout
 import `in`.srain.cube.views.ptr.PtrHandler
+import `in`.srain.cube.views.ptr.header.StoreHouseHeader
+import `in`.srain.cube.views.ptr.util.PtrLocalDisplay.dp2px
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
@@ -15,6 +17,7 @@ import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
+import com.leeeyou.APP_NAME
 import com.leeeyou.R
 import com.leeeyou.manager.BaseFragment
 import com.leeeyou.manager.MyAnimationListener
@@ -222,6 +225,7 @@ class WanAndroidProjectFragment : BaseFragment() {
     }
 
     private fun initPtrFrame() {
+        initHeadView()
         ptrFrameProject.disableWhenHorizontalMove(true)
         ptrFrameProject.setPtrHandler(object : PtrHandler {
             override fun onRefreshBegin(frame: PtrFrameLayout?) {
@@ -232,6 +236,15 @@ class WanAndroidProjectFragment : BaseFragment() {
             override fun checkCanDoRefresh(frame: PtrFrameLayout?, content: View?, header: View?): Boolean =
                     recyclerViewFirstItemCanVisible()
         })
+    }
+
+    private fun initHeadView() {
+        val header = StoreHouseHeader(context)
+        header.setTextColor(resources.getColor(R.color.default_red))
+        header.setPadding(0, dp2px(15f), 0, 0)
+        header.initWithString(APP_NAME, 15)
+        ptrFrameProject.headerView = header
+        ptrFrameProject.addPtrUIHandler(header)
     }
 
     private fun recyclerViewFirstItemCanVisible() =

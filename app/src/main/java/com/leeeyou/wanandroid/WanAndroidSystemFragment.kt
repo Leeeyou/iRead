@@ -2,6 +2,8 @@ package com.leeeyou.wanandroid
 
 import `in`.srain.cube.views.ptr.PtrFrameLayout
 import `in`.srain.cube.views.ptr.PtrHandler
+import `in`.srain.cube.views.ptr.header.StoreHouseHeader
+import `in`.srain.cube.views.ptr.util.PtrLocalDisplay.dp2px
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
@@ -14,6 +16,7 @@ import android.view.animation.RotateAnimation
 import android.widget.TextView
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
+import com.leeeyou.APP_NAME
 import com.leeeyou.R
 import com.leeeyou.manager.BaseFragment
 import com.leeeyou.manager.MyAnimationListener
@@ -123,6 +126,7 @@ class WanAndroidSystemFragment : BaseFragment() {
     }
 
     private fun initPtrFrame() {
+        initHeadView()
         ptrFrameSystemTag.disableWhenHorizontalMove(true)
         ptrFrameSystemTag.setPtrHandler(object : PtrHandler {
             override fun onRefreshBegin(frame: PtrFrameLayout?) {
@@ -132,6 +136,15 @@ class WanAndroidSystemFragment : BaseFragment() {
             override fun checkCanDoRefresh(frame: PtrFrameLayout?, content: View?, header: View?): Boolean =
                     sv_system_tag_all.visibility != View.VISIBLE && recyclerViewFirstItemCanVisible()
         })
+    }
+
+    private fun initHeadView() {
+        val header = StoreHouseHeader(context)
+        header.setTextColor(resources.getColor(R.color.default_red))
+        header.setPadding(0, dp2px(15f), 0, 0)
+        header.initWithString(APP_NAME, 15)
+        ptrFrameSystemTag.headerView = header
+        ptrFrameSystemTag.addPtrUIHandler(header)
     }
 
     private fun pullDownToRefresh() {

@@ -2,14 +2,18 @@ package com.leeeyou.zhihudaily.view
 
 import `in`.srain.cube.views.ptr.PtrDefaultHandler
 import `in`.srain.cube.views.ptr.PtrFrameLayout
+import `in`.srain.cube.views.ptr.header.StoreHouseHeader
+import `in`.srain.cube.views.ptr.util.PtrLocalDisplay.dp2px
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.chad.library.adapter.base.BaseQuickAdapter
+import com.leeeyou.APP_NAME
 import com.leeeyou.R
 import com.leeeyou.manager.BaseFragment
+import com.leeeyou.manager.MyLoadMoreView
 import com.leeeyou.util.T.showShort
 import com.leeeyou.util.startBrowserActivity
 import com.leeeyou.zhihudaily.model.bean.ZhiHuDaily
@@ -55,6 +59,7 @@ class ZhiHuDailyFragment : BaseFragment() {
     }
 
     private fun initPtr() {
+        initHeadView()
         ptrFrameOfZhiHuDaily.disableWhenHorizontalMove(true)
         ptrFrameOfZhiHuDaily.setPtrHandler(object : PtrDefaultHandler() {
             override fun onRefreshBegin(frame: PtrFrameLayout?) {
@@ -68,9 +73,19 @@ class ZhiHuDailyFragment : BaseFragment() {
         })
     }
 
+    private fun initHeadView() {
+        val header = StoreHouseHeader(context)
+        header.setTextColor(resources.getColor(R.color.default_red))
+        header.setPadding(0, dp2px(15f), 0, 0)
+        header.initWithString(APP_NAME, 15)
+        ptrFrameOfZhiHuDaily.headerView = header
+        ptrFrameOfZhiHuDaily.addPtrUIHandler(header)
+    }
+
     private fun initAdapter() {
         mAdapter = ZhiHuDailyAdapter(R.layout.item_zhihu_daily, null)
         mAdapter.openLoadAnimation(BaseQuickAdapter.SCALEIN)
+        mAdapter.setLoadMoreView(MyLoadMoreView())
         mAdapter.setOnItemChildClickListener { adapter, _, position ->
             val item: ZhiHuDailyItem? = adapter.getItem(position) as ZhiHuDailyItem
             item?.let {

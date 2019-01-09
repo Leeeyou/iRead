@@ -16,6 +16,7 @@ import kotlinx.android.synthetic.main.activity_index.*
 private const val INDEX_VIEWPAGER_WEATHER_STR = "天气"
 private const val INDEX_VIEWPAGER_ANDROID_STR = "安卓"
 private const val INDEX_VIEWPAGER_ZHIHU_STR = "知乎"
+const val APP_NAME = "RsKotlin"
 
 /**
  * ClassName:   IndexActivity
