@@ -2,6 +2,8 @@ package com.leeeyou.wanandroid
 
 import `in`.srain.cube.views.ptr.PtrFrameLayout
 import `in`.srain.cube.views.ptr.PtrHandler
+import `in`.srain.cube.views.ptr.header.StoreHouseHeader
+import `in`.srain.cube.views.ptr.util.PtrLocalDisplay.dp2px
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
@@ -16,6 +18,8 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.leeeyou.R
 import com.leeeyou.manager.BaseFragment
+import com.leeeyou.manager.MyAnimationListener
+import com.leeeyou.manager.MyLoadMoreView
 import com.leeeyou.service.subscriber.DefaultHttpResultSubscriber
 import com.leeeyou.util.HtmlUtils
 import com.leeeyou.util.inflate
@@ -114,12 +118,14 @@ class WanAndroidSystemFragment : BaseFragment() {
             startBrowserActivity(context!!, item.link, item.title)
         }
         mSystemTagArticleAdapter.openLoadAnimation(BaseQuickAdapter.SCALEIN)
+        mSystemTagArticleAdapter.setLoadMoreView(MyLoadMoreView())
 
         recyclerViewSystem.layoutManager = mLinearLayoutManager
         recyclerViewSystem.adapter = mSystemTagArticleAdapter
     }
 
     private fun initPtrFrame() {
+        initHeadView()
         ptrFrameSystemTag.disableWhenHorizontalMove(true)
         ptrFrameSystemTag.setPtrHandler(object : PtrHandler {
             override fun onRefreshBegin(frame: PtrFrameLayout?) {
@@ -129,6 +135,15 @@ class WanAndroidSystemFragment : BaseFragment() {
             override fun checkCanDoRefresh(frame: PtrFrameLayout?, content: View?, header: View?): Boolean =
                     sv_system_tag_all.visibility != View.VISIBLE && recyclerViewFirstItemCanVisible()
         })
+    }
+
+    private fun initHeadView() {
+        val header = StoreHouseHeader(context)
+        header.setTextColor(resources.getColor(R.color.default_red))
+        header.setPadding(0, dp2px(15f), 0, 0)
+        header.initWithString("Play Android", 15)
+        ptrFrameSystemTag.headerView = header
+        ptrFrameSystemTag.addPtrUIHandler(header)
     }
 
     private fun pullDownToRefresh() {
@@ -188,15 +203,9 @@ class WanAndroidSystemFragment : BaseFragment() {
             rotateAnimation.interpolator = AccelerateInterpolator()
             iv_arrow_right.startAnimation(rotateAnimation)
 
-            rotateAnimation.setAnimationListener(object : Animation.AnimationListener {
-                override fun onAnimationRepeat(animation: Animation?) {
-                }
-
+            rotateAnimation.setAnimationListener(object : MyAnimationListener() {
                 override fun onAnimationEnd(animation: Animation?) {
                     sv_system_tag_all?.visibility = View.VISIBLE
-                }
-
-                override fun onAnimationStart(animation: Animation?) {
                 }
             })
         }
@@ -210,15 +219,9 @@ class WanAndroidSystemFragment : BaseFragment() {
             rotateAnimation.interpolator = AccelerateInterpolator()
             iv_arrow_right.startAnimation(rotateAnimation)
 
-            rotateAnimation.setAnimationListener(object : Animation.AnimationListener {
-                override fun onAnimationRepeat(animation: Animation?) {
-                }
-
+            rotateAnimation.setAnimationListener(object : MyAnimationListener() {
                 override fun onAnimationEnd(animation: Animation?) {
                     sv_system_tag_all.visibility = View.GONE
-                }
-
-                override fun onAnimationStart(animation: Animation?) {
                 }
             })
         }

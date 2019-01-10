@@ -2,6 +2,8 @@ package com.leeeyou.wanandroid
 
 import `in`.srain.cube.views.ptr.PtrFrameLayout
 import `in`.srain.cube.views.ptr.PtrHandler
+import `in`.srain.cube.views.ptr.header.StoreHouseHeader
+import `in`.srain.cube.views.ptr.util.PtrLocalDisplay.dp2px
 import android.content.Context
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
@@ -14,6 +16,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.leeeyou.R
 import com.leeeyou.manager.BaseFragment
+import com.leeeyou.manager.MyLoadMoreView
 import com.leeeyou.service.subscriber.DefaultHttpResultSubscriber
 import com.leeeyou.util.HtmlUtils
 import com.leeeyou.util.inflate
@@ -86,6 +89,7 @@ class WanAndroidRecommendFragment : BaseFragment() {
             startBrowserActivity(context!!, item.link, item.title)
         }
         mRecommendAdapter.openLoadAnimation(BaseQuickAdapter.SCALEIN)
+        mRecommendAdapter.setLoadMoreView(MyLoadMoreView())
 
         recyclerViewRecommend.layoutManager = mLinearLayoutManager
         recyclerViewRecommend.adapter = mRecommendAdapter
@@ -105,6 +109,7 @@ class WanAndroidRecommendFragment : BaseFragment() {
     }
 
     private fun initPtrFrame() {
+        initHeadView()
         ptrFrameRecommend.disableWhenHorizontalMove(true)
         ptrFrameRecommend.setPtrHandler(object : PtrHandler {
             override fun onRefreshBegin(frame: PtrFrameLayout?) {
@@ -113,6 +118,15 @@ class WanAndroidRecommendFragment : BaseFragment() {
 
             override fun checkCanDoRefresh(frame: PtrFrameLayout?, content: View?, header: View?): Boolean = recyclerViewFirstItemCanVisible()
         })
+    }
+
+    private fun initHeadView() {
+        val header = StoreHouseHeader(context)
+        header.setTextColor(resources.getColor(R.color.default_red))
+        header.setPadding(0, dp2px(15f), 0, 0)
+        header.initWithString("Play Android", 15)
+        ptrFrameRecommend.headerView = header
+        ptrFrameRecommend.addPtrUIHandler(header)
     }
 
     private fun recyclerViewFirstItemCanVisible() =
