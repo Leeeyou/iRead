@@ -17,7 +17,6 @@ import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
-import com.leeeyou.APP_NAME
 import com.leeeyou.R
 import com.leeeyou.manager.BaseFragment
 import com.leeeyou.manager.MyAnimationListener
@@ -242,7 +241,7 @@ class WanAndroidProjectFragment : BaseFragment() {
         val header = StoreHouseHeader(context)
         header.setTextColor(resources.getColor(R.color.default_red))
         header.setPadding(0, dp2px(15f), 0, 0)
-        header.initWithString(APP_NAME, 15)
+        header.initWithString("Play Android", 15)
         ptrFrameProject.headerView = header
         ptrFrameProject.addPtrUIHandler(header)
     }

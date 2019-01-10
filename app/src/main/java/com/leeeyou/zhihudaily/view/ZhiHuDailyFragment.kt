@@ -10,7 +10,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.chad.library.adapter.base.BaseQuickAdapter
-import com.leeeyou.APP_NAME
 import com.leeeyou.R
 import com.leeeyou.manager.BaseFragment
 import com.leeeyou.manager.MyLoadMoreView
@@ -77,7 +76,7 @@ class ZhiHuDailyFragment : BaseFragment() {
         val header = StoreHouseHeader(context)
         header.setTextColor(resources.getColor(R.color.default_red))
         header.setPadding(0, dp2px(15f), 0, 0)
-        header.initWithString(APP_NAME, 15)
+        header.initWithString("ZhiHu Daily", 15)
         ptrFrameOfZhiHuDaily.headerView = header
         ptrFrameOfZhiHuDaily.addPtrUIHandler(header)
     }
