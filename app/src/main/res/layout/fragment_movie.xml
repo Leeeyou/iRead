@@ -1,0 +1,17 @@
+<in.srain.cube.views.ptr.PtrFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                        android:id="@+id/ptrFrameHotMovie"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerViewMovie"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </RelativeLayout>
+
+</in.srain.cube.views.ptr.PtrFrameLayout>
