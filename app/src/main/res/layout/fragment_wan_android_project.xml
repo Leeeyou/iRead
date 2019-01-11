@@ -21,6 +21,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
                 android:paddingLeft="10dp"
+                android:textColor="@color/default_white"
                 android:textSize="14sp"
                 android:textStyle="bold"
                 tools:text="最新推荐项目"/>
