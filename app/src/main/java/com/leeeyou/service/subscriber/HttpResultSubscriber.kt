@@ -37,7 +37,7 @@ abstract class HttpResultSubscriber<T> : Subscriber<HttpResultEntity<T>>() {
         } ?: _onError(httpResult.errorCode, "")
     }
 
-    abstract fun onSuccess(t: T?)
+    abstract fun onSuccess(data: T?)
 
     abstract fun _onError(status: Int, msg: String?)
 }

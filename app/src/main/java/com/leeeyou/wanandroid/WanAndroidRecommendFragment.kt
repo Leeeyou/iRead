@@ -145,8 +145,8 @@ class WanAndroidRecommendFragment : BaseFragment() {
     private fun fetchRecommendListFromServer(pageIndex: Int) {
         fetchRecommendList(pageIndex).subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(object : DefaultHttpResultSubscriber<RecommendList>() {
-                    override fun onSuccess(t: RecommendList?) {
-                        t?.let {
+                    override fun onSuccess(data: RecommendList?) {
+                        data?.let {
                             renderRecommendList(pageIndex, it)
                             if (mPageIndex == 0 && it.datas.size < it.size) {
                                 mRecommendAdapter.loadMoreEnd()
