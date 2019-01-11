@@ -71,7 +71,7 @@ public class BrowserActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        StatusBarUtil.setColor(BrowserActivity.this, getResources().getColor(R.color.default_gray));
+        StatusBarUtil.setTranslucent(BrowserActivity.this, getResources().getColor(R.color.colorPrimaryDark));
         Intent intent = getIntent();
         String url = intent.getStringExtra(PARAM_URL);
         int mode = intent.getIntExtra(PARAM_MODE, -1);
@@ -79,6 +79,7 @@ public class BrowserActivity extends BaseActivity {
             finish();
             return;
         }
+
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED);
 

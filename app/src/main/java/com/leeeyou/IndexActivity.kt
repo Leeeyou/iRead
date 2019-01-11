@@ -1,11 +1,10 @@
 package com.leeeyou
 
-import android.graphics.Color
 import android.os.Bundle
+import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.widget.ImageView
-import com.jaeger.library.StatusBarUtil
 import com.leeeyou.movie.MovieFragment
 import com.leeeyou.wanandroid.WanAndroidFragment
 import com.leeeyou.zhihudaily.view.ZhiHuDailyFragment
@@ -25,14 +24,18 @@ private const val INDEX_VIEWPAGER_ZHIHU_STR = "知乎"
  * Date:        2018/12/21 18:02
  */
 class IndexActivity : AppCompatActivity() {
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        setContentView(R.layout.activity_index)
+
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
-        setContentView(R.layout.activity_index)
+        val toggle = ActionBarDrawerToggle(this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
+        drawer_layout.setDrawerListener(toggle)
+        toggle.syncState()
+
         initViewPager()
-        StatusBarUtil.setColor(this@IndexActivity, Color.WHITE)
     }
 
     private fun initViewPager() {

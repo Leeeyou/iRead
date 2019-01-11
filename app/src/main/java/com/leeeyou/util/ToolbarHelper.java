@@ -15,7 +15,7 @@ import com.leeeyou.R;
 /**
  * ClassName:   ToolbarHelper
  * Description: Toolbar helper class to extract public methods from Original and Center
- *
+ * <p>
  * Author:      leeeyou
  * Date:        2016/5/10 15:18
  */
@@ -40,11 +40,8 @@ public class ToolbarHelper {
 
     public static void setContentView(AppCompatActivity activity, View view) {
         LinearLayout rootLayout = activity.findViewById(R.id.rootLayout);
-
         if (rootLayout == null) return;
-
         rootLayout.addView(view, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-
         initToolbar(activity);
     }
 
