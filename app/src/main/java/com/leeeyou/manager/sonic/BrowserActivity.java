@@ -27,6 +27,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
 
+import com.jaeger.library.StatusBarUtil;
 import com.leeeyou.R;
 import com.leeeyou.manager.BaseActivity;
 import com.tencent.sonic.sdk.SonicCacheInterceptor;
@@ -70,6 +71,7 @@ public class BrowserActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        StatusBarUtil.setColor(BrowserActivity.this, getResources().getColor(R.color.colorPrimaryDark));
         Intent intent = getIntent();
         String url = intent.getStringExtra(PARAM_URL);
         int mode = intent.getIntExtra(PARAM_MODE, -1);

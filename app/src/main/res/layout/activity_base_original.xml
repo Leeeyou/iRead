@@ -12,6 +12,6 @@
         android:minHeight="?attr/actionBarSize"
         android:paddingTop="@dimen/toolbar_padding_top"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
+        app:theme="@style/ToolbarColoredBackArrow" />
 
 </LinearLayout>

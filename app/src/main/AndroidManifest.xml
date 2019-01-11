@@ -18,7 +18,8 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".IndexActivity">
+        <activity
+            android:name=".IndexActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -43,6 +44,7 @@
 
         <activity
             android:name=".manager.sonic.BrowserActivity"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait"/>
     </application>
 

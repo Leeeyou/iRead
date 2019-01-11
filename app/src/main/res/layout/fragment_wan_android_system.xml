@@ -23,6 +23,7 @@
                 android:paddingLeft="10dp"
                 android:text="开发环境 / gradle"
                 android:textSize="14sp"
+                android:textColor="@color/default_white"
                 android:textStyle="bold"
                 tools:text="开发环境 / gradle" />
 

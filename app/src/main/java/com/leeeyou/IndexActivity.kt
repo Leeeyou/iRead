@@ -1,9 +1,9 @@
 package com.leeeyou
 
 import android.os.Bundle
+import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
-import android.view.Window
 import android.widget.ImageView
 import com.leeeyou.movie.MovieFragment
 import com.leeeyou.wanandroid.WanAndroidFragment
@@ -13,7 +13,7 @@ import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems
 import kotlinx.android.synthetic.main.activity_index.*
 
-private const val INDEX_VIEWPAGER_MOVIE_STR = "天气"
+private const val INDEX_VIEWPAGER_MOVIE_STR = "电影"
 private const val INDEX_VIEWPAGER_ANDROID_STR = "安卓"
 private const val INDEX_VIEWPAGER_ZHIHU_STR = "知乎"
 
@@ -24,11 +24,17 @@ private const val INDEX_VIEWPAGER_ZHIHU_STR = "知乎"
  * Date:        2018/12/21 18:02
  */
 class IndexActivity : AppCompatActivity() {
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        requestWindowFeature(Window.FEATURE_NO_TITLE)
+
         setContentView(R.layout.activity_index)
+
+        setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
+        val toggle = ActionBarDrawerToggle(this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
+        drawer_layout.setDrawerListener(toggle)
+        toggle.syncState()
+
         initViewPager()
     }
 

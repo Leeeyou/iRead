@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="app_primary_color">#34495E</color>
-    <color name="app_primary_color_dark">#000000</color>
-    <color name="app_color_background">#EEEEEE</color>
+    <!--<color name="colorPrimary">#146e6e</color>-->
+    <!--<color name="colorPrimaryDark">#083939</color>-->
+    <!--<color name="colorAccent">#FF4081</color>-->
+
+    <color name="colorPrimary">@color/default_white</color>
+    <color name="colorPrimaryDark">@color/default_gray</color>
+    <color name="colorAccent">#FF4081</color>
+
 
     <color name="primary">#5DA0A2</color>
     <color name="primary_dark">#142E3C</color>
@@ -44,6 +49,7 @@
     <color name="default_red">#DC4037</color>
     <color name="default_gray">#FF63727B</color>
     <color name="default_white">#ffffff</color>
+    <color name="default_white_half">#7fffffff</color>
     <color name="default_debug">#f9f900</color>
     <color name="default_item_divider">#c5c5c5</color>
 

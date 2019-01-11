@@ -69,8 +69,7 @@ class WanAndroidSystemFragment : BaseFragment() {
 
     override fun setUserVisibleHint(isVisibleToUser: Boolean) {
         super.setUserVisibleHint(isVisibleToUser)
-        // onPause
-        if (!isVisibleToUser) {
+        if (!isVisibleToUser) {   // onPause
             hiddenDetailTagAnimation()
         }
     }
@@ -231,10 +230,10 @@ class WanAndroidSystemFragment : BaseFragment() {
         Timber.d("fetchSystemTagArticleList ,  parent id is %s , child id is %s", mSelectedParentTagId, mSelectedChildTagId)
         fetchSystemTagArticleList(pageIndex, mSelectedChildTagId).subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(object : DefaultHttpResultSubscriber<SystemTagArticleList>() {
-                    override fun onSuccess(t: SystemTagArticleList?) {
-                        t?.let {
-                            renderSystemTagArticleList(pageIndex, t)
-                            if (mPageIndex == 0 && t.datas.size < t.size) {
+                    override fun onSuccess(data: SystemTagArticleList?) {
+                        data?.let {
+                            renderSystemTagArticleList(pageIndex, data)
+                            if (mPageIndex == 0 && data.datas.size < data.size) {
                                 mSystemTagArticleAdapter.loadMoreEnd()
                             } else if (mPageIndex > 0) {
                                 mSystemTagArticleAdapter.loadMoreComplete()

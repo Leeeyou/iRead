@@ -60,6 +60,13 @@ class WanAndroidProjectFragment : BaseFragment() {
         return container?.inflate(R.layout.fragment_wan_android_project)
     }
 
+    override fun setUserVisibleHint(isVisibleToUser: Boolean) {
+        super.setUserVisibleHint(isVisibleToUser)
+        if (!isVisibleToUser) { // onPause
+            hiddenDetailTagAnimation()
+        }
+    }
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         initRecyclerView()
@@ -68,11 +75,71 @@ class WanAndroidProjectFragment : BaseFragment() {
         fetchProjectCategoryListFromServer()
     }
 
-    override fun setUserVisibleHint(isVisibleToUser: Boolean) {
-        super.setUserVisibleHint(isVisibleToUser)
-        // onPause
-        if (!isVisibleToUser) {
-            hiddenDetailTagAnimation()
+    private fun initRecyclerView() {
+        mLinearLayoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        mProjectAdapter = object : BaseQuickAdapter<RecommendItem, BaseViewHolder>(R.layout.item_project, null) {
+            override fun convert(helper: BaseViewHolder?, item: RecommendItem?) {
+                if (item == null || helper == null) return
+
+                helper.setText(R.id.tv_title, HtmlUtils.translation(item.title))
+                        .setText(R.id.tv_author, item.author)
+                        .setText(R.id.tv_niceDate, item.niceDate)
+
+                Glide.with(mContext).load(item.envelopePic).into(helper.getView(R.id.iv_project) as ImageView)
+
+                helper.setOnClickListener(R.id.tv_view_similar_projects) {
+                    T.showShort(mContext, "显示同类项目")
+                    TODO("显示同类项目")
+                }
+            }
+        }
+        mProjectAdapter.setOnLoadMoreListener({
+            if (mPageIndex + 1 == mPageCount) {
+                mProjectAdapter.loadMoreEnd()
+            } else {
+                mPageIndex++
+                fetchProjectListFromServer()
+            }
+        }, recyclerViewProject)
+        mProjectAdapter.disableLoadMoreIfNotFullPage()
+        mProjectAdapter.setOnItemClickListener { adapter, _, position ->
+            (adapter.getItem(position) as RecommendItem)
+                    .also { startBrowserActivity(context!!, it.link, it.title) }
+        }
+        mProjectAdapter.openLoadAnimation(BaseQuickAdapter.SCALEIN)
+        mProjectAdapter.setLoadMoreView(MyLoadMoreView())
+
+        recyclerViewProject.layoutManager = mLinearLayoutManager
+        recyclerViewProject.adapter = mProjectAdapter
+    }
+
+    private fun initPtrFrame() {
+        initHeadView()
+        ptrFrameProject.disableWhenHorizontalMove(true)
+        ptrFrameProject.setPtrHandler(object : PtrHandler {
+            override fun onRefreshBegin(frame: PtrFrameLayout?) {
+                mPageIndex = 0
+                fetchProjectListFromServer()
+            }
+
+            override fun checkCanDoRefresh(frame: PtrFrameLayout?, content: View?, header: View?): Boolean {
+                return recyclerViewFirstItemCanVisible()
+            }
+        })
+    }
+
+    private fun initHeadView() {
+        val header = StoreHouseHeader(context)
+        header.setTextColor(resources.getColor(R.color.default_red))
+        header.setPadding(0, dp2px(15f), 0, 0)
+        header.initWithString("Play Android", 15)
+        ptrFrameProject.headerView = header
+        ptrFrameProject.addPtrUIHandler(header)
+    }
+
+    private fun initProjectCategoryUI() {
+        rl_project_category.setOnClickListener {
+            if (sv_project_category.visibility == View.VISIBLE) hiddenDetailTagAnimation() else showDetailTagAnimation()
         }
     }
 
@@ -85,12 +152,14 @@ class WanAndroidProjectFragment : BaseFragment() {
     }
 
     private fun fetchProjectListByRecommendFromServer(pageIndex: Int) {
-        fetchProjectListByRecommend(pageIndex).subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread())
+        fetchProjectListByRecommend(pageIndex)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(object : DefaultHttpResultSubscriber<RecommendList>() {
-                    override fun onSuccess(t: RecommendList?) {
-                        t?.let {
-                            renderProjectList(pageIndex, t)
-                            if (mPageIndex == 0 && t.datas.size < t.size) {
+                    override fun onSuccess(data: RecommendList?) {
+                        data?.let {
+                            renderProjectList(pageIndex, data)
+                            if (mPageIndex == 0 && data.datas.size < data.size) {
                                 mProjectAdapter.loadMoreEnd()
                             } else if (mPageIndex > 0) {
                                 mProjectAdapter.loadMoreComplete()
@@ -107,17 +176,14 @@ class WanAndroidProjectFragment : BaseFragment() {
                 })
     }
 
-    private fun initProjectCategoryUI() {
-        rl_project_category.setOnClickListener {
-            if (sv_project_category.visibility == View.VISIBLE) hiddenDetailTagAnimation() else showDetailTagAnimation()
-        }
-    }
 
     private fun fetchProjectCategoryListFromServer() {
-        fetchProjectCategory().subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread())
+        fetchProjectCategory()
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(object : DefaultHttpResultSubscriber<List<SystemTag>>() {
-                    override fun onSuccess(t: List<SystemTag>?) {
-                        t?.let {
+                    override fun onSuccess(data: List<SystemTag>?) {
+                        data?.also {
                             renderProjectCategory(it)
                         }
                     }
@@ -158,10 +224,8 @@ class WanAndroidProjectFragment : BaseFragment() {
         flowLayout_project_category.adapter = object : TagAdapter<SystemTag>(categoryList) {
             override fun getView(parent: FlowLayout?, position: Int, systemTag: SystemTag?): View {
                 val parentTag = layoutInflater.inflate(R.layout.item_system_tag, null) as TextView
-                systemTag?.let {
-                    parentTag.text = HtmlUtils.translation(it.name)
-                    return parentTag
-                }
+                if (systemTag == null) return parentTag
+                parentTag.text = HtmlUtils.translation(systemTag.name)
                 return parentTag
             }
         }
@@ -183,86 +247,24 @@ class WanAndroidProjectFragment : BaseFragment() {
         }
     }
 
-    private fun initRecyclerView() {
-        mLinearLayoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-        mProjectAdapter = object : BaseQuickAdapter<RecommendItem, BaseViewHolder>(R.layout.item_project, null) {
-            override fun convert(helper: BaseViewHolder?, item: RecommendItem?) {
-                item?.also {
-                    helper?.also { helper ->
-                        helper.setText(R.id.tv_title, HtmlUtils.translation(it.title))
-                                .setText(R.id.tv_author, it.author)
-                                .setText(R.id.tv_niceDate, it.niceDate)
-
-                        val imageView = helper.getView(R.id.iv_project) as ImageView
-                        Glide.with(mContext).load(item.envelopePic).into(imageView)
-
-                        helper.setOnClickListener(R.id.tv_view_similar_projects) {
-                            T.showShort(mContext, "显示同类项目")
-                        }
-                    }
-                }
-            }
-        }
-        mProjectAdapter.setOnLoadMoreListener({
-            if (mPageIndex + 1 == mPageCount) {
-                mProjectAdapter.loadMoreEnd()
-            } else {
-                mPageIndex++
-                fetchProjectListFromServer()
-            }
-        }, recyclerViewProject)
-        mProjectAdapter.disableLoadMoreIfNotFullPage()
-        mProjectAdapter.setOnItemClickListener { adapter, _, position ->
-            val item: RecommendItem = adapter.getItem(position) as RecommendItem
-            startBrowserActivity(context!!, item.link, item.title)
-        }
-        mProjectAdapter.openLoadAnimation(BaseQuickAdapter.SCALEIN)
-        mProjectAdapter.setLoadMoreView(MyLoadMoreView())
-
-        recyclerViewProject.layoutManager = mLinearLayoutManager
-        recyclerViewProject.adapter = mProjectAdapter
-    }
-
-    private fun initPtrFrame() {
-        initHeadView()
-        ptrFrameProject.disableWhenHorizontalMove(true)
-        ptrFrameProject.setPtrHandler(object : PtrHandler {
-            override fun onRefreshBegin(frame: PtrFrameLayout?) {
-                mPageIndex = 0
-                fetchProjectListFromServer()
-            }
-
-            override fun checkCanDoRefresh(frame: PtrFrameLayout?, content: View?, header: View?): Boolean =
-                    recyclerViewFirstItemCanVisible()
-        })
-    }
-
-    private fun initHeadView() {
-        val header = StoreHouseHeader(context)
-        header.setTextColor(resources.getColor(R.color.default_red))
-        header.setPadding(0, dp2px(15f), 0, 0)
-        header.initWithString("Play Android", 15)
-        ptrFrameProject.headerView = header
-        ptrFrameProject.addPtrUIHandler(header)
-    }
-
     private fun recyclerViewFirstItemCanVisible() =
             mLinearLayoutManager.findFirstCompletelyVisibleItemPosition() <= 0
 
     private fun fetchProjectListByCategoryFromServer(pageIndex: Int) {
-        fetchProjectListByCategory(pageIndex, mSelectedCategoryId).subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread())
+        fetchProjectListByCategory(pageIndex, mSelectedCategoryId)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(object : DefaultHttpResultSubscriber<RecommendList>() {
-                    override fun onSuccess(t: RecommendList?) {
-                        t?.let {
-                            renderProjectList(pageIndex, t)
-                            if (pageIndex == 0) {
-                                recyclerViewProject.smoothScrollToPosition(0)
-                                if (t.datas.size < t.size) {
-                                    mProjectAdapter.loadMoreEnd()
-                                }
-                            } else if (pageIndex > 0) {
-                                mProjectAdapter.loadMoreComplete()
+                    override fun onSuccess(data: RecommendList?) {
+                        if (data == null) return
+                        renderProjectList(pageIndex, data)
+                        if (pageIndex == 0) {
+                            recyclerViewProject.smoothScrollToPosition(0)
+                            if (data.datas.size < data.size) {
+                                mProjectAdapter.loadMoreEnd()
                             }
+                        } else if (pageIndex > 0) {
+                            mProjectAdapter.loadMoreComplete()
                         }
                     }
 
