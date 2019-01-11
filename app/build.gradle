@@ -111,4 +111,7 @@ dependencies {
     //smarttablayout
     implementation 'com.ogaclejapan.smarttablayout:library:1.6.1@aar'
     implementation 'com.ogaclejapan.smarttablayout:utils-v4:1.6.1@aar'
+
+    //statusbar
+    implementation 'com.jaeger.statusbarutil:library:1.5.1'
 }

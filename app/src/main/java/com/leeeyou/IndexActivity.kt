@@ -1,10 +1,11 @@
 package com.leeeyou
 
+import android.graphics.Color
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.LayoutInflater
-import android.view.Window
 import android.widget.ImageView
+import com.jaeger.library.StatusBarUtil
 import com.leeeyou.movie.MovieFragment
 import com.leeeyou.wanandroid.WanAndroidFragment
 import com.leeeyou.zhihudaily.view.ZhiHuDailyFragment
@@ -13,7 +14,7 @@ import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems
 import kotlinx.android.synthetic.main.activity_index.*
 
-private const val INDEX_VIEWPAGER_MOVIE_STR = "天气"
+private const val INDEX_VIEWPAGER_MOVIE_STR = "电影"
 private const val INDEX_VIEWPAGER_ANDROID_STR = "安卓"
 private const val INDEX_VIEWPAGER_ZHIHU_STR = "知乎"
 
@@ -27,9 +28,11 @@ class IndexActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        requestWindowFeature(Window.FEATURE_NO_TITLE)
+        setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
         setContentView(R.layout.activity_index)
         initViewPager()
+        StatusBarUtil.setColor(this@IndexActivity, Color.WHITE)
     }
 
     private fun initViewPager() {
