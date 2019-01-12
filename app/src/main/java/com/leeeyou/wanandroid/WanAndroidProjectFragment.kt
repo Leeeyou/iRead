@@ -17,6 +17,7 @@ import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
+import com.leeeyou.IndexActivity
 import com.leeeyou.R
 import com.leeeyou.manager.BaseFragment
 import com.leeeyou.manager.MyAnimationListener
@@ -123,7 +124,7 @@ class WanAndroidProjectFragment : BaseFragment() {
             }
 
             override fun checkCanDoRefresh(frame: PtrFrameLayout?, content: View?, header: View?): Boolean {
-                return recyclerViewFirstItemCanVisible()
+                return recyclerViewFirstItemCanVisible() && (activity as IndexActivity).appBarLayoutVerticalOffset >= 0
             }
         })
     }

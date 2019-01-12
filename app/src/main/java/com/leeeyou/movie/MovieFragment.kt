@@ -14,15 +14,18 @@ import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
+import com.leeeyou.IndexActivity
 import com.leeeyou.R
 import com.leeeyou.manager.BaseFragment
 import com.leeeyou.movie.model.bean.ResponseHotMovie
 import com.leeeyou.movie.model.fetchHotMovieList
 import com.leeeyou.util.HtmlUtils
 import com.leeeyou.util.inflate
+import kotlinx.android.synthetic.main.activity_index.*
 import kotlinx.android.synthetic.main.fragment_movie.*
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
+import timber.log.Timber
 
 /**
  * ClassName:   MovieFragment
@@ -66,8 +69,9 @@ class MovieFragment : BaseFragment() {
                 fetchHotMovieListFromServer()
             }
 
-            override fun checkCanDoRefresh(frame: PtrFrameLayout?, content: View?, header: View?): Boolean =
-                    recyclerViewFirstItemCanVisible()
+            override fun checkCanDoRefresh(frame: PtrFrameLayout?, content: View?, header: View?): Boolean {
+                return recyclerViewFirstItemCanVisible() && (activity as IndexActivity).appBarLayoutVerticalOffset >= 0
+            }
         })
     }
 

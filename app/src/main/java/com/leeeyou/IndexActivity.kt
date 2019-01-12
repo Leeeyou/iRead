@@ -12,6 +12,9 @@ import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItem
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems
 import kotlinx.android.synthetic.main.activity_index.*
+import android.support.design.widget.AppBarLayout
+import timber.log.Timber
+
 
 private const val INDEX_VIEWPAGER_MOVIE_STR = "电影"
 private const val INDEX_VIEWPAGER_ANDROID_STR = "安卓"
@@ -24,6 +27,9 @@ private const val INDEX_VIEWPAGER_ZHIHU_STR = "知乎"
  * Date:        2018/12/21 18:02
  */
 class IndexActivity : AppCompatActivity() {
+
+    var appBarLayoutVerticalOffset: Int = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -35,6 +41,10 @@ class IndexActivity : AppCompatActivity() {
         drawer_layout.setDrawerListener(toggle)
         toggle.syncState()
 
+
+        appBarLayout.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { appBarLayout, verticalOffset ->
+            appBarLayoutVerticalOffset = verticalOffset
+        })
         initViewPager()
     }
 
