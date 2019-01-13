@@ -131,8 +131,11 @@ class WanAndroidSystemFragment : BaseFragment() {
                 pullDownToRefresh()
             }
 
-            override fun checkCanDoRefresh(frame: PtrFrameLayout?, content: View?, header: View?): Boolean =
-                    sv_system_tag_all.visibility != View.VISIBLE && recyclerViewFirstItemCanVisible()
+            override fun checkCanDoRefresh(frame: PtrFrameLayout?, content: View?, header: View?): Boolean {
+                return sv_system_tag_all.visibility != View.VISIBLE
+                        && recyclerViewFirstItemCanVisible()
+                        && (activity as com.leeeyou.IndexActivity).appBarLayoutVerticalOffset >= 0
+            }
         })
     }
 

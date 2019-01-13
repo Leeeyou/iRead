@@ -67,7 +67,7 @@ class ZhiHuDailyFragment : BaseFragment() {
             }
 
             override fun checkCanDoRefresh(frame: PtrFrameLayout?, content: View?, header: View?): Boolean {
-                return !recyclerViewRiBao.canScrollVertically(-1)
+                return !recyclerViewRiBao.canScrollVertically(-1) && (activity as com.leeeyou.IndexActivity).appBarLayoutVerticalOffset >= 0
             }
         })
     }
