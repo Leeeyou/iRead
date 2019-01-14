@@ -8,7 +8,7 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/nav_header_bg"
+        android:background="@color/colorBackground"
         android:scaleType="centerCrop"/>
 
     <RelativeLayout
@@ -21,20 +21,25 @@
             android:id="@+id/tv_unlogin_desc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="70dp"
             android:text="登录玩Android，开启收藏之旅"
-            android:textColor="@android:color/white"/>
+            android:textColor="@color/colorTxtEnable"
+            android:textSize="12sp"/>
 
         <Button
             android:id="@+id/btn_goto_login"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
             android:layout_below="@id/tv_unlogin_desc"
             android:layout_centerInParent="true"
-            android:padding="16dp"
+            android:layout_marginLeft="35dp"
+            android:layout_marginRight="35dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/shape_login_btn"
             android:text="立即登录"
             android:textColor="@android:color/white"
-            android:textSize="12sp"/>
+            android:textSize="14sp"/>
 
     </RelativeLayout>
 
@@ -49,7 +54,7 @@
             android:layout_width="72dp"
             android:layout_height="72dp"
             android:layout_centerInParent="true"
-            android:src="@drawable/ic_avatar"/>
+            android:src="@mipmap/ic_launcher"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -58,7 +63,7 @@
             android:layout_centerInParent="true"
             android:layout_marginTop="10dp"
             android:clickable="true"
-            android:textColor="@android:color/white"
+            android:textColor="@color/colorTxtEnable"
             android:textStyle="bold"
             tools:text="Jaeger"/>
 

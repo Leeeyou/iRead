@@ -30,7 +30,7 @@
         android:textColor="@color/colorTxtDefault"/>
 
     <EditText
-        android:id="@+id/et_phone"
+        android:id="@+id/et_username"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@id/iv_phone"
@@ -47,7 +47,7 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_alignLeft="@id/iv_phone"
-        android:layout_alignRight="@id/et_phone"
+        android:layout_alignRight="@id/et_username"
         android:layout_below="@id/iv_phone"
         android:layout_marginTop="5dp"
         android:background="@color/colorDivider"/>
@@ -87,7 +87,7 @@
         android:background="@color/colorDivider"/>
 
     <Button
-        android:id="@+id/btn_goto_reg"
+        android:id="@+id/btn_goto_login"
         android:layout_width="match_parent"
         android:layout_height="35dp"
         android:layout_below="@id/iv_password"
@@ -98,4 +98,24 @@
         android:text="登 录"
         android:textColor="#FFF"
         android:textSize="14sp"/>
+
+    <TextView
+        android:id="@+id/tv_goto_reg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/btn_goto_login"
+        android:layout_marginTop="10dp"
+        android:drawablePadding="5dp"
+        android:drawableRight="@mipmap/icon_arrow_right_project"
+        android:drawableTint="@color/colorTxtEnable"
+        android:gravity="center_vertical"
+        android:paddingBottom="10dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="20dp"
+        android:paddingTop="10dp"
+        android:text="立即注册"
+        android:textColor="@color/colorTxtEnable"
+        android:textSize="14sp"/>
+
 </RelativeLayout>

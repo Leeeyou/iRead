@@ -30,7 +30,7 @@
         android:textColor="@color/colorTxtDefault"/>
 
     <EditText
-        android:id="@+id/et_phone"
+        android:id="@+id/et_username"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@id/iv_phone"
@@ -47,7 +47,7 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_alignLeft="@id/iv_phone"
-        android:layout_alignRight="@id/et_phone"
+        android:layout_alignRight="@id/et_username"
         android:layout_below="@id/iv_phone"
         android:layout_marginTop="5dp"
         android:background="@color/colorDivider"/>
