@@ -1,56 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!--<color name="colorPrimary">#146e6e</color>-->
-    <!--<color name="colorPrimaryDark">#083939</color>-->
-    <!--<color name="colorAccent">#FF4081</color>-->
+    <!-- 主题色块-->
+    <color name="colorPrimary">#F44336</color>
+    <color name="colorPrimaryDark">#C62828</color>
+    <color name="colorAccent">#E53935</color>
 
-    <color name="colorPrimary">@color/default_white</color>
-    <color name="colorPrimaryDark">@color/default_gray</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorToolbarHomeAsUp">#FFFFFF</color>
+    <color name="colorToolbarTxt">#FFFFFF</color>
 
+    <color name="colorTxtEnable">@color/colorPrimary</color>
+    <color name="colorTxtDefault">#A1A3A6</color>
 
-    <color name="primary">#5DA0A2</color>
-    <color name="primary_dark">#142E3C</color>
-    <color name="primary_gray">#F4F7F7</color>
-    <color name="primary_gray_dark">#c5c5c5</color>
-    <color name="accent">#AACFD0</color>
-    <color name="white">#FFFFFFFF</color>
-    <color name="black">#FF000000</color>
-    <color name="black_20">#33000000</color>
-    <color name="white_20">#33FFFFFF</color>
-    <color name="transparent">#00000000</color>
+    <color name="colorIconEnable">#FFFFFF</color>
+    <color name="colorIconDefault">@color/colorPrimaryDark</color>
 
-    <color name="text_enabled">#FFFFFFFF</color>
-    <color name="text_disabled">#626262</color>
+    <color name="colorPressedItem">#F0F0F0</color>
+    <color name="colorNotPressItem">#FFFFFF</color>
 
-    <color name="medium_text_enabled">#FF000000</color>
-    <color name="medium_text_disabled">#4D000000</color>
-
-    <color name="light_blue_500">#03A9F4</color>
-    <color name="cyan_500">#00BCD4</color>
-    <color name="teal_500">#009688</color>
-    <color name="green_500">#4CAF50</color>
-    <color name="light_green_500">#8BC34A</color>
-
-    <integer-array name="custom_tab_colors">
-        <item>@color/light_blue_500</item>
-        <item>@color/cyan_500</item>
-        <item>@color/teal_500</item>
-        <item>@color/green_500</item>
-        <item>@color/light_green_500</item>
-    </integer-array>
-
-    <color name="icon_enabled">@color/default_red</color>
-    <color name="icon_disabled">@color/default_gray</color>
-
-    <color name="item_pressed">#f0f0f0</color>
-    <color name="item_default">@color/default_white</color>
-
-    <color name="default_red">#DC4037</color>
-    <color name="default_gray">#FF63727B</color>
-    <color name="default_white">#ffffff</color>
-    <color name="default_white_half">#7fffffff</color>
-    <color name="default_debug">#f9f900</color>
-    <color name="default_item_divider">#c5c5c5</color>
+    <color name="colorBackground">#FFFFFF</color>
+    <color name="colorBackgroundForSystemTag">#FFCDD2</color>
+    <color name="colorIconTint">@color/colorPrimary</color>
+    <color name="colorDivider">#E9E9E9</color>
 
 </resources>

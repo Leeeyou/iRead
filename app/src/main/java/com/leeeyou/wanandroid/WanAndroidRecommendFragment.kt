@@ -125,7 +125,7 @@ class WanAndroidRecommendFragment : BaseFragment() {
 
     private fun initHeadView() {
         val header = StoreHouseHeader(context)
-        header.setTextColor(resources.getColor(R.color.default_red))
+        header.setTextColor(resources.getColor(R.color.colorTxtEnable))
         header.setPadding(0, dp2px(15f), 0, 0)
         header.initWithString("Play Android", 15)
         ptrFrameRecommend.headerView = header

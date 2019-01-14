@@ -32,7 +32,7 @@
         android:layout_marginBottom="4dp"
         android:layout_toRightOf="@id/iv_story_image"
         android:text="2016-09-01"
-        android:textColor="@color/primary_gray_dark"
+        android:textColor="@android:color/black"
         android:textSize="12sp"/>
 
     <View
@@ -42,5 +42,5 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
-        android:background="@color/default_item_divider"/>
+        android:background="@color/colorTxtDefault"/>
 </RelativeLayout>

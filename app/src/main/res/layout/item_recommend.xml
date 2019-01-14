@@ -13,7 +13,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
-        android:textColor="@color/black"
+        android:textColor="@android:color/black"
         android:textSize="16sp"
         tools:text="Android 开发高手课 文章更新学习笔记Android 开发高手课 文章更新学习笔记Android 开发高手课 文章更新学习笔记"/>
 
@@ -26,7 +26,7 @@
         android:layout_below="@id/tv_title"
         android:layout_marginTop="10dp"
         android:text="置顶"
-        android:textColor="@color/default_red"
+        android:textColor="@color/colorTxtEnable"
         android:textSize="12sp"
         android:visibility="gone"/>
 
@@ -39,7 +39,7 @@
         android:layout_marginTop="10dp"
         android:layout_toRightOf="@id/tv_topping"
         android:text="新"
-        android:textColor="@color/default_red"
+        android:textColor="@color/colorTxtEnable"
         android:textSize="12sp"
         android:visibility="gone"/>
 
@@ -51,7 +51,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
         android:layout_toRightOf="@id/tv_refresh"
-        android:textColor="@color/primary_gray_dark"
+        android:textColor="@android:color/darker_gray"
         android:textSize="12sp"
         tools:text="作者：鸿洋"/>
 
@@ -63,7 +63,7 @@
         android:layout_below="@id/tv_author"
         android:layout_marginTop="10dp"
         android:text="分类： 干货资源 / 课程推荐"
-        android:textColor="@color/primary_gray_dark"
+        android:textColor="@android:color/darker_gray"
         android:textSize="12sp"/>
 
     <TextView
@@ -73,7 +73,7 @@
         android:layout_alignTop="@id/tv_category"
         android:layout_marginLeft="10dp"
         android:layout_toRightOf="@id/tv_category"
-        android:textColor="@color/primary_gray_dark"
+        android:textColor="@android:color/darker_gray"
         android:textSize="12sp"
         tools:text="时间：2018-12-18"/>
 
@@ -84,7 +84,7 @@
         android:layout_alignRight="@id/tv_title"
         android:layout_below="@id/tv_category"
         android:layout_marginTop="13dp"
-        android:background="@color/primary_gray_dark"/>
+        android:background="@android:color/darker_gray"/>
 
 
 </RelativeLayout>
