@@ -20,7 +20,6 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         super.setContentView(R.layout.activity_base_original);
-//        ToolbarHelper.checkSdkVersionToTranslucentFlag(getWindow());
     }
 
     @Override

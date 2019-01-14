@@ -49,16 +49,17 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait"/>
         <activity
+            android:name=".login.RegActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"/>
+        <activity
             android:name=".skin.ChangeSkinActivity"
             android:label="@string/title_activity_change_skin"
             android:theme="@style/AppTheme">
         </activity>
-        <activity android:name=".opensource.OpenSourceActivity">
-        </activity>
-        <activity android:name=".setting.SettingActivity">
-        </activity>
-        <activity android:name=".movie.MovieDetailActivity">
-        </activity>
+        <activity android:name=".opensource.OpenSourceActivity"/>
+        <activity android:name=".setting.SettingActivity"/>
+        <activity android:name=".movie.MovieDetailActivity"/>
     </application>
 
 </manifest>

@@ -17,7 +17,7 @@
     <color name="colorPressedItem">#F0F0F0</color>
     <color name="colorNotPressItem">#FFFFFF</color>
 
-    <color name="colorBackground">#FFFFFF</color>
+    <color name="colorBackground">#F6F5EC</color>
     <color name="colorBackgroundForSystemTag">#FFCDD2</color>
     <color name="colorIconTint">@color/colorPrimary</color>
     <color name="colorDivider">#E9E9E9</color>

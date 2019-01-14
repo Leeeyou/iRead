@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,4 +7,4 @@
     android:background="@android:color/holo_red_dark"
     tools:context="com.leeeyou.setting.SettingActivity">
 
-</android.support.constraint.ConstraintLayout>
+</LinearLayout>

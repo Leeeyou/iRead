@@ -73,7 +73,7 @@
         android:layout_marginRight="10dp"
         android:layout_toRightOf="@id/iv_password"
         android:background="@null"
-        android:hint="请输入密码"
+        android:hint="设置登录密码，不少于6位"
         android:maxLines="1"
         android:textSize="14sp"/>
 
@@ -95,7 +95,7 @@
         android:layout_marginRight="10dp"
         android:layout_marginTop="30dp"
         android:background="@drawable/shape_login_btn"
-        android:text="登 录"
+        android:text="注 册"
         android:textColor="#FFF"
         android:textSize="14sp"/>
 </RelativeLayout>
