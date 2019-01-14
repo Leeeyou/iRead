@@ -23,7 +23,7 @@
         android:layout_below="@id/iv_hot_movie"
         android:layout_centerHorizontal="true"
         android:gravity="center"
-        android:textColor="@color/black"
+        android:textColor="@android:color/black"
         android:textSize="16sp"
         tools:text="宝贝计划"/>
 
@@ -37,7 +37,7 @@
         android:layout_marginBottom="10dp"
         android:layout_marginTop="10dp"
         android:gravity="center"
-        android:textColor="@color/primary_gray_dark"
+        android:textColor="@android:color/holo_blue_light"
         android:textSize="14sp"
         tools:text="评分：7.7"/>
 

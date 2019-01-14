@@ -11,12 +11,13 @@
         android:layout_width="match_parent"
         android:layout_height="35dp"
         android:layout_gravity="center_horizontal"
-        app:tabIndicatorColor="@color/icon_enabled"
-        app:tabIndicatorHeight="1dp"
+        android:paddingBottom="4dp"
+        app:tabIndicatorColor="@color/colorPrimary"
+        app:tabIndicatorHeight="1.5dp"
         app:tabMode="fixed"
-        app:tabSelectedTextColor="@color/icon_enabled"
+        app:tabSelectedTextColor="@color/colorTxtEnable"
         app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget"
-        app:tabTextColor="@color/icon_disabled"/>
+        app:tabTextColor="@color/colorTxtDefault"/>
 
     <android.support.v4.view.ViewPager
         android:id="@+id/wanAndroidViewPager"

@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="6dp"
             android:text="@string/brvah_loading"
-            android:textColor="@color/default_gray"
+            android:textColor="@color/colorTxtDefault"
             android:textSize="@dimen/sp_12"/>
 
         <ProgressBar
@@ -25,7 +25,7 @@
             android:layout_width="13dp"
             android:layout_height="13dp"
             android:layout_marginRight="@dimen/dp_4"
-            android:indeterminateTint="@color/default_red"/>
+            android:indeterminateTint="@color/colorIconTint"/>
     </LinearLayout>
 
     <FrameLayout

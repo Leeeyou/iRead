@@ -1,38 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="192dp"
-    android:theme="@style/ThemeOverlay.AppCompat.Dark">
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="192dp"
+             android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/nav_header_bg"
+        android:background="@color/colorBackground"
         android:scaleType="centerCrop"/>
 
-    <ImageView
-        android:layout_width="96dp"
-        android:layout_height="96dp"
-        android:layout_gravity="bottom"
-        android:layout_marginBottom="56dp"
-        android:padding="8dp"
-        android:src="@drawable/ic_avatar"/>
+    <RelativeLayout
+        android:id="@+id/rl_unlogin"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="visible">
 
-    <TextView
+        <TextView
+            android:id="@+id/tv_unlogin_desc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="70dp"
+            android:text="登录玩Android，开启收藏之旅"
+            android:textColor="@color/colorTxtEnable"
+            android:textSize="12sp"/>
+
+        <Button
+            android:id="@+id/btn_goto_login"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_below="@id/tv_unlogin_desc"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="35dp"
+            android:layout_marginRight="35dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/shape_login_btn"
+            android:text="立即登录"
+            android:textColor="@android:color/white"
+            android:textSize="14sp"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_login"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:layout_marginBottom="24dp"
-        android:padding="16dp"
-        android:text="Jaeger"
-        android:textColor="@android:color/white"/>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:padding="16dp"
-        android:text="写代码的猴子"
-        android:textColor="@android:color/white"
-        android:textSize="12sp"/>
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/iv_avatar"
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:layout_centerInParent="true"
+            android:src="@mipmap/ic_launcher"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/iv_avatar"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="10dp"
+            android:clickable="true"
+            android:textColor="@color/colorTxtEnable"
+            android:textStyle="bold"
+            tools:text="Jaeger"/>
+
+    </RelativeLayout>
+
 
 </FrameLayout>

@@ -10,7 +10,7 @@ import com.leeeyou.util.ToolbarHelper;
 /**
  * ClassName:   BaseActivity
  * Description: Toolbar native style
- *
+ * <p>
  * Author:      leeeyou
  * Date:        2017/8/17 09:19
  */
@@ -20,7 +20,6 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         super.setContentView(R.layout.activity_base_original);
-        ToolbarHelper.checkSdkVersionToTranslucentFlag(getWindow());
     }
 
     @Override

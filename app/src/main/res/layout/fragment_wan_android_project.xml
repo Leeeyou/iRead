@@ -13,7 +13,7 @@
             android:id="@+id/rl_project_category"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:background="@color/default_gray">
+            android:background="@color/colorBackgroundForSystemTag">
 
             <TextView
                 android:id="@+id/tv_project_category"
@@ -21,7 +21,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
                 android:paddingLeft="10dp"
-                android:textColor="@color/default_white"
+                android:textColor="@color/colorTxtEnable"
                 android:textSize="14sp"
                 android:textStyle="bold"
                 tools:text="最新推荐项目"/>
@@ -34,7 +34,7 @@
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:src="@mipmap/icon_arrow_right"
-                android:tint="@color/default_white"/>
+                android:tint="@color/colorIconTint"/>
         </RelativeLayout>
 
         <android.support.v7.widget.RecyclerView
@@ -48,7 +48,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/rl_project_category"
-            android:background="@color/default_white"
+            android:background="@color/colorBackground"
             android:fillViewport="true"
             android:visibility="gone">
 

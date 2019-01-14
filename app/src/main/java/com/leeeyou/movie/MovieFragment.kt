@@ -4,6 +4,7 @@ import `in`.srain.cube.views.ptr.PtrFrameLayout
 import `in`.srain.cube.views.ptr.PtrHandler
 import `in`.srain.cube.views.ptr.header.StoreHouseHeader
 import `in`.srain.cube.views.ptr.util.PtrLocalDisplay.dp2px
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
@@ -21,11 +22,9 @@ import com.leeeyou.movie.model.bean.ResponseHotMovie
 import com.leeeyou.movie.model.fetchHotMovieList
 import com.leeeyou.util.HtmlUtils
 import com.leeeyou.util.inflate
-import kotlinx.android.synthetic.main.activity_index.*
 import kotlinx.android.synthetic.main.fragment_movie.*
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
-import timber.log.Timber
 
 /**
  * ClassName:   MovieFragment
@@ -80,7 +79,7 @@ class MovieFragment : BaseFragment() {
 
     private fun initHeadView() {
         val header = StoreHouseHeader(context)
-        header.setTextColor(resources.getColor(R.color.default_red))
+        header.setTextColor(resources.getColor(R.color.colorTxtEnable))
         header.setPadding(0, dp2px(15f), 0, 0)
         header.initWithString("Being Hot", 15)
         ptrFrameHotMovie.headerView = header
@@ -97,6 +96,10 @@ class MovieFragment : BaseFragment() {
                                 .setText(R.id.tv_score, "评分：" + it.rating.average)
                         val imageView = helper.getView(R.id.iv_hot_movie) as ImageView
                         Glide.with(mContext).load(it.images.large).into(imageView)
+
+                        helper.setOnClickListener(R.id.iv_hot_movie) {
+                            startActivity(Intent(this@MovieFragment.activity, MovieDetailActivity::class.java))
+                        }
                     }
                 }
             }
