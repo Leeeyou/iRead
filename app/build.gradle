@@ -114,4 +114,6 @@ dependencies {
 
     //statusbar
     implementation 'com.jaeger.statusbarutil:library:1.5.1'
+
+    implementation 'com.github.franmontiel:PersistentCookieJar:v1.0.1'
 }
