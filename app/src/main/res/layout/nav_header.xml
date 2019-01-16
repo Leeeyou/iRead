@@ -15,7 +15,7 @@
         android:id="@+id/rl_unlogin"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="visible">
+        android:visibility="invisible">
 
         <TextView
             android:id="@+id/tv_unlogin_desc"
@@ -47,7 +47,7 @@
         android:id="@+id/rl_login"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone">
+        android:visibility="invisible">
 
         <ImageView
             android:id="@+id/iv_avatar"

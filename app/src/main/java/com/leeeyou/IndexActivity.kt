@@ -14,6 +14,8 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.RelativeLayout
+import android.widget.TextView
 import com.google.gson.Gson
 import com.leeeyou.login.LoginActivity
 import com.leeeyou.login.event.LoginSuccessEvent
@@ -28,7 +30,6 @@ import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItem
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems
 import kotlinx.android.synthetic.main.activity_index.*
-import kotlinx.android.synthetic.main.nav_header.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -89,15 +90,20 @@ class IndexActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
     private fun checkLoginUserShow() {
         val defaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this@IndexActivity)
         val loginUser = defaultSharedPreferences.getString("loginUser", null)
+        val rlUnlogin = navigation.getHeaderView(0).findViewById<RelativeLayout>(R.id.rl_unlogin)
+        val rlLogin = navigation.getHeaderView(0).findViewById<RelativeLayout>(R.id.rl_login)
         if (TextUtils.isEmpty(loginUser)) {
-            rl_unlogin?.visibility = View.VISIBLE
-            rl_login?.visibility = View.GONE
+            rlUnlogin?.visibility = View.VISIBLE
+            rlLogin?.visibility = View.INVISIBLE
+
+            rlUnlogin?.postInvalidate()
         } else {
-            rl_login?.visibility = View.VISIBLE
-            rl_unlogin?.visibility = View.GONE
+            rlLogin?.visibility = View.VISIBLE
+            rlUnlogin?.visibility = View.INVISIBLE
 
             val user = Gson().fromJson(loginUser, User::class.java)
-            tv_username?.text = user.username
+            val tvUsername = rlLogin.findViewById<TextView>(R.id.tv_username)
+            tvUsername?.text = user.username
         }
     }
 
