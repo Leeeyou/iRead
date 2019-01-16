@@ -74,9 +74,6 @@ class MovieFragment : BaseFragment() {
         })
     }
 
-//    private fun recyclerViewFirstItemCanVisible() =
-//            mGridLayoutManager.findFirstVisibleItemPosition() <= 0
-
     private fun initHeadView() {
         val header = StoreHouseHeader(context)
         header.setTextColor(resources.getColor(R.color.colorTxtEnable))
