@@ -79,7 +79,7 @@ class WanAndroidSystemFragment : BaseFragment() {
         fetchSystemTagList().subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(object : DefaultHttpResultSubscriber<List<SystemTag>>() {
                     override fun onSuccess(t: List<SystemTag>?) {
-                        t?.let {
+                        t?.also {
                             renderSystemTag(it)
                         }
                     }
@@ -101,8 +101,8 @@ class WanAndroidSystemFragment : BaseFragment() {
                     wishListIconView.isActivated = it.collect
 
                     helper.setText(R.id.tv_title, HtmlUtils.translation(it.title))
-                            .setText(R.id.tv_author, "作者:" + it.author)
-                            .setText(R.id.tv_category, "分类:" + it.superChapterName + " / " + it.chapterName)
+                            .setText(R.id.tv_author, "作者 : " + it.author)
+                            .setText(R.id.tv_category, "分类 : " + it.superChapterName + " / " + it.chapterName)
                             .setText(R.id.tv_niceDate, it.niceDate)
                             .setGone(R.id.tv_refresh, it.fresh)
                             .addOnClickListener(R.id.wishListIcon)
@@ -208,7 +208,7 @@ class WanAndroidSystemFragment : BaseFragment() {
     }
 
     private fun showDetailTagAnimation() {
-        iv_arrow_right?.let {
+        iv_arrow_right?.also {
             val rotateAnimation = RotateAnimation(0f, 90f, (iv_arrow_right.width / 2).toFloat(), (iv_arrow_right.height / 2).toFloat())
             rotateAnimation.duration = 100
             rotateAnimation.fillAfter = true
@@ -224,7 +224,7 @@ class WanAndroidSystemFragment : BaseFragment() {
     }
 
     private fun hiddenDetailTagAnimation() {
-        iv_arrow_right?.let {
+        iv_arrow_right?.also {
             val rotateAnimation = RotateAnimation(90f, 0f, (iv_arrow_right.width / 2).toFloat(), (iv_arrow_right.height / 2).toFloat())
             rotateAnimation.duration = 100
             rotateAnimation.fillAfter = true
@@ -244,7 +244,7 @@ class WanAndroidSystemFragment : BaseFragment() {
         fetchSystemTagArticleList(pageIndex, mSelectedChildTagId).subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(object : DefaultHttpResultSubscriber<SystemTagArticleList>() {
                     override fun onSuccess(data: SystemTagArticleList?) {
-                        data?.let {
+                        data?.also {
                             renderSystemTagArticleList(pageIndex, data)
                             if (mPageIndex == 0 && data.datas.size < data.size) {
                                 mSystemTagArticleAdapter.loadMoreEnd()
@@ -276,7 +276,7 @@ class WanAndroidSystemFragment : BaseFragment() {
         system_tag_parent.adapter = object : TagAdapter<SystemTag>(parentTagList) {
             override fun getView(parent: FlowLayout?, position: Int, systemTag: SystemTag?): View {
                 val parentTag = layoutInflater.inflate(R.layout.item_system_tag, null) as TextView
-                systemTag?.let {
+                systemTag?.also {
                     parentTag.text = HtmlUtils.translation(it.name)
                     return parentTag
                 }
@@ -291,7 +291,7 @@ class WanAndroidSystemFragment : BaseFragment() {
         system_tag_child.adapter = object : TagAdapter<SystemTag>(childTagList) {
             override fun getView(parent: FlowLayout?, position: Int, systemTag: SystemTag?): View {
                 val childTag = layoutInflater.inflate(R.layout.item_system_tag, null) as TextView
-                systemTag?.let {
+                systemTag?.also {
                     childTag.text = HtmlUtils.translation(it.name)
                     return childTag
                 }

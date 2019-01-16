@@ -18,7 +18,8 @@
     <color name="colorNotPressItem">#FFF</color>
 
     <color name="colorBackground">#F6F5EC</color>
-    <color name="colorBackgroundForSystemTag">#FFCDD2</color>
+    <color name="colorBackgroundForSystemTagTitle">#FFCDD2</color>
+    <color name="colorBackgroundForSystemTag">#FFF</color>
     <color name="colorBackgroundForDrawerLayout">#FFF</color>
 
     <color name="colorIconTint">@color/colorPrimary</color>

@@ -51,9 +51,9 @@ class MovieFragment : BaseFragment() {
     private fun fetchHotMovieListFromServer() {
         fetchHotMovieList().subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread())
                 .doOnNext { it ->
-                    it?.let {
+                    it?.also {
                         mHotMovieAdapter.setNewData(ArrayList(it.subjects))
-                        recyclerViewMovie.smoothScrollToPosition(0)
+                        recyclerViewMovie?.smoothScrollToPosition(0)
                     }
                 }.doOnCompleted {
                     ptrFrameHotMovie?.refreshComplete()
@@ -69,13 +69,13 @@ class MovieFragment : BaseFragment() {
             }
 
             override fun checkCanDoRefresh(frame: PtrFrameLayout?, content: View?, header: View?): Boolean {
-                return recyclerViewFirstItemCanVisible() && (activity as IndexActivity).appBarLayoutVerticalOffset >= 0
+                return !recyclerViewMovie.canScrollVertically(-1) && (activity as IndexActivity).appBarLayoutVerticalOffset >= 0
             }
         })
     }
 
-    private fun recyclerViewFirstItemCanVisible() =
-            mGridLayoutManager.findFirstVisibleItemPosition() <= 0
+//    private fun recyclerViewFirstItemCanVisible() =
+//            mGridLayoutManager.findFirstVisibleItemPosition() <= 0
 
     private fun initHeadView() {
         val header = StoreHouseHeader(context)

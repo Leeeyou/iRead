@@ -13,7 +13,7 @@
             android:id="@+id/rl_project_category"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:background="@color/colorBackgroundForSystemTag">
+            android:background="@color/colorBackgroundForSystemTagTitle">
 
             <TextView
                 android:id="@+id/tv_project_category"
@@ -48,7 +48,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/rl_project_category"
-            android:background="@color/colorBackground"
+            android:background="@color/colorBackgroundForSystemTag"
             android:fillViewport="true"
             android:visibility="gone">
 

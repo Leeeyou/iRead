@@ -13,7 +13,7 @@
             android:id="@+id/rl_system_tag_combine"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:background="@color/colorBackgroundForSystemTag">
+            android:background="@color/colorBackgroundForSystemTagTitle">
 
             <TextView
                 android:id="@+id/tv_system_tag_combine"
@@ -49,7 +49,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/rl_system_tag_combine"
-            android:background="@color/colorBackground"
+            android:background="@color/colorBackgroundForSystemTag"
             android:fillViewport="true"
             android:visibility="gone">
 

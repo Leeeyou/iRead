@@ -75,8 +75,8 @@ class WanAndroidRecommendFragment : BaseFragment() {
                     wishListIconView.isActivated = it.collect
 
                     helper.setText(R.id.tv_title, HtmlUtils.translation(it.title))
-                            .setText(R.id.tv_author, "作者:" + it.author)
-                            .setText(R.id.tv_category, "分类:" + it.superChapterName + " / " + it.chapterName)
+                            .setText(R.id.tv_author, "作者 : " + it.author)
+                            .setText(R.id.tv_category, "分类 : " + it.superChapterName + " / " + it.chapterName)
                             .setText(R.id.tv_niceDate, it.niceDate)
                             .setGone(R.id.tv_refresh, it.fresh)
                             .addOnClickListener(R.id.wishListIcon)
@@ -109,8 +109,8 @@ class WanAndroidRecommendFragment : BaseFragment() {
     private fun initBanner() {
         banner.setImageLoader(object : ImageLoader() {
             override fun displayImage(context: Context?, path: Any?, imageView: ImageView?) {
-                context?.let {
-                    imageView?.let {
+                context?.also {
+                    imageView?.also {
                         Glide.with(context).load(path).into(imageView)
                     }
                 }
@@ -159,7 +159,7 @@ class WanAndroidRecommendFragment : BaseFragment() {
         fetchRecommendList(pageIndex).subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(object : DefaultHttpResultSubscriber<RecommendList>() {
                     override fun onSuccess(data: RecommendList?) {
-                        data?.let {
+                        data?.also {
                             renderRecommendList(pageIndex, it)
                             if (mPageIndex == 0 && it.datas.size < it.size) {
                                 mRecommendAdapter.loadMoreEnd()
@@ -188,7 +188,7 @@ class WanAndroidRecommendFragment : BaseFragment() {
         fetchBannerList().subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(object : DefaultHttpResultSubscriber<List<Banner>>() {
                     override fun onSuccess(t: List<Banner>?) {
-                        t?.let { renderBanner(it) }
+                        t?.also { renderBanner(it) }
                     }
                 })
     }
