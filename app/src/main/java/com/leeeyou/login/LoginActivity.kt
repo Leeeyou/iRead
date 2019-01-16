@@ -1,17 +1,21 @@
 package com.leeeyou.login
 
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.text.TextUtils
+import com.google.gson.Gson
 import com.leeeyou.R
+import com.leeeyou.login.event.LoginSuccessEvent
 import com.leeeyou.login.model.bean.User
 import com.leeeyou.login.model.postLogin
 import com.leeeyou.manager.BaseActivity
 import com.leeeyou.service.subscriber.DefaultHttpResultSubscriber
 import com.leeeyou.util.T
 import kotlinx.android.synthetic.main.activity_login.*
+import org.greenrobot.eventbus.EventBus
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
-import timber.log.Timber
+
 
 class LoginActivity : BaseActivity() {
 
@@ -36,9 +40,11 @@ class LoginActivity : BaseActivity() {
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(object : DefaultHttpResultSubscriber<User>() {
                         override fun onSuccess(data: User?) {
-                            Timber.e(data.toString())
+                            val defaultSP = PreferenceManager.getDefaultSharedPreferences(this@LoginActivity)
+                            defaultSP.edit().putString("loginUser", Gson().toJson(data)).apply()
                             T.showShort(this@LoginActivity, "登录成功")
                             finish()
+                            EventBus.getDefault().post(LoginSuccessEvent())
                         }
 
                         override fun _onError(status: Int, msg: String?) {
