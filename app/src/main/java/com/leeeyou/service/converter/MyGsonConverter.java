@@ -28,11 +28,13 @@ public class MyGsonConverter<T> implements Converter<ResponseBody, T> {
     @Override
     public T convert(@NonNull ResponseBody responseBody) throws IOException {
         String responseStr = responseBody.string();
-//        Timber.d("The responseStr is %s ", responseStr);
+        Timber.d("The responseStr is %s ", responseStr);
+
         if (TextUtils.isEmpty(responseStr)) {
             HttpErrorResponseEntity errorResponse = new HttpErrorResponseEntity(-200, "The result of the request is returned as null");
             HttpResultException resultException = new HttpResultException(errorResponse.getErrorCode(), errorResponse.getErrorMsg());
             Timber.e("this ResultException msg is %s", "request result is null");
+            Timber.d("The responseStr is %s ", responseStr);
             throw resultException;
         }
 
@@ -42,6 +44,7 @@ public class MyGsonConverter<T> implements Converter<ResponseBody, T> {
         } catch (JsonSyntaxException e) {
             HttpResultException resultException = new HttpResultException(-201, "Json conversion exception");
             Timber.e("this JsonSyntaxException msg is %s", e.getLocalizedMessage());
+            Timber.d("The responseStr is %s ", responseStr);
             throw resultException;
         }
 
@@ -50,16 +53,19 @@ public class MyGsonConverter<T> implements Converter<ResponseBody, T> {
                 return gson.fromJson(responseStr, type);
             } catch (JsonSyntaxException e) {
                 Timber.e("this JsonSyntaxException msg is %s", e.getMessage());
+                Timber.d("The responseStr is %s ", responseStr);
                 HttpErrorResponseEntity errorResponse = new HttpErrorResponseEntity(-202, "Json conversion exception");
                 throw new HttpResultException(errorResponse.getErrorCode(), errorResponse.getErrorMsg());
             }
         } else {
             try {
                 Timber.e("this ResultException msg is %s", "json convert fail");
+                Timber.d("The responseStr is %s ", responseStr);
                 HttpErrorResponseEntity errorResponse = gson.fromJson(responseStr, HttpErrorResponseEntity.class);
                 throw new HttpResultException(errorResponse.getErrorCode(), errorResponse.getErrorMsg());
             } catch (JsonSyntaxException e) {
                 Timber.e("this JsonSyntaxException msg is %s", e.getMessage());
+                Timber.d("The responseStr is %s ", responseStr);
                 HttpErrorResponseEntity errorResponse = new HttpErrorResponseEntity(-203, "Json conversion exception");
                 throw new HttpResultException(errorResponse.getErrorCode(), errorResponse.getErrorMsg());
             }

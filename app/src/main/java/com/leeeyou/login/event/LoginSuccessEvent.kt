@@ -1,4 +1,3 @@
 package com.leeeyou.login.event
 
-class LoginSuccessEvent {
-}
+class LoginSuccessEvent
