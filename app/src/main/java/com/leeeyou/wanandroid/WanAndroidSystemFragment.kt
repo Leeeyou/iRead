@@ -29,6 +29,7 @@ import com.leeeyou.wanandroid.model.bean.SystemTag
 import com.leeeyou.wanandroid.model.bean.SystemTagArticleList
 import com.leeeyou.wanandroid.model.fetchSystemTagArticleList
 import com.leeeyou.wanandroid.model.fetchSystemTagList
+import com.leeeyou.widget.WishListIconView
 import com.zhy.view.flowlayout.FlowLayout
 import com.zhy.view.flowlayout.TagAdapter
 import kotlinx.android.synthetic.main.fragment_wan_android_system.*
@@ -96,12 +97,21 @@ class WanAndroidSystemFragment : BaseFragment() {
         mSystemTagArticleAdapter = object : BaseQuickAdapter<RecommendItem, BaseViewHolder>(R.layout.item_recommend, null) {
             override fun convert(helper: BaseViewHolder?, item: RecommendItem?) {
                 item?.also {
-                    helper?.setText(R.id.tv_title, HtmlUtils.translation(it.title))
-                            ?.setText(R.id.tv_author, "作者:" + it.author)
-                            ?.setText(R.id.tv_category, "分类:" + it.superChapterName + " / " + it.chapterName)
-                            ?.setText(R.id.tv_niceDate, it.niceDate)
-                            ?.setGone(R.id.tv_refresh, it.fresh)
+                    val wishListIconView = helper?.getView(R.id.wishListIcon) as WishListIconView
+                    wishListIconView.isActivated = it.collect
+
+                    helper.setText(R.id.tv_title, HtmlUtils.translation(it.title))
+                            .setText(R.id.tv_author, "作者:" + it.author)
+                            .setText(R.id.tv_category, "分类:" + it.superChapterName + " / " + it.chapterName)
+                            .setText(R.id.tv_niceDate, it.niceDate)
+                            .setGone(R.id.tv_refresh, it.fresh)
+                            .addOnClickListener(R.id.wishListIcon)
                 }
+            }
+        }
+        mSystemTagArticleAdapter.setOnItemChildClickListener { _, view, _ ->
+            when (view.id) {
+                R.id.wishListIcon -> (view as WishListIconView).toggleWishlisted()
             }
         }
         mSystemTagArticleAdapter.setOnLoadMoreListener({

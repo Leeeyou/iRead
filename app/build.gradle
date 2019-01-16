@@ -14,7 +14,7 @@ android {
 
     defaultConfig {
         applicationId "com.leeeyou.readselection"
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 28
         versionCode 115
         versionName "1.1.5"
@@ -114,4 +114,12 @@ dependencies {
 
     //statusbar
     implementation 'com.jaeger.statusbarutil:library:1.5.1'
+
+    implementation 'com.github.franmontiel:PersistentCookieJar:v1.0.1'
+
+    //eventbus
+    implementation 'org.greenrobot:eventbus:3.1.1'
+
+    //lottie
+    implementation 'com.airbnb.android:lottie:2.7.0'
 }

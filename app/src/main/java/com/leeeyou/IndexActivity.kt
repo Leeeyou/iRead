@@ -2,16 +2,24 @@ package com.leeeyou
 
 import android.content.Intent
 import android.os.Bundle
+import android.preference.PreferenceManager
 import android.support.design.widget.AppBarLayout
 import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
+import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.MenuItem
+import android.view.View
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.RelativeLayout
+import android.widget.TextView
+import com.google.gson.Gson
 import com.leeeyou.login.LoginActivity
+import com.leeeyou.login.event.LoginSuccessEvent
+import com.leeeyou.login.model.bean.User
 import com.leeeyou.movie.MovieFragment
 import com.leeeyou.opensource.OpenSourceActivity
 import com.leeeyou.setting.SettingActivity
@@ -22,6 +30,9 @@ import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItem
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItems
 import kotlinx.android.synthetic.main.activity_index.*
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 
 
 private const val INDEX_VIEWPAGER_MOVIE_STR = "电影"
@@ -44,6 +55,16 @@ class IndexActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
         initViewPager()
     }
 
+    public override fun onStart() {
+        super.onStart()
+        EventBus.getDefault().register(this)
+    }
+
+    public override fun onStop() {
+        super.onStop()
+        EventBus.getDefault().unregister(this)
+    }
+
     private fun initDrawLayout() {
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
@@ -61,6 +82,28 @@ class IndexActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
         navigation.getHeaderView(0).findViewById<Button>(R.id.btn_goto_login).setOnClickListener {
             startActivity(Intent(this@IndexActivity, LoginActivity::class.java))
             drawer_layout.closeDrawer(GravityCompat.START)
+        }
+
+        checkLoginUserShow()
+    }
+
+    private fun checkLoginUserShow() {
+        val defaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this@IndexActivity)
+        val loginUser = defaultSharedPreferences.getString("loginUser", null)
+        val rlUnlogin = navigation.getHeaderView(0).findViewById<RelativeLayout>(R.id.rl_unlogin)
+        val rlLogin = navigation.getHeaderView(0).findViewById<RelativeLayout>(R.id.rl_login)
+        if (TextUtils.isEmpty(loginUser)) {
+            rlUnlogin?.visibility = View.VISIBLE
+            rlLogin?.visibility = View.INVISIBLE
+
+            rlUnlogin?.postInvalidate()
+        } else {
+            rlLogin?.visibility = View.VISIBLE
+            rlUnlogin?.visibility = View.INVISIBLE
+
+            val user = Gson().fromJson(loginUser, User::class.java)
+            val tvUsername = rlLogin.findViewById<TextView>(R.id.tv_username)
+            tvUsername?.text = user.username
         }
     }
 
@@ -108,4 +151,10 @@ class IndexActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
         drawer_layout.closeDrawer(GravityCompat.START)
         return true
     }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onMessageEvent(event: LoginSuccessEvent) {
+        checkLoginUserShow()
+    }
+
 }

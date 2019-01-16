@@ -3,8 +3,10 @@ package com.leeeyou.login
 import android.os.Bundle
 import android.text.TextUtils
 import com.leeeyou.R
+import com.leeeyou.login.model.bean.User
 import com.leeeyou.login.model.postRegister
 import com.leeeyou.manager.BaseActivity
+import com.leeeyou.service.subscriber.DefaultHttpResultSubscriber
 import com.leeeyou.util.T
 import kotlinx.android.synthetic.main.activity_reg.*
 import rx.android.schedulers.AndroidSchedulers
@@ -32,9 +34,17 @@ class RegActivity : BaseActivity() {
             postRegister(et_username.text.toString(), et_password.text.toString())
                     .subscribeOn(Schedulers.newThread())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .doOnNext { response ->
-                        Timber.d("注册成功了，%s", response)
-                    }.subscribe()
+                    .subscribe(object : DefaultHttpResultSubscriber<User>() {
+                        override fun onSuccess(data: User?) {
+                            Timber.e(data.toString())
+                            T.showShort(this@RegActivity, "注册成功")
+                            finish()
+                        }
+
+                        override fun _onError(status: Int, msg: String?) {
+                            T.showShort(this@RegActivity, msg)
+                        }
+                    })
         }
     }
 }

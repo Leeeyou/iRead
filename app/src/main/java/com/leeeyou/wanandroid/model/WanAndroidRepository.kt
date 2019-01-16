@@ -2,10 +2,8 @@ package com.leeeyou.wanandroid.model
 
 import com.leeeyou.service.ServiceFactory
 import com.leeeyou.service.entity.HttpResultEntity
-import com.leeeyou.wanandroid.model.bean.Banner
-import com.leeeyou.wanandroid.model.bean.RecommendList
-import com.leeeyou.wanandroid.model.bean.SystemTag
-import com.leeeyou.wanandroid.model.bean.SystemTagArticleList
+import com.leeeyou.wanandroid.model.bean.*
+import com.leeeyou.wanandroid.service.CollectService
 import com.leeeyou.wanandroid.service.WanAndroidService
 import rx.Observable
 
@@ -48,4 +46,9 @@ fun fetchProjectListByCategory(pageIndex: Int, categoryId: Int): Observable<Http
 fun fetchProjectCategory(): Observable<HttpResultEntity<List<SystemTag>>> {
     return ServiceFactory.createRxRetrofitService(WanAndroidService::class.java, endPoint)
             .getProjectCategory()
+}
+
+fun fetchCollectionList(): Observable<HttpResultEntity<List<CollectItem>>> {
+    return ServiceFactory.createRxRetrofitService(CollectService::class.java, endPoint)
+            .getCollectList()
 }

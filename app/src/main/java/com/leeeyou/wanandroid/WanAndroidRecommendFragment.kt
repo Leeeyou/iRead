@@ -27,6 +27,7 @@ import com.leeeyou.wanandroid.model.bean.RecommendItem
 import com.leeeyou.wanandroid.model.bean.RecommendList
 import com.leeeyou.wanandroid.model.fetchBannerList
 import com.leeeyou.wanandroid.model.fetchRecommendList
+import com.leeeyou.widget.WishListIconView
 import com.youth.banner.Transformer
 import com.youth.banner.loader.ImageLoader
 import kotlinx.android.synthetic.main.fragment_wan_android_recommend.*
@@ -70,12 +71,21 @@ class WanAndroidRecommendFragment : BaseFragment() {
         mRecommendAdapter = object : BaseQuickAdapter<RecommendItem, BaseViewHolder>(R.layout.item_recommend, null) {
             override fun convert(helper: BaseViewHolder?, item: RecommendItem?) {
                 item?.takeIf { it.visible == 1 }?.also {
-                    helper?.setText(R.id.tv_title, HtmlUtils.translation(it.title))
-                            ?.setText(R.id.tv_author, "作者:" + it.author)
-                            ?.setText(R.id.tv_category, "分类:" + it.superChapterName + " / " + it.chapterName)
-                            ?.setText(R.id.tv_niceDate, it.niceDate)
-                            ?.setGone(R.id.tv_refresh, it.fresh)
+                    val wishListIconView = helper?.getView(R.id.wishListIcon) as WishListIconView
+                    wishListIconView.isActivated = it.collect
+
+                    helper.setText(R.id.tv_title, HtmlUtils.translation(it.title))
+                            .setText(R.id.tv_author, "作者:" + it.author)
+                            .setText(R.id.tv_category, "分类:" + it.superChapterName + " / " + it.chapterName)
+                            .setText(R.id.tv_niceDate, it.niceDate)
+                            .setGone(R.id.tv_refresh, it.fresh)
+                            .addOnClickListener(R.id.wishListIcon)
                 }
+            }
+        }
+        mRecommendAdapter.setOnItemChildClickListener { _, view, _ ->
+            when (view.id) {
+                R.id.wishListIcon -> (view as WishListIconView).toggleWishlisted()
             }
         }
         mRecommendAdapter.setOnLoadMoreListener({

@@ -4,10 +4,12 @@ import android.app.Application
 import android.content.Context
 import android.support.multidex.MultiDex
 import com.leeeyou.manager.timber.CrashReportingTree
+import com.leeeyou.service.ServiceFactory
 import com.tencent.bugly.Bugly
 import net.danlew.android.joda.JodaTimeAndroid
 import timber.log.Timber
 import timber.log.Timber.DebugTree
+import java.lang.ref.WeakReference
 
 
 /**
@@ -22,6 +24,11 @@ class KotlinApplication : Application() {
         initJoda()
         initBugly()
         initTimber()
+        initServiceFactory()
+    }
+
+    private fun initServiceFactory() {
+        ServiceFactory.DEFAULT_CONTEXT = WeakReference(this)
     }
 
     private fun initTimber() {
