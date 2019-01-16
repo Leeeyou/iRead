@@ -113,8 +113,14 @@ class IndexActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
                 .forEach {
                     when (it) {
                         INDEX_VIEWPAGER_ANDROID_STR -> pages.add(FragmentPagerItem.of("", WanAndroidFragment::class.java))
-                        INDEX_VIEWPAGER_MOVIE_STR -> pages.add(FragmentPagerItem.of("", MovieFragment::class.java))
-                        INDEX_VIEWPAGER_ZHIHU_STR -> pages.add(FragmentPagerItem.of("", ZhiHuDailyFragment::class.java))
+                        INDEX_VIEWPAGER_MOVIE_STR -> {
+                            val element by lazy { FragmentPagerItem.of("", MovieFragment::class.java) }
+                            pages.add(element)
+                        }
+                        INDEX_VIEWPAGER_ZHIHU_STR -> {
+                            val element by lazy { FragmentPagerItem.of("", ZhiHuDailyFragment::class.java) }
+                            pages.add(element)
+                        }
                     }
                 }
 
@@ -131,7 +137,7 @@ class IndexActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
             icon
         }
 
-//        indexViewPager.offscreenPageLimit = 3
+        indexViewPager.offscreenPageLimit = 3
         indexViewPager.adapter = FragmentPagerItemAdapter(supportFragmentManager, pages)
         indexTabLayout.setViewPager(indexViewPager)
     }
