@@ -18,6 +18,7 @@ import com.leeeyou.IndexActivity
 import com.leeeyou.R
 import com.leeeyou.manager.BaseFragment
 import com.leeeyou.manager.MyLoadMoreView
+import com.leeeyou.service.entity.HttpResultEntity
 import com.leeeyou.service.subscriber.DefaultHttpResultSubscriber
 import com.leeeyou.util.HtmlUtils
 import com.leeeyou.util.inflate
@@ -25,12 +26,15 @@ import com.leeeyou.util.startBrowserActivity
 import com.leeeyou.wanandroid.model.bean.Banner
 import com.leeeyou.wanandroid.model.bean.RecommendItem
 import com.leeeyou.wanandroid.model.bean.RecommendList
+import com.leeeyou.wanandroid.model.collectInsideArticle
 import com.leeeyou.wanandroid.model.fetchBannerList
 import com.leeeyou.wanandroid.model.fetchRecommendList
+import com.leeeyou.wanandroid.model.unCollectInsideArticle
 import com.leeeyou.widget.WishListIconView
 import com.youth.banner.Transformer
 import com.youth.banner.loader.ImageLoader
 import kotlinx.android.synthetic.main.fragment_wan_android_recommend.*
+import rx.Observable
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 import timber.log.Timber
@@ -75,17 +79,29 @@ class WanAndroidRecommendFragment : BaseFragment() {
                     wishListIconView.isActivated = it.collect
 
                     helper.setText(R.id.tv_title, HtmlUtils.translation(it.title))
-                            .setText(R.id.tv_author, "作者:" + it.author)
-                            .setText(R.id.tv_category, "分类:" + it.superChapterName + " / " + it.chapterName)
+                            .setText(R.id.tv_author, "作者 : " + it.author)
+                            .setText(R.id.tv_category, "分类 : " + it.superChapterName + " / " + it.chapterName)
                             .setText(R.id.tv_niceDate, it.niceDate)
                             .setGone(R.id.tv_refresh, it.fresh)
                             .addOnClickListener(R.id.wishListIcon)
                 }
             }
         }
-        mRecommendAdapter.setOnItemChildClickListener { _, view, _ ->
+        mRecommendAdapter.setOnItemChildClickListener { adapter, view, position ->
             when (view.id) {
-                R.id.wishListIcon -> (view as WishListIconView).toggleWishlisted()
+                R.id.wishListIcon -> {
+                    val recommendItem = adapter.getItem(position) as RecommendItem
+                    val observable: Observable<HttpResultEntity<String>> = if (view.isActivated) unCollectInsideArticle(recommendItem.id) else collectInsideArticle(recommendItem.id)
+                    observable.subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(object : DefaultHttpResultSubscriber<String>() {
+                                override fun onSuccess(data: String?) {
+                                    recommendItem.collect = !view.isActivated
+                                    adapter.data[position] = recommendItem
+                                    adapter.notifyLoadMoreToLoading()
+                                    (view as WishListIconView).toggleWishlisted()
+                                }
+                            })
+                }
             }
         }
         mRecommendAdapter.setOnLoadMoreListener({
@@ -109,8 +125,8 @@ class WanAndroidRecommendFragment : BaseFragment() {
     private fun initBanner() {
         banner.setImageLoader(object : ImageLoader() {
             override fun displayImage(context: Context?, path: Any?, imageView: ImageView?) {
-                context?.let {
-                    imageView?.let {
+                context?.also {
+                    imageView?.also {
                         Glide.with(context).load(path).into(imageView)
                     }
                 }
@@ -159,7 +175,7 @@ class WanAndroidRecommendFragment : BaseFragment() {
         fetchRecommendList(pageIndex).subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(object : DefaultHttpResultSubscriber<RecommendList>() {
                     override fun onSuccess(data: RecommendList?) {
-                        data?.let {
+                        data?.also {
                             renderRecommendList(pageIndex, it)
                             if (mPageIndex == 0 && it.datas.size < it.size) {
                                 mRecommendAdapter.loadMoreEnd()
@@ -187,19 +203,19 @@ class WanAndroidRecommendFragment : BaseFragment() {
     private fun fetchBannerListFromServer() {
         fetchBannerList().subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(object : DefaultHttpResultSubscriber<List<Banner>>() {
-                    override fun onSuccess(t: List<Banner>?) {
-                        t?.let { renderBanner(it) }
+                    override fun onSuccess(data: List<Banner>?) {
+                        data?.also { renderBanner(it) }
                     }
                 })
     }
 
     private fun renderBanner(bannerList: List<Banner>) {
-        bannerList.map { it.imagePath }.run {
-            banner.setImages(this)
+        bannerList.map { it.imagePath }.also {
+            banner.setImages(it)
             banner.setBannerAnimation(Transformer.Default)
-            banner.setOnBannerListener { it ->
-                val banner = bannerList[it]
-                Timber.d("click banner position is %s , the url is %s", it, banner.url)
+            banner.setOnBannerListener { position ->
+                val banner = bannerList[position]
+                Timber.d("click banner position is %s , the url is %s", position, banner.url)
                 startBrowserActivity(context!!, banner.url, banner.title)
             }
             banner.start()

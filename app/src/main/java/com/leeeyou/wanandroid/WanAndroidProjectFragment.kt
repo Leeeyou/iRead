@@ -158,7 +158,7 @@ class WanAndroidProjectFragment : BaseFragment() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(object : DefaultHttpResultSubscriber<RecommendList>() {
                     override fun onSuccess(data: RecommendList?) {
-                        data?.let {
+                        data?.also {
                             renderProjectList(pageIndex, data)
                             if (mPageIndex == 0 && data.datas.size < data.size) {
                                 mProjectAdapter.loadMoreEnd()
@@ -288,7 +288,7 @@ class WanAndroidProjectFragment : BaseFragment() {
     }
 
     private fun showDetailTagAnimation() {
-        iv_arrow_right?.let {
+        iv_arrow_right?.also {
             val rotateAnimation = RotateAnimation(0f, 90f, (iv_arrow_right.width / 2).toFloat(), (iv_arrow_right.height / 2).toFloat())
             rotateAnimation.duration = 100
             rotateAnimation.fillAfter = true
@@ -304,7 +304,7 @@ class WanAndroidProjectFragment : BaseFragment() {
     }
 
     private fun hiddenDetailTagAnimation() {
-        iv_arrow_right?.let {
+        iv_arrow_right?.also {
             val rotateAnimation = RotateAnimation(90f, 0f, (iv_arrow_right.width / 2).toFloat(), (iv_arrow_right.height / 2).toFloat())
             rotateAnimation.duration = 100
             rotateAnimation.fillAfter = true

@@ -34,13 +34,15 @@ class WanAndroidFragment : BaseFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        val wanAndroidRecommendFragment = WanAndroidRecommendFragment()
-        val fragmentList = arrayOf(wanAndroidRecommendFragment, WanAndroidSystemFragment(), WanAndroidProjectFragment())
+        val recommendFragment = WanAndroidRecommendFragment()
+        val systemFragment: WanAndroidSystemFragment by lazy { WanAndroidSystemFragment() }
+        val projectFragment: WanAndroidProjectFragment by lazy { WanAndroidProjectFragment() }
+        val fragmentList = arrayOf(recommendFragment, systemFragment, projectFragment)
         val titleList = arrayOf("推荐", "体系", "项目")
 
         mViewPagerAdapter = ViewPagerAdapter(activity!!.supportFragmentManager, fragmentList, titleList)
 
-//        wanAndroidViewPager.offscreenPageLimit = 3
+        wanAndroidViewPager.offscreenPageLimit = 3
         wanAndroidViewPager.adapter = mViewPagerAdapter
         wanAndroidTabLayout.setupWithViewPager(wanAndroidViewPager)
         wanAndroidTabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
@@ -49,7 +51,7 @@ class WanAndroidFragment : BaseFragment() {
                 if (System.currentTimeMillis() - lastPressTime < DOUBLE_CLICK_TIME) {
                     Timber.d("Invalid double click event , click position is  %s", p0?.position.toString())
                 } else {
-                    wanAndroidRecommendFragment.gotoFirstPage()
+                    recommendFragment.gotoFirstPage()
                 }
                 lastPressTime = System.currentTimeMillis()
             }

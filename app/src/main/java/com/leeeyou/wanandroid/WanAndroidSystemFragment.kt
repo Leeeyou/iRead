@@ -20,6 +20,7 @@ import com.leeeyou.R
 import com.leeeyou.manager.BaseFragment
 import com.leeeyou.manager.MyAnimationListener
 import com.leeeyou.manager.MyLoadMoreView
+import com.leeeyou.service.entity.HttpResultEntity
 import com.leeeyou.service.subscriber.DefaultHttpResultSubscriber
 import com.leeeyou.util.HtmlUtils
 import com.leeeyou.util.inflate
@@ -27,12 +28,15 @@ import com.leeeyou.util.startBrowserActivity
 import com.leeeyou.wanandroid.model.bean.RecommendItem
 import com.leeeyou.wanandroid.model.bean.SystemTag
 import com.leeeyou.wanandroid.model.bean.SystemTagArticleList
+import com.leeeyou.wanandroid.model.collectInsideArticle
 import com.leeeyou.wanandroid.model.fetchSystemTagArticleList
 import com.leeeyou.wanandroid.model.fetchSystemTagList
+import com.leeeyou.wanandroid.model.unCollectInsideArticle
 import com.leeeyou.widget.WishListIconView
 import com.zhy.view.flowlayout.FlowLayout
 import com.zhy.view.flowlayout.TagAdapter
 import kotlinx.android.synthetic.main.fragment_wan_android_system.*
+import rx.Observable
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 import timber.log.Timber
@@ -79,7 +83,7 @@ class WanAndroidSystemFragment : BaseFragment() {
         fetchSystemTagList().subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(object : DefaultHttpResultSubscriber<List<SystemTag>>() {
                     override fun onSuccess(t: List<SystemTag>?) {
-                        t?.let {
+                        t?.also {
                             renderSystemTag(it)
                         }
                     }
@@ -101,17 +105,29 @@ class WanAndroidSystemFragment : BaseFragment() {
                     wishListIconView.isActivated = it.collect
 
                     helper.setText(R.id.tv_title, HtmlUtils.translation(it.title))
-                            .setText(R.id.tv_author, "作者:" + it.author)
-                            .setText(R.id.tv_category, "分类:" + it.superChapterName + " / " + it.chapterName)
+                            .setText(R.id.tv_author, "作者 : " + it.author)
+                            .setText(R.id.tv_category, "分类 : " + it.superChapterName + " / " + it.chapterName)
                             .setText(R.id.tv_niceDate, it.niceDate)
                             .setGone(R.id.tv_refresh, it.fresh)
                             .addOnClickListener(R.id.wishListIcon)
                 }
             }
         }
-        mSystemTagArticleAdapter.setOnItemChildClickListener { _, view, _ ->
+        mSystemTagArticleAdapter.setOnItemChildClickListener { adapter, view, position ->
             when (view.id) {
-                R.id.wishListIcon -> (view as WishListIconView).toggleWishlisted()
+                R.id.wishListIcon -> {
+                    val recommendItem = adapter.getItem(position) as RecommendItem
+                    val observable: Observable<HttpResultEntity<String>> = if (view.isActivated) unCollectInsideArticle(recommendItem.id) else collectInsideArticle(recommendItem.id)
+                    observable.subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(object : DefaultHttpResultSubscriber<String>() {
+                                override fun onSuccess(data: String?) {
+                                    recommendItem.collect = !view.isActivated
+                                    adapter.data[position] = recommendItem
+                                    adapter.notifyLoadMoreToLoading()
+                                    (view as WishListIconView).toggleWishlisted()
+                                }
+                            })
+                }
             }
         }
         mSystemTagArticleAdapter.setOnLoadMoreListener({
@@ -208,7 +224,7 @@ class WanAndroidSystemFragment : BaseFragment() {
     }
 
     private fun showDetailTagAnimation() {
-        iv_arrow_right?.let {
+        iv_arrow_right?.also {
             val rotateAnimation = RotateAnimation(0f, 90f, (iv_arrow_right.width / 2).toFloat(), (iv_arrow_right.height / 2).toFloat())
             rotateAnimation.duration = 100
             rotateAnimation.fillAfter = true
@@ -224,7 +240,7 @@ class WanAndroidSystemFragment : BaseFragment() {
     }
 
     private fun hiddenDetailTagAnimation() {
-        iv_arrow_right?.let {
+        iv_arrow_right?.also {
             val rotateAnimation = RotateAnimation(90f, 0f, (iv_arrow_right.width / 2).toFloat(), (iv_arrow_right.height / 2).toFloat())
             rotateAnimation.duration = 100
             rotateAnimation.fillAfter = true
@@ -244,7 +260,7 @@ class WanAndroidSystemFragment : BaseFragment() {
         fetchSystemTagArticleList(pageIndex, mSelectedChildTagId).subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(object : DefaultHttpResultSubscriber<SystemTagArticleList>() {
                     override fun onSuccess(data: SystemTagArticleList?) {
-                        data?.let {
+                        data?.also {
                             renderSystemTagArticleList(pageIndex, data)
                             if (mPageIndex == 0 && data.datas.size < data.size) {
                                 mSystemTagArticleAdapter.loadMoreEnd()
@@ -276,7 +292,7 @@ class WanAndroidSystemFragment : BaseFragment() {
         system_tag_parent.adapter = object : TagAdapter<SystemTag>(parentTagList) {
             override fun getView(parent: FlowLayout?, position: Int, systemTag: SystemTag?): View {
                 val parentTag = layoutInflater.inflate(R.layout.item_system_tag, null) as TextView
-                systemTag?.let {
+                systemTag?.also {
                     parentTag.text = HtmlUtils.translation(it.name)
                     return parentTag
                 }
@@ -291,7 +307,7 @@ class WanAndroidSystemFragment : BaseFragment() {
         system_tag_child.adapter = object : TagAdapter<SystemTag>(childTagList) {
             override fun getView(parent: FlowLayout?, position: Int, systemTag: SystemTag?): View {
                 val childTag = layoutInflater.inflate(R.layout.item_system_tag, null) as TextView
-                systemTag?.let {
+                systemTag?.also {
                     childTag.text = HtmlUtils.translation(it.name)
                     return childTag
                 }

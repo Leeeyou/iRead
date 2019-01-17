@@ -87,7 +87,7 @@ class ZhiHuDailyFragment : BaseFragment() {
         mAdapter.setLoadMoreView(MyLoadMoreView())
         mAdapter.setOnItemChildClickListener { adapter, _, position ->
             val item: ZhiHuDailyItem? = adapter.getItem(position) as ZhiHuDailyItem
-            item?.let {
+            item?.also {
                 fetchZhiHuDailyDetailById(it.id)
                         .subscribeOn(Schedulers.newThread())
                         .observeOn(AndroidSchedulers.mainThread())
