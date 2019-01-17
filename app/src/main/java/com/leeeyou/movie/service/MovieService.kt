@@ -1,5 +1,6 @@
 package com.leeeyou.movie.service
 
+import com.leeeyou.movie.model.bean.MovieDetail
 import com.leeeyou.movie.model.bean.ResponseHotMovie
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -16,7 +17,7 @@ interface MovieService {
      * @param id 电影bean里的id
      */
     @GET("v2/movie/subject/{id}")
-    fun fetchMovieDetail(@Path("id") id: String): Observable<String>
+    fun fetchMovieDetail(@Path("id") id: String): Observable<MovieDetail>
 
     /**
      * 获取豆瓣电影top250
