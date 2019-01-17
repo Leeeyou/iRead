@@ -52,3 +52,13 @@ fun fetchCollectionList(): Observable<HttpResultEntity<List<CollectItem>>> {
     return ServiceFactory.createRxRetrofitService(CollectService::class.java, endPoint)
             .getCollectList()
 }
+
+fun collectInsideArticle(articleId: Int): Observable<HttpResultEntity<String>> {
+    return ServiceFactory.createRxRetrofitService(CollectService::class.java, endPoint)
+            .collectInsideArticle(articleId)
+}
+
+fun unCollectInsideArticle(articleId: Int): Observable<HttpResultEntity<String>> {
+    return ServiceFactory.createRxRetrofitService(CollectService::class.java, endPoint)
+            .unCollectInsideArticle(articleId)
+}

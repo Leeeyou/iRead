@@ -20,6 +20,7 @@ import com.leeeyou.R
 import com.leeeyou.manager.BaseFragment
 import com.leeeyou.manager.MyAnimationListener
 import com.leeeyou.manager.MyLoadMoreView
+import com.leeeyou.service.entity.HttpResultEntity
 import com.leeeyou.service.subscriber.DefaultHttpResultSubscriber
 import com.leeeyou.util.HtmlUtils
 import com.leeeyou.util.inflate
@@ -27,12 +28,15 @@ import com.leeeyou.util.startBrowserActivity
 import com.leeeyou.wanandroid.model.bean.RecommendItem
 import com.leeeyou.wanandroid.model.bean.SystemTag
 import com.leeeyou.wanandroid.model.bean.SystemTagArticleList
+import com.leeeyou.wanandroid.model.collectInsideArticle
 import com.leeeyou.wanandroid.model.fetchSystemTagArticleList
 import com.leeeyou.wanandroid.model.fetchSystemTagList
+import com.leeeyou.wanandroid.model.unCollectInsideArticle
 import com.leeeyou.widget.WishListIconView
 import com.zhy.view.flowlayout.FlowLayout
 import com.zhy.view.flowlayout.TagAdapter
 import kotlinx.android.synthetic.main.fragment_wan_android_system.*
+import rx.Observable
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 import timber.log.Timber
@@ -109,9 +113,21 @@ class WanAndroidSystemFragment : BaseFragment() {
                 }
             }
         }
-        mSystemTagArticleAdapter.setOnItemChildClickListener { _, view, _ ->
+        mSystemTagArticleAdapter.setOnItemChildClickListener { adapter, view, position ->
             when (view.id) {
-                R.id.wishListIcon -> (view as WishListIconView).toggleWishlisted()
+                R.id.wishListIcon -> {
+                    val recommendItem = adapter.getItem(position) as RecommendItem
+                    val observable: Observable<HttpResultEntity<String>> = if (view.isActivated) unCollectInsideArticle(recommendItem.id) else collectInsideArticle(recommendItem.id)
+                    observable.subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(object : DefaultHttpResultSubscriber<String>() {
+                                override fun onSuccess(data: String?) {
+                                    recommendItem.collect = !view.isActivated
+                                    adapter.data[position] = recommendItem
+                                    adapter.notifyLoadMoreToLoading()
+                                    (view as WishListIconView).toggleWishlisted()
+                                }
+                            })
+                }
             }
         }
         mSystemTagArticleAdapter.setOnLoadMoreListener({
