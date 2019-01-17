@@ -25,6 +25,7 @@ import com.leeeyou.opensource.OpenSourceActivity
 import com.leeeyou.setting.SettingActivity
 import com.leeeyou.skin.ChangeSkinActivity
 import com.leeeyou.wanandroid.WanAndroidFragment
+import com.leeeyou.widget.LoadingDialog
 import com.leeeyou.zhihudaily.view.ZhiHuDailyFragment
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItem
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter
@@ -144,6 +145,9 @@ class IndexActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
 
     override fun onNavigationItemSelected(it: MenuItem): Boolean {
         when (it.itemId) {
+            R.id.nav_collect -> {
+                LoadingDialog(this@IndexActivity).show()
+            }
             R.id.nav_skin -> {
                 startActivity(Intent(this@IndexActivity, ChangeSkinActivity::class.java))
             }

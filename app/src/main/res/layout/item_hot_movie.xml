@@ -24,7 +24,7 @@
         android:layout_centerHorizontal="true"
         android:gravity="center"
         android:textColor="@android:color/black"
-        android:textSize="16sp"
+        android:textSize="14sp"
         tools:text="宝贝计划"/>
 
     <TextView
@@ -38,7 +38,7 @@
         android:layout_marginTop="10dp"
         android:gravity="center"
         android:textColor="@android:color/holo_blue_light"
-        android:textSize="14sp"
+        android:textSize="12sp"
         tools:text="评分：7.7"/>
 
 </RelativeLayout>

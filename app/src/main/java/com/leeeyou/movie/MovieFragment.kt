@@ -95,7 +95,9 @@ class MovieFragment : BaseFragment() {
                         Glide.with(mContext).load(it.images.large).into(imageView)
 
                         helper.setOnClickListener(R.id.iv_hot_movie) {
-                            startActivity(Intent(this@MovieFragment.activity, MovieDetailActivity::class.java))
+                            val intent = Intent(this@MovieFragment.activity, MovieDetailActivity::class.java)
+                            intent.putExtra("movieId", item.id)
+                            startActivity(intent)
                         }
                     }
                 }

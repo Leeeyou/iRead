@@ -30,6 +30,7 @@ import com.leeeyou.wanandroid.model.collectInsideArticle
 import com.leeeyou.wanandroid.model.fetchBannerList
 import com.leeeyou.wanandroid.model.fetchRecommendList
 import com.leeeyou.wanandroid.model.unCollectInsideArticle
+import com.leeeyou.widget.LoadingDialog
 import com.leeeyou.widget.WishListIconView
 import com.youth.banner.Transformer
 import com.youth.banner.loader.ImageLoader
@@ -90,11 +91,18 @@ class WanAndroidRecommendFragment : BaseFragment() {
         mRecommendAdapter.setOnItemChildClickListener { adapter, view, position ->
             when (view.id) {
                 R.id.wishListIcon -> {
+                    var loadingDialog: LoadingDialog? = null
+                    this@WanAndroidRecommendFragment.context?.also {
+                        loadingDialog = LoadingDialog(it)
+                        loadingDialog?.show()
+                    }
+
                     val recommendItem = adapter.getItem(position) as RecommendItem
                     val observable: Observable<HttpResultEntity<String>> = if (view.isActivated) unCollectInsideArticle(recommendItem.id) else collectInsideArticle(recommendItem.id)
                     observable.subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread())
                             .subscribe(object : DefaultHttpResultSubscriber<String>() {
                                 override fun onSuccess(data: String?) {
+                                    loadingDialog?.dismiss()
                                     recommendItem.collect = !view.isActivated
                                     adapter.data[position] = recommendItem
                                     adapter.notifyLoadMoreToLoading()
