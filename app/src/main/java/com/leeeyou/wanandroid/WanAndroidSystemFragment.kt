@@ -32,6 +32,7 @@ import com.leeeyou.wanandroid.model.collectInsideArticle
 import com.leeeyou.wanandroid.model.fetchSystemTagArticleList
 import com.leeeyou.wanandroid.model.fetchSystemTagList
 import com.leeeyou.wanandroid.model.unCollectInsideArticle
+import com.leeeyou.widget.LoadingDialog
 import com.leeeyou.widget.WishListIconView
 import com.zhy.view.flowlayout.FlowLayout
 import com.zhy.view.flowlayout.TagAdapter
@@ -116,11 +117,18 @@ class WanAndroidSystemFragment : BaseFragment() {
         mSystemTagArticleAdapter.setOnItemChildClickListener { adapter, view, position ->
             when (view.id) {
                 R.id.wishListIcon -> {
+                    var loadingDialog: LoadingDialog? = null
+                    this@WanAndroidSystemFragment.context?.also {
+                        loadingDialog = LoadingDialog(it)
+                        loadingDialog?.show()
+                    }
+
                     val recommendItem = adapter.getItem(position) as RecommendItem
                     val observable: Observable<HttpResultEntity<String>> = if (view.isActivated) unCollectInsideArticle(recommendItem.id) else collectInsideArticle(recommendItem.id)
                     observable.subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread())
                             .subscribe(object : DefaultHttpResultSubscriber<String>() {
                                 override fun onSuccess(data: String?) {
+                                    loadingDialog?.dismiss()
                                     recommendItem.collect = !view.isActivated
                                     adapter.data[position] = recommendItem
                                     adapter.notifyLoadMoreToLoading()
