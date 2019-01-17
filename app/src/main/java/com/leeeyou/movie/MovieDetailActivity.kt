@@ -12,6 +12,7 @@ import com.leeeyou.manager.BaseActivity
 import com.leeeyou.movie.model.bean.DirectorAndCast
 import com.leeeyou.movie.model.fetchMovieDetail
 import com.leeeyou.util.startBrowserActivity
+import com.leeeyou.widget.LoadingDialog
 import kotlinx.android.synthetic.main.activity_movie.*
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
@@ -24,8 +25,13 @@ class MovieDetailActivity : BaseActivity() {
         setContentView(R.layout.activity_movie)
         setLeftTitleAndDisplayHomeAsUp("电影详情")
 
+        val loadingDialog = LoadingDialog(this@MovieDetailActivity)
+        loadingDialog.show()
+
         fetchMovieDetail(intent.getStringExtra("movieId")).subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread())
                 .doOnNext { movieDetail ->
+                    loadingDialog.dismiss()
+
                     Glide.with(this@MovieDetailActivity).load(movieDetail.images.large).into(iv_poster)
                     iv_poster.setOnClickListener {
                         startBrowserActivity(this@MovieDetailActivity, movieDetail.alt, movieDetail.title)

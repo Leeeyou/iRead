@@ -30,6 +30,7 @@ import android.widget.Toast;
 import com.jaeger.library.StatusBarUtil;
 import com.leeeyou.R;
 import com.leeeyou.manager.BaseActivity;
+import com.leeeyou.widget.LoadingDialog;
 import com.tencent.sonic.sdk.SonicCacheInterceptor;
 import com.tencent.sonic.sdk.SonicConfig;
 import com.tencent.sonic.sdk.SonicConstants;
@@ -80,6 +81,8 @@ public class BrowserActivity extends BaseActivity {
             return;
         }
 
+        final LoadingDialog loadingDialog = new LoadingDialog(this);
+        loadingDialog.show();
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED);
 
@@ -136,6 +139,7 @@ public class BrowserActivity extends BaseActivity {
             @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
+                loadingDialog.dismiss();
                 if (sonicSession != null) {
                     sonicSession.getSessionClient().pageFinish(url);
                 }

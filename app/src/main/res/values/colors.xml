@@ -19,6 +19,7 @@
 
     <color name="colorBackground">#F6F5EC</color>
     <color name="colorBackgroundForSystemTagTitle">#FFCDD2</color>
+    <color name="colorBackgroundForLoading">#FFCDD2</color>
     <color name="colorBackgroundForSystemTag">#FFF</color>
     <color name="colorBackgroundForDrawerLayout">#FFF</color>
 
