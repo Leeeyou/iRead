@@ -16,11 +16,14 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.leeeyou.IndexActivity
 import com.leeeyou.R
+import com.leeeyou.login.event.LoginSuccessEvent
+import com.leeeyou.login.event.LogoutSuccessEvent
 import com.leeeyou.manager.BaseFragment
 import com.leeeyou.manager.MyLoadMoreView
 import com.leeeyou.service.entity.HttpResultEntity
 import com.leeeyou.service.subscriber.DefaultHttpResultSubscriber
 import com.leeeyou.util.HtmlUtils
+import com.leeeyou.util.T
 import com.leeeyou.util.inflate
 import com.leeeyou.util.startBrowserActivity
 import com.leeeyou.wanandroid.model.bean.Banner
@@ -35,6 +38,9 @@ import com.leeeyou.widget.WishListIconView
 import com.youth.banner.Transformer
 import com.youth.banner.loader.ImageLoader
 import kotlinx.android.synthetic.main.fragment_wan_android_recommend.*
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 import rx.Observable
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
@@ -107,6 +113,11 @@ class WanAndroidRecommendFragment : BaseFragment() {
                                     adapter.data[position] = recommendItem
                                     adapter.notifyLoadMoreToLoading()
                                     (view as WishListIconView).toggleWishlisted()
+                                }
+
+                                override fun _onError(status: Int, msg: String?) {
+                                    T.showShort(this@WanAndroidRecommendFragment.context, msg)
+                                    loadingDialog?.dismiss()
                                 }
                             })
                 }
@@ -233,11 +244,22 @@ class WanAndroidRecommendFragment : BaseFragment() {
     override fun onStart() {
         super.onStart()
         banner.startAutoPlay()
+        EventBus.getDefault().register(this)
     }
 
     override fun onStop() {
         super.onStop()
         banner.stopAutoPlay()
+        EventBus.getDefault().unregister(this)
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onMessageEvent(event: LogoutSuccessEvent) {
+        pullDownToRefresh()
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onMessageEvent(event: LoginSuccessEvent) {
+        pullDownToRefresh()
+    }
 }

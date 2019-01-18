@@ -1,5 +1,6 @@
 package com.leeeyou.login
 
+import android.content.Intent
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.text.TextUtils
@@ -52,5 +53,7 @@ class LoginActivity : BaseActivity() {
                         }
                     })
         }
+
+        tv_goto_reg.setOnClickListener { startActivity(Intent(this@LoginActivity, RegActivity::class.java)) }
     }
 }
