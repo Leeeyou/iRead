@@ -19,13 +19,15 @@ import android.widget.TextView
 import com.google.gson.Gson
 import com.leeeyou.login.LoginActivity
 import com.leeeyou.login.event.LoginSuccessEvent
+import com.leeeyou.login.event.LogoutSuccessEvent
 import com.leeeyou.login.model.bean.User
 import com.leeeyou.movie.MovieFragment
 import com.leeeyou.opensource.OpenSourceActivity
 import com.leeeyou.setting.SettingActivity
 import com.leeeyou.skin.ChangeSkinActivity
+import com.leeeyou.util.T
+import com.leeeyou.wanandroid.MyCollectActivity
 import com.leeeyou.wanandroid.WanAndroidFragment
-import com.leeeyou.widget.LoadingDialog
 import com.leeeyou.zhihudaily.view.ZhiHuDailyFragment
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItem
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter
@@ -34,7 +36,6 @@ import kotlinx.android.synthetic.main.activity_index.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
-
 
 private const val INDEX_VIEWPAGER_MOVIE_STR = "电影"
 private const val INDEX_VIEWPAGER_ANDROID_STR = "安卓"
@@ -146,24 +147,41 @@ class IndexActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
     override fun onNavigationItemSelected(it: MenuItem): Boolean {
         when (it.itemId) {
             R.id.nav_collect -> {
-                LoadingDialog(this@IndexActivity).show()
+                val defaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this@IndexActivity)
+                val loginUser = defaultSharedPreferences.getString("loginUser", null)
+                if (loginUser == null) {
+                    T.showShort(this@IndexActivity, "请先登录")
+                } else {
+                    startActivity(Intent(this@IndexActivity, MyCollectActivity::class.java))
+                    drawer_layout.closeDrawer(GravityCompat.START)
+                }
             }
             R.id.nav_skin -> {
                 startActivity(Intent(this@IndexActivity, ChangeSkinActivity::class.java))
+                drawer_layout.closeDrawer(GravityCompat.START)
+
             }
             R.id.nav_open_source -> {
                 startActivity(Intent(this@IndexActivity, OpenSourceActivity::class.java))
+                drawer_layout.closeDrawer(GravityCompat.START)
+
             }
             R.id.nav_setting -> {
                 startActivity(Intent(this@IndexActivity, SettingActivity::class.java))
+                drawer_layout.closeDrawer(GravityCompat.START)
+
             }
         }
-        drawer_layout.closeDrawer(GravityCompat.START)
         return true
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onMessageEvent(event: LoginSuccessEvent) {
+        checkLoginUserShow()
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onMessageEvent(event: LogoutSuccessEvent) {
         checkLoginUserShow()
     }
 

@@ -1,10 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/holo_red_dark"
+    android:background="@color/colorBackgroundForSystemTag"
     tools:context="com.leeeyou.setting.SettingActivity">
 
-</LinearLayout>
+    <ImageView
+        android:id="@+id/iv_launcher"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="80dp"
+        android:src="@mipmap/ic_launcher"/>
+
+    <TextView
+        android:id="@+id/tv_appname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/iv_launcher"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:text="@string/app_name"
+        android:textColor="@color/colorTxtEnable"
+        android:textSize="16sp"/>
+
+    <TextView
+        android:id="@+id/tv_version"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_appname"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
+        tools:text="Version 1.2.0"/>
+
+    <TextView
+        android:id="@+id/tv_login_out"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@id/tv_version"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/list_selector"
+        android:drawableRight="@mipmap/icon_arrow_right_project"
+        android:drawableTint="@color/colorTxtDefault"
+        android:gravity="center_vertical"
+        android:paddingLeft="10dp"
+        android:text="退出登录"
+        android:textSize="14sp"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_alignLeft="@id/tv_login_out"
+        android:layout_alignRight="@id/tv_login_out"
+        android:layout_below="@id/tv_login_out"
+        android:background="@color/colorDivider"/>
+
+    <TextView
+        android:id="@+id/tv_about_author"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@id/tv_login_out"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="0.5dp"
+        android:background="@drawable/list_selector"
+        android:drawableRight="@mipmap/icon_arrow_right_project"
+        android:drawableTint="@color/colorTxtDefault"
+        android:gravity="center_vertical"
+        android:paddingLeft="10dp"
+        android:text="关于作者"
+        android:textSize="14sp"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_alignLeft="@id/tv_login_out"
+        android:layout_alignRight="@id/tv_login_out"
+        android:layout_below="@id/tv_about_author"
+        android:background="@color/colorDivider"/>
+
+</RelativeLayout>

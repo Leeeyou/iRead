@@ -48,9 +48,9 @@ fun fetchProjectCategory(): Observable<HttpResultEntity<List<SystemTag>>> {
             .getProjectCategory()
 }
 
-fun fetchCollectionList(): Observable<HttpResultEntity<List<CollectItem>>> {
+fun fetchCollectionList(pageIndex: Int): Observable<HttpResultEntity<CollectList>> {
     return ServiceFactory.createRxRetrofitService(CollectService::class.java, endPoint)
-            .getCollectList()
+            .getCollectList(pageIndex)
 }
 
 fun collectInsideArticle(articleId: Int): Observable<HttpResultEntity<String>> {

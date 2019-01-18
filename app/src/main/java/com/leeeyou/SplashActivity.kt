@@ -2,7 +2,6 @@ package com.leeeyou
 
 import android.animation.Animator
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.View
@@ -14,7 +13,7 @@ class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
-        StatusBarUtil.setColor(this, Color.WHITE)
+        StatusBarUtil.setTransparent(this)
         lottieAnimationView.playAnimation()
         lottieAnimationView.addAnimatorListener(object : Animator.AnimatorListener {
             override fun onAnimationRepeat(animation: Animator?) {

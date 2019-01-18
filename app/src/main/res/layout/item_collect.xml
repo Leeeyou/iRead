@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:id="@+id/rl_collect_item"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/list_selector">
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:textColor="@android:color/black"
+        android:textSize="16sp"
+        tools:text="开发高手课文章更新学习笔记开发高手课文章更新学习笔记开发高手课文章更新学习笔记开发高手课文章更新学习笔记开发高手课文章更新学习笔记"/>
+
+    <TextView
+        android:id="@+id/tv_topping"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/tv_title"
+        android:layout_below="@id/tv_title"
+        android:layout_marginTop="10dp"
+        android:text="置顶"
+        android:textColor="@color/colorTxtEnable"
+        android:textSize="12sp"
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/tv_refresh"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_title"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@id/tv_topping"
+        android:text="新"
+        android:textColor="@color/colorTxtEnable"
+        android:textSize="12sp"
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/tv_author"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_title"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@id/tv_refresh"
+        android:textColor="@android:color/darker_gray"
+        android:textSize="12sp"
+        tools:text="作者：鸿洋"/>
+
+    <TextView
+        android:id="@+id/tv_category"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/tv_title"
+        android:layout_below="@id/tv_author"
+        android:layout_marginTop="10dp"
+        android:textColor="@android:color/darker_gray"
+        android:textSize="12sp"
+        tools:text="分类： 干货资源 / 课程推荐"/>
+
+    <TextView
+        android:id="@+id/tv_niceDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/tv_category"
+        android:layout_marginLeft="10dp"
+        android:layout_toLeftOf="@id/wishListIcon"
+        android:layout_toRightOf="@id/tv_category"
+        android:textColor="@android:color/darker_gray"
+        android:textSize="12sp"
+        tools:text="时间：2018-12-18"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_alignLeft="@id/tv_title"
+        android:layout_alignRight="@id/tv_title"
+        android:layout_below="@id/tv_category"
+        android:layout_marginTop="13dp"
+        android:background="@android:color/darker_gray"/>
+
+</RelativeLayout>

@@ -17,12 +17,15 @@ import android.widget.TextView
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.leeeyou.R
+import com.leeeyou.login.event.LoginSuccessEvent
+import com.leeeyou.login.event.LogoutSuccessEvent
 import com.leeeyou.manager.BaseFragment
 import com.leeeyou.manager.MyAnimationListener
 import com.leeeyou.manager.MyLoadMoreView
 import com.leeeyou.service.entity.HttpResultEntity
 import com.leeeyou.service.subscriber.DefaultHttpResultSubscriber
 import com.leeeyou.util.HtmlUtils
+import com.leeeyou.util.T
 import com.leeeyou.util.inflate
 import com.leeeyou.util.startBrowserActivity
 import com.leeeyou.wanandroid.model.bean.RecommendItem
@@ -37,6 +40,9 @@ import com.leeeyou.widget.WishListIconView
 import com.zhy.view.flowlayout.FlowLayout
 import com.zhy.view.flowlayout.TagAdapter
 import kotlinx.android.synthetic.main.fragment_wan_android_system.*
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 import rx.Observable
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
@@ -133,6 +139,11 @@ class WanAndroidSystemFragment : BaseFragment() {
                                     adapter.data[position] = recommendItem
                                     adapter.notifyLoadMoreToLoading()
                                     (view as WishListIconView).toggleWishlisted()
+                                }
+
+                                override fun _onError(status: Int, msg: String?) {
+                                    T.showShort(this@WanAndroidSystemFragment.context, msg)
+                                    loadingDialog?.dismiss()
                                 }
                             })
                 }
@@ -338,4 +349,23 @@ class WanAndroidSystemFragment : BaseFragment() {
         tv_system_tag_combine.text = parentTag.name + " / " + childTag.name
     }
 
+    override fun onStart() {
+        super.onStart()
+        EventBus.getDefault().register(this)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        EventBus.getDefault().unregister(this)
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onMessageEvent(event: LogoutSuccessEvent) {
+        pullDownToRefresh()
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onMessageEvent(event: LoginSuccessEvent) {
+        pullDownToRefresh()
+    }
 }

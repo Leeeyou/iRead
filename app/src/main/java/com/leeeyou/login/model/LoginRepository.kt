@@ -19,3 +19,9 @@ fun postLogin(username: String, password: String): Observable<HttpResultEntity<U
             .createRxRetrofitService(LoginService::class.java, endPoint)
             .login(username, password)
 }
+
+fun logout(): Observable<HttpResultEntity<String>> {
+    return ServiceFactory
+            .createRxRetrofitService(LoginService::class.java, endPoint)
+            .logout()
+}

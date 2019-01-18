@@ -15,6 +15,7 @@ import com.leeeyou.manager.BaseFragment
 import com.leeeyou.manager.MyLoadMoreView
 import com.leeeyou.util.T.showShort
 import com.leeeyou.util.startBrowserActivity
+import com.leeeyou.widget.LoadingDialog
 import com.leeeyou.zhihudaily.model.bean.ZhiHuDaily
 import com.leeeyou.zhihudaily.model.bean.ZhiHuDailyDetail
 import com.leeeyou.zhihudaily.model.bean.ZhiHuDailyItem
@@ -86,6 +87,13 @@ class ZhiHuDailyFragment : BaseFragment() {
         mAdapter.openLoadAnimation(BaseQuickAdapter.SCALEIN)
         mAdapter.setLoadMoreView(MyLoadMoreView())
         mAdapter.setOnItemChildClickListener { adapter, _, position ->
+
+            var loadingDialog: LoadingDialog? = null
+            this@ZhiHuDailyFragment.context?.also {
+                loadingDialog = LoadingDialog(it)
+                loadingDialog?.show()
+            }
+
             val item: ZhiHuDailyItem? = adapter.getItem(position) as ZhiHuDailyItem
             item?.also {
                 fetchZhiHuDailyDetailById(it.id)
@@ -94,14 +102,17 @@ class ZhiHuDailyFragment : BaseFragment() {
                         .subscribe(object : Subscriber<ZhiHuDailyDetail>() {
                             override fun onCompleted() {
                                 Timber.i("fetchZhiHuDailyDetailById onCompleted")
+                                loadingDialog?.dismiss()
                             }
 
                             override fun onError(e: Throwable) {
                                 Timber.e(e)
+                                loadingDialog?.dismiss()
                             }
 
                             override fun onNext(storyDetail: ZhiHuDailyDetail) {
                                 Timber.i("fetchZhiHuDailyDetailById onNext")
+                                loadingDialog?.dismiss()
                                 startBrowserActivity(context!!, storyDetail.share_url, storyDetail.title)
                             }
                         })
