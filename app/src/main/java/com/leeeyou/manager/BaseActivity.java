@@ -20,12 +20,6 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         super.setContentView(R.layout.activity_base_original);
-//        Toolbar toolbar = findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
-//        TextView toolbarTitleView = getToolbarTitleView(this, toolbar);
-//        if (toolbarTitleView != null) {
-//            toolbarTitleView.setEllipsize(TextUtils.TruncateAt.MARQUEE);
-//        }
     }
 
     @Override

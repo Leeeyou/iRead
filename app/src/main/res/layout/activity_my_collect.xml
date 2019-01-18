@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<in.srain.cube.views.ptr.PtrClassicFrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ptrFrameCollect"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackgroundForSystemTag">
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerViewCollect"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+</in.srain.cube.views.ptr.PtrClassicFrameLayout>

@@ -24,8 +24,8 @@ import com.leeeyou.movie.MovieFragment
 import com.leeeyou.opensource.OpenSourceActivity
 import com.leeeyou.setting.SettingActivity
 import com.leeeyou.skin.ChangeSkinActivity
+import com.leeeyou.wanandroid.MyCollectActivity
 import com.leeeyou.wanandroid.WanAndroidFragment
-import com.leeeyou.widget.LoadingDialog
 import com.leeeyou.zhihudaily.view.ZhiHuDailyFragment
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItem
 import com.ogaclejapan.smarttablayout.utils.v4.FragmentPagerItemAdapter
@@ -34,7 +34,6 @@ import kotlinx.android.synthetic.main.activity_index.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
-
 
 private const val INDEX_VIEWPAGER_MOVIE_STR = "电影"
 private const val INDEX_VIEWPAGER_ANDROID_STR = "安卓"
@@ -146,7 +145,7 @@ class IndexActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
     override fun onNavigationItemSelected(it: MenuItem): Boolean {
         when (it.itemId) {
             R.id.nav_collect -> {
-                LoadingDialog(this@IndexActivity).show()
+                startActivity(Intent(this@IndexActivity, MyCollectActivity::class.java))
             }
             R.id.nav_skin -> {
                 startActivity(Intent(this@IndexActivity, ChangeSkinActivity::class.java))
