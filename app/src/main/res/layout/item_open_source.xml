@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:id="@+id/rl_open_source"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/list_selector">
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_toLeftOf="@id/wishListIcon"
+        android:textColor="@android:color/black"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        tools:text="Glide"/>
+
+    <TextView
+        android:id="@+id/tv_desc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/tv_title"
+        android:layout_alignRight="@id/tv_title"
+        android:layout_below="@id/tv_title"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:lineSpacingExtra="5dp"
+        android:textColor="@color/colorTxtDefault"
+        android:textSize="14sp"
+        tools:text="置顶置顶置顶置顶置顶置顶置顶置顶置顶置顶置顶置顶置顶置顶置顶置顶置顶置顶置顶置顶置顶置顶置顶置顶置顶置顶置顶置顶置顶置顶置顶置顶置顶置顶置顶置顶置顶置顶置顶置顶置顶置顶置顶置顶置顶"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignLeft="@id/tv_title"
+        android:layout_alignRight="@id/tv_title"
+        android:layout_below="@id/tv_desc"
+        android:background="@color/colorDivider"/>
+</RelativeLayout>

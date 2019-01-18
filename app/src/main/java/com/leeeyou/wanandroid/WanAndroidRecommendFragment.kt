@@ -123,7 +123,7 @@ class WanAndroidRecommendFragment : BaseFragment() {
             val item: RecommendItem = adapter.getItem(position) as RecommendItem
             startBrowserActivity(context!!, item.link, item.title)
         }
-        mRecommendAdapter.openLoadAnimation(BaseQuickAdapter.SCALEIN)
+        mRecommendAdapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN)
         mRecommendAdapter.setLoadMoreView(MyLoadMoreView())
 
         recyclerViewRecommend.layoutManager = mLinearLayoutManager
