@@ -18,7 +18,9 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.text.TextUtils;
+import android.view.View;
 import android.view.WindowManager;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebResourceResponse;
@@ -72,7 +74,7 @@ public class BrowserActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
-        String url = intent.getStringExtra(PARAM_URL);
+        final String url = intent.getStringExtra(PARAM_URL);
         int mode = intent.getIntExtra(PARAM_MODE, -1);
         if (TextUtils.isEmpty(url) || -1 == mode) {
             finish();
@@ -129,7 +131,8 @@ public class BrowserActivity extends BaseActivity {
         // in the real world, the init flow may cost a long time as startup
         // runtime、init configs....
         setContentView(R.layout.activity_browser);
-        setLeftTitleAndDisplayHomeAsUp(intent.getStringExtra(PARAM_TITLE));
+        final String title = intent.getStringExtra(PARAM_TITLE);
+        setLeftTitleAndDisplayHomeAsUp(title);
 
         // init webView
         WebView webView = findViewById(R.id.webView);
@@ -187,6 +190,19 @@ public class BrowserActivity extends BaseActivity {
         } else { // default mode
             webView.loadUrl(url);
         }
+
+        FloatingActionButton btn_share = findViewById(R.id.btn_share);
+        btn_share.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_SEND);
+                intent.setType("text/plain");
+                intent.putExtra(Intent.EXTRA_SUBJECT, "Share");
+                intent.putExtra(Intent.EXTRA_TEXT, title + " : " + url);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(Intent.createChooser(intent, getTitle()));
+            }
+        });
     }
 
     @Override
