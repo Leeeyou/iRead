@@ -13,6 +13,16 @@
         android:minHeight="?attr/actionBarSize"
         android:paddingTop="@dimen/toolbar_padding_top"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-        app:theme="@style/ToolbarColoredBackArrow"/>
+        app:theme="@style/ToolbarColoredBackArrow">
+
+        <TextView
+            android:id="@+id/toolbar_title"
+            style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:textSize="20sp"/>
+
+    </android.support.v7.widget.Toolbar>
 
 </LinearLayout>

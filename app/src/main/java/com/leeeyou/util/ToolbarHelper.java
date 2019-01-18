@@ -4,11 +4,13 @@ import android.os.Build;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.leeeyou.R;
 
@@ -21,6 +23,8 @@ import com.leeeyou.R;
  */
 public class ToolbarHelper {
 
+    private static TextView toolbarTitle;
+
     public static void checkSdkVersionToTranslucentFlag(Window window) {
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
             final WindowManager.LayoutParams attributes = window.getAttributes();
@@ -30,8 +34,10 @@ public class ToolbarHelper {
 
     public static void initToolbar(AppCompatActivity activity) {
         Toolbar toolbar = activity.findViewById(R.id.toolbar);
-
-        if (toolbar != null) activity.setSupportActionBar(toolbar);
+        if (toolbar != null) {
+            activity.setSupportActionBar(toolbar);
+            toolbarTitle = toolbar.findViewById(R.id.toolbar_title);
+        }
     }
 
     public static void setContentView(AppCompatActivity activity, int layoutResID) {
@@ -54,7 +60,15 @@ public class ToolbarHelper {
     }
 
     public static void setLeftTitle(ActionBar actionBar, String title) {
-        actionBar.setTitle(title);
+        actionBar.setTitle("");
+        if (toolbarTitle != null) {
+            toolbarTitle.setText(title);
+            toolbarTitle.setEllipsize(TextUtils.TruncateAt.MARQUEE);
+            toolbarTitle.setSingleLine(true);
+            toolbarTitle.setSelected(true);
+            toolbarTitle.setFocusable(true);
+            toolbarTitle.setFocusableInTouchMode(true);
+        }
     }
 
 }
