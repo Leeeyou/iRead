@@ -61,8 +61,8 @@
         <activity android:name=".opensource.OpenSourceActivity"/>
         <activity android:name=".setting.SettingActivity"/>
         <activity android:name=".movie.MovieDetailActivity"/>
-        <activity android:name=".wanandroid.MyCollectActivity">
-        </activity>
+        <activity android:name=".wanandroid.MyCollectActivity"/>
+        <activity android:name=".wanandroid.SimilarProjectActivity"/>
     </application>
 
 </manifest>

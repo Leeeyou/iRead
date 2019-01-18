@@ -4,6 +4,7 @@ import `in`.srain.cube.views.ptr.PtrFrameLayout
 import `in`.srain.cube.views.ptr.PtrHandler
 import `in`.srain.cube.views.ptr.header.StoreHouseHeader
 import `in`.srain.cube.views.ptr.util.PtrLocalDisplay.dp2px
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
@@ -24,7 +25,6 @@ import com.leeeyou.manager.MyAnimationListener
 import com.leeeyou.manager.MyLoadMoreView
 import com.leeeyou.service.subscriber.DefaultHttpResultSubscriber
 import com.leeeyou.util.HtmlUtils
-import com.leeeyou.util.T
 import com.leeeyou.util.inflate
 import com.leeeyou.util.startBrowserActivity
 import com.leeeyou.wanandroid.model.bean.RecommendItem
@@ -89,8 +89,10 @@ class WanAndroidProjectFragment : BaseFragment() {
                 Glide.with(mContext).load(item.envelopePic).into(helper.getView(R.id.iv_project) as ImageView)
 
                 helper.setOnClickListener(R.id.tv_view_similar_projects) {
-                    T.showShort(mContext, "显示同类项目")
-                    TODO("显示同类项目")
+                    val intent = Intent(this@WanAndroidProjectFragment.context, SimilarProjectActivity::class.java)
+                    intent.putExtra("category", item.chapterName)
+                    intent.putExtra("categoryId", item.chapterId)
+                    startActivity(intent)
                 }
             }
         }
