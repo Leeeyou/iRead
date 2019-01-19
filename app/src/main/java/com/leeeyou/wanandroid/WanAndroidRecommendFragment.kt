@@ -56,8 +56,8 @@ import timber.log.Timber
  */
 class WanAndroidRecommendFragment : BaseFragment() {
     private lateinit var mLinearLayoutManager: LinearLayoutManager
-    var mPageIndex: Int = 0
     private lateinit var mRecommendAdapter: BaseQuickAdapter<RecommendItem, BaseViewHolder>
+    private var mPageIndex: Int = 0
     private var mPageCount: Int = 0
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -67,8 +67,7 @@ class WanAndroidRecommendFragment : BaseFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         initView()
-        fetchBannerListFromServer()
-        fetchRecommendListFromServer(mPageIndex)
+        pullDownToRefresh()
     }
 
     private fun initView() {
@@ -142,20 +141,17 @@ class WanAndroidRecommendFragment : BaseFragment() {
     }
 
     private fun initBanner() {
-        banner.setImageLoader(object : ImageLoader() {
+        banner.setDelayTime(3000).setImageLoader(object : ImageLoader() {
             override fun displayImage(context: Context?, path: Any?, imageView: ImageView?) {
-                context?.also {
-                    imageView?.also {
-                        Glide.with(context).load(path).into(imageView)
-                    }
+                if (context != null && imageView != null) {
+                    Glide.with(context).load(path).into(imageView)
                 }
             }
         })
-        banner.setDelayTime(3000)
     }
 
     private fun initPtrFrame() {
-        initHeadView()
+        initHeadView("Play Android")
         ptrFrameRecommend.disableWhenHorizontalMove(true)
         ptrFrameRecommend.setPtrHandler(object : PtrHandler {
             override fun onRefreshBegin(frame: PtrFrameLayout?) {
@@ -168,17 +164,18 @@ class WanAndroidRecommendFragment : BaseFragment() {
         })
     }
 
-    private fun initHeadView() {
+    private fun initHeadView(headString: String) {
         val header = StoreHouseHeader(context)
         header.setTextColor(resources.getColor(R.color.colorTxtEnable))
         header.setPadding(0, dp2px(15f), 0, 0)
-        header.initWithString("Play Android", 15)
+        header.initWithString(headString, 15)
         ptrFrameRecommend.headerView = header
         ptrFrameRecommend.addPtrUIHandler(header)
     }
 
-    private fun recyclerViewFirstItemCanVisible() =
-            mLinearLayoutManager.findFirstCompletelyVisibleItemPosition() <= 0
+    private fun recyclerViewFirstItemCanVisible(): Boolean {
+        return mLinearLayoutManager.findFirstCompletelyVisibleItemPosition() <= 0
+    }
 
     fun gotoFirstPage() {
         if (!recyclerViewFirstItemCanVisible()) pullDownToRefresh()
@@ -210,12 +207,12 @@ class WanAndroidRecommendFragment : BaseFragment() {
                 })
     }
 
-    private fun renderRecommendList(witchPage: Int, data: RecommendList) {
+    private fun renderRecommendList(witchPage: Int, recommendList: RecommendList) {
         if (witchPage == 0) {
-            mRecommendAdapter.setNewData(data.datas)
+            mRecommendAdapter.setNewData(recommendList.datas)
         } else {
-            mPageCount = data.pageCount
-            mRecommendAdapter.addData(data.datas)
+            mPageCount = recommendList.pageCount
+            mRecommendAdapter.addData(recommendList.datas)
         }
     }
 
@@ -230,14 +227,12 @@ class WanAndroidRecommendFragment : BaseFragment() {
 
     private fun renderBanner(bannerList: List<Banner>) {
         bannerList.map { it.imagePath }.also {
-            banner.setImages(it)
-            banner.setBannerAnimation(Transformer.Default)
-            banner.setOnBannerListener { position ->
-                val banner = bannerList[position]
-                Timber.d("click banner position is %s , the url is %s", position, banner.url)
-                startBrowserActivity(context!!, banner.url, banner.title)
-            }
-            banner.start()
+            banner.setImages(it).setBannerAnimation(Transformer.Default).start()
+                    .setOnBannerListener { position ->
+                        val banner = bannerList[position]
+                        startBrowserActivity(context!!, banner.url, banner.title)
+                        Timber.d("click banner position is %s , the url is %s", position, banner.url)
+                    }
         }
     }
 
