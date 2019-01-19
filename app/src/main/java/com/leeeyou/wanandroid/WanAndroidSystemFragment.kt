@@ -89,10 +89,8 @@ class WanAndroidSystemFragment : BaseFragment() {
     private fun fetchSystemTagListFromServer() {
         fetchSystemTagList().subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(object : DefaultHttpResultSubscriber<List<SystemTag>>() {
-                    override fun onSuccess(t: List<SystemTag>?) {
-                        t?.also {
-                            renderSystemTag(it)
-                        }
+                    override fun onSuccess(data: List<SystemTag>?) {
+                        data?.also { renderSystemTag(it) }
                     }
                 })
     }
@@ -198,8 +196,9 @@ class WanAndroidSystemFragment : BaseFragment() {
         fetchSystemTagArticleList(mPageIndex)
     }
 
-    private fun recyclerViewFirstItemCanVisible() =
-            mLinearLayoutManager.findFirstCompletelyVisibleItemPosition() <= 0
+    private fun recyclerViewFirstItemCanVisible(): Boolean {
+        return mLinearLayoutManager.findFirstCompletelyVisibleItemPosition() <= 0
+    }
 
     private fun renderSystemTag(parentTagList: List<SystemTag>) {
         mSelectedParentTagPosition = 0

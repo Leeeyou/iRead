@@ -45,6 +45,7 @@ class WanAndroidFragment : BaseFragment() {
         wanAndroidViewPager.offscreenPageLimit = 3
         wanAndroidViewPager.adapter = mViewPagerAdapter
         wanAndroidTabLayout.setupWithViewPager(wanAndroidViewPager)
+        //todo 双击有问题，没按照预期执行
         wanAndroidTabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             var lastPressTime: Long = 0
             override fun onTabReselected(p0: TabLayout.Tab?) {
