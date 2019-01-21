@@ -13,7 +13,7 @@
             android:id="@+id/rl_project_category"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            android:background="@color/colorBackgroundForSystemTagTitle">
+            android:background="@color/colorBackgroundSystemTag">
 
             <TextView
                 android:id="@+id/tv_project_category"
@@ -21,7 +21,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
                 android:paddingLeft="10dp"
-                android:textColor="@color/colorTxtEnable"
+                android:textColor="@color/colorTxtSelected"
                 android:textSize="14sp"
                 android:textStyle="bold"
                 tools:text="最新推荐项目"/>
@@ -48,7 +48,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/rl_project_category"
-            android:background="@color/colorBackgroundForSystemTag"
+            android:background="@color/colorBackgroundDefault"
             android:fillViewport="true"
             android:visibility="gone">
 

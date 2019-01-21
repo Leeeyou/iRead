@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="6dp"
             android:text="@string/brvah_loading"
-            android:textColor="@color/colorTxtDefault"
+            android:textColor="@color/colorTxtUnSelected"
             android:textSize="@dimen/sp_12"/>
 
         <ProgressBar

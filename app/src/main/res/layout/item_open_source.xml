@@ -29,7 +29,7 @@
         android:layout_marginBottom="10dp"
         android:layout_marginTop="10dp"
         android:lineSpacingExtra="5dp"
-        android:textColor="@color/colorTxtDefault"
+        android:textColor="@color/colorTxtUnSelected"
         android:textSize="14sp"
         tools:text="置顶置顶置顶置顶置顶置顶置顶置顶置顶置顶置顶置顶置顶置顶置顶置顶置顶置顶置顶置顶置顶置顶置顶置顶置顶置顶置顶置顶置顶置顶置顶置顶置顶置顶置顶置顶置顶置顶置顶置顶置顶置顶置顶置顶置顶"/>
 

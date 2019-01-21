@@ -10,7 +10,7 @@
         android:id="@+id/lottieAnimationView"
         android:layout_width="72dp"
         android:layout_height="72dp"
-        android:background="@color/colorBackgroundForLoading"
+        android:background="@color/colorBackgroundSystemTag"
         app:lottie_rawRes="@raw/plane"/>
 
 </LinearLayout>

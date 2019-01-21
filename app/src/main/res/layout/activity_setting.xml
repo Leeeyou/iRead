@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorBackgroundForSystemTag"
+    android:background="@color/colorBackgroundDefault"
     tools:context="com.leeeyou.setting.SettingActivity">
 
     <ImageView
@@ -23,7 +23,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
         android:text="@string/app_name"
-        android:textColor="@color/colorTxtEnable"
+        android:textColor="@color/colorTxtSelected"
         android:textSize="16sp"/>
 
     <TextView
@@ -45,7 +45,7 @@
         android:layout_marginTop="20dp"
         android:background="@drawable/list_selector"
         android:drawableRight="@mipmap/icon_arrow_right_project"
-        android:drawableTint="@color/colorTxtDefault"
+        android:drawableTint="@color/colorTxtUnSelected"
         android:gravity="center_vertical"
         android:paddingLeft="10dp"
         android:text="退出登录"
@@ -69,7 +69,7 @@
         android:layout_marginTop="0.5dp"
         android:background="@drawable/list_selector"
         android:drawableRight="@mipmap/icon_arrow_right_project"
-        android:drawableTint="@color/colorTxtDefault"
+        android:drawableTint="@color/colorTxtUnSelected"
         android:gravity="center_vertical"
         android:paddingLeft="10dp"
         android:text="关于作者"

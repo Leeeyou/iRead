@@ -5,23 +5,20 @@
     <color name="colorPrimaryDark">#C62828</color>
     <color name="colorAccent">#E53935</color>
 
-    <color name="colorToolbarHomeAsUp">#FFF</color>
-    <color name="colorToolbarTxt">#FFFF</color>
+    <color name="colorToolbarHomeAsUp">#FFFFFF</color>
+    <color name="colorToolbarTxt">#FFFFFF</color>
 
-    <color name="colorTxtEnable">@color/colorPrimary</color>
-    <color name="colorTxtDefault">#A1A3A6</color>
+    <color name="colorTxtSelected">@color/colorPrimary</color>
+    <color name="colorTxtUnSelected">#A1A3A6</color>
 
-    <color name="colorIconEnable">#FFFFFF</color>
-    <color name="colorIconDefault">@color/colorPrimaryDark</color>
+    <color name="colorIconSelected">#FFFFFF</color>
+    <color name="colorIconUnSelected">@color/colorPrimaryDark</color>
 
     <color name="colorPressedItem">#F0F0F0</color>
-    <color name="colorNotPressItem">#FFF</color>
+    <color name="colorUnPressItem">#FFFFFF</color>
 
-    <color name="colorBackground">#F6F5EC</color>
-    <color name="colorBackgroundForSystemTagTitle">#FFCDD2</color>
-    <color name="colorBackgroundForLoading">#FFCDD2</color>
-    <color name="colorBackgroundForSystemTag">#FFF</color>
-    <color name="colorBackgroundForDrawerLayout">#FFF</color>
+    <color name="colorBackgroundDefault">#FFFFFF</color>
+    <color name="colorBackgroundSystemTag">#FFCDD2</color>
 
     <color name="colorIconTint">@color/colorPrimary</color>
     <color name="colorDivider">#E9E9E9</color>
