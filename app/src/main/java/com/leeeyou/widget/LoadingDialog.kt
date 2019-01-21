@@ -6,7 +6,7 @@ import android.os.Bundle
 import com.leeeyou.R
 import kotlinx.android.synthetic.main.loading.*
 
-class LoadingDialog constructor(context: Context) : Dialog(context) {
+class LoadingDialog constructor(context: Context, themeResId: Int = R.style.dialog) : Dialog(context, themeResId) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,4 +20,5 @@ class LoadingDialog constructor(context: Context) : Dialog(context) {
         super.dismiss()
         lottieAnimationView.cancelAnimation()
     }
+
 }

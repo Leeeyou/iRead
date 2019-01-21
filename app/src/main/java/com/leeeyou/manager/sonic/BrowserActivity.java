@@ -81,7 +81,7 @@ public class BrowserActivity extends BaseActivity {
             return;
         }
 
-        final LoadingDialog loadingDialog = new LoadingDialog(this);
+        final LoadingDialog loadingDialog = new LoadingDialog(this,R.style.dialog);
         loadingDialog.show();
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED);
