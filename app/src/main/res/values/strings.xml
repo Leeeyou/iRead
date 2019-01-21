@@ -2,6 +2,4 @@
     <string name="app_name">阅读精选</string>
     <string name="navigation_drawer_open">navigation_drawer_open</string>
     <string name="navigation_drawer_close">navigation_drawer_close</string>
-    <string name="title_activity_change_skin">ChangeSkinActivity</string>
-
 </resources>
