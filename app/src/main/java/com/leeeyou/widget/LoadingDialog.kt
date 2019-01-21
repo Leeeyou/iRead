@@ -6,7 +6,7 @@ import android.os.Bundle
 import com.leeeyou.R
 import kotlinx.android.synthetic.main.loading.*
 
-class LoadingDialog constructor(context: Context, themeResId: Int = R.style.dialog) : Dialog(context, themeResId) {
+class LoadingDialog constructor(context: Context, themeResId: Int = R.style.loadingDialog) : Dialog(context, themeResId) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
