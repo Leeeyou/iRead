@@ -8,7 +8,7 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorBackground"
+        android:background="@color/colorBackgroundSystemTag"
         android:scaleType="centerCrop"/>
 
     <RelativeLayout
@@ -24,7 +24,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="70dp"
             android:text="登录玩Android，开启收藏之旅"
-            android:textColor="@color/colorTxtEnable"
+            android:textColor="@color/colorTxtSelected"
             android:textSize="12sp"/>
 
         <Button
@@ -64,7 +64,7 @@
             android:layout_centerInParent="true"
             android:layout_marginTop="10dp"
             android:clickable="true"
-            android:textColor="@color/colorTxtEnable"
+            android:textColor="@color/colorTxtSelected"
             android:textStyle="bold"
             tools:text="Jaeger"/>
 

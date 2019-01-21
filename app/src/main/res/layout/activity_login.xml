@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorBackground"
+    android:background="@color/colorBackgroundDefault"
     tools:context="com.leeeyou.login.LoginActivity">
 
     <ImageView
@@ -27,7 +27,7 @@
         android:layout_toRightOf="@id/iv_phone"
         android:gravity="center_vertical"
         android:text="+86"
-        android:textColor="@color/colorTxtDefault"/>
+        android:textColor="@color/colorTxtUnSelected"/>
 
     <EditText
         android:id="@+id/et_username"
@@ -108,14 +108,14 @@
         android:layout_marginTop="10dp"
         android:drawablePadding="5dp"
         android:drawableRight="@mipmap/icon_arrow_right_project"
-        android:drawableTint="@color/colorTxtEnable"
+        android:drawableTint="@color/colorTxtSelected"
         android:gravity="center_vertical"
         android:paddingBottom="10dp"
         android:paddingLeft="10dp"
         android:paddingRight="20dp"
         android:paddingTop="10dp"
         android:text="立即注册"
-        android:textColor="@color/colorTxtEnable"
+        android:textColor="@color/colorTxtSelected"
         android:textSize="14sp"/>
 
 </RelativeLayout>

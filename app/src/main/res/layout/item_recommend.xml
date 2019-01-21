@@ -36,7 +36,7 @@
         android:layout_below="@id/tv_title"
         android:layout_marginTop="10dp"
         android:text="置顶"
-        android:textColor="@color/colorTxtEnable"
+        android:textColor="@color/colorTxtSelected"
         android:textSize="12sp"
         android:visibility="gone"/>
 
@@ -49,7 +49,7 @@
         android:layout_marginTop="10dp"
         android:layout_toRightOf="@id/tv_topping"
         android:text="新"
-        android:textColor="@color/colorTxtEnable"
+        android:textColor="@color/colorTxtSelected"
         android:textSize="12sp"
         android:visibility="gone"/>
 

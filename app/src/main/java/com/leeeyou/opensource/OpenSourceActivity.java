@@ -48,7 +48,7 @@ public class OpenSourceActivity extends BaseActivity {
                 if (view.getId() == R.id.rl_open_source) {
                     OpenSourceData item = (OpenSourceData) adapter.getItem(position);
                     if (item != null && !TextUtils.isEmpty(item.getUrl())) {
-                        BrowserUtilKt.startBrowserActivity(OpenSourceActivity.this, OpenSourceActivity.this, item.getUrl(), item.getName());
+                        BrowserUtilKt.startBrowserActivity(OpenSourceActivity.this, item.getUrl(), item.getName());
                     }
                 }
             }

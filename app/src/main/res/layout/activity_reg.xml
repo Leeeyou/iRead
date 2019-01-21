@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorBackground"
+    android:background="@color/colorBackgroundDefault"
     tools:context="com.leeeyou.login.LoginActivity">
 
     <ImageView
@@ -27,7 +27,7 @@
         android:layout_toRightOf="@id/iv_phone"
         android:gravity="center_vertical"
         android:text="+86"
-        android:textColor="@color/colorTxtDefault"/>
+        android:textColor="@color/colorTxtUnSelected"/>
 
     <EditText
         android:id="@+id/et_username"

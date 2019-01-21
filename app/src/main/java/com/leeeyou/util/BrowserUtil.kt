@@ -1,19 +1,13 @@
 package com.leeeyou.util
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.support.v4.app.Fragment
 import com.leeeyou.manager.sonic.BrowserActivity
 import com.leeeyou.manager.sonic.BrowserActivity.*
 import com.leeeyou.manager.sonic.MODE_SONIC
 import com.leeeyou.manager.sonic.SonicJavaScriptInterface
 
-fun Activity.startBrowserActivity(context: Context, url: String, title: String) {
-    gotoBrowserActivity(context, url, title)
-}
-
-fun Fragment.startBrowserActivity(context: Context, url: String, title: String) {
+fun startBrowserActivity(context: Context, url: String, title: String) {
     gotoBrowserActivity(context, url, title)
 }
 

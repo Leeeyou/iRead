@@ -75,7 +75,7 @@ class ZhiHuDailyFragment : BaseFragment() {
 
     private fun initHeadView() {
         val header = StoreHouseHeader(context)
-        header.setTextColor(resources.getColor(R.color.colorTxtEnable))
+        header.setTextColor(resources.getColor(R.color.colorTxtSelected))
         header.setPadding(0, dp2px(15f), 0, 0)
         header.initWithString("ZhiHu Daily", 15)
         ptrFrameOfZhiHuDaily.headerView = header

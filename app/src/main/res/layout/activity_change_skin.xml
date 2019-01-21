@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/darker_gray"
+    android:background="@color/colorBackgroundDefault"
     tools:context="com.leeeyou.skin.ChangeSkinActivity">
 
 </RelativeLayout>
