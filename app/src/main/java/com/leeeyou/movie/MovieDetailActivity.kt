@@ -1,6 +1,7 @@
 package com.leeeyou.movie
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.widget.ImageView
@@ -25,12 +26,22 @@ class MovieDetailActivity : BaseActivity() {
         setContentView(R.layout.activity_movie)
         setLeftTitleAndDisplayHomeAsUp("电影详情")
 
+
         val loadingDialog = LoadingDialog(this@MovieDetailActivity)
         loadingDialog.show()
 
         fetchMovieDetail(intent.getStringExtra("movieId")).subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread())
                 .doOnNext { movieDetail ->
                     loadingDialog.dismiss()
+
+                    btn_share.setOnClickListener {
+                        val intent = Intent(Intent.ACTION_SEND)
+                        intent.type = "text/plain"
+                        intent.putExtra(Intent.EXTRA_SUBJECT, "Share")
+                        intent.putExtra(Intent.EXTRA_TEXT, movieDetail.title + " : " + movieDetail.share_url)
+                        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                        startActivity(Intent.createChooser(intent, title))
+                    }
 
                     Glide.with(this@MovieDetailActivity).load(movieDetail.images.large).into(iv_poster)
                     iv_poster.setOnClickListener {
