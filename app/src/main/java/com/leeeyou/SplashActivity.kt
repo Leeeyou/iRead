@@ -15,7 +15,7 @@ class SplashActivity : AppCompatActivity() {
         setContentView(R.layout.activity_splash)
         StatusBarUtil.setTransparent(this)
         lottieAnimationView.playAnimation()
-        lottieAnimationView.speed = 1.8F
+        lottieAnimationView.speed = 1.5F
         lottieAnimationView.addAnimatorListener(object : Animator.AnimatorListener {
             override fun onAnimationRepeat(animation: Animator?) {
             }
