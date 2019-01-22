@@ -45,6 +45,7 @@ import timber.log.Timber
  */
 class WanAndroidRecommendFragment : WanAndroidBaseFragment() {
     private lateinit var mRecommendAdapter: BaseQuickAdapter<RecommendItem, BaseViewHolder>
+    private var mFirstEnterLoadingDialog: LoadingDialog? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return container?.inflate(R.layout.fragment_wan_android_recommend)
@@ -57,6 +58,9 @@ class WanAndroidRecommendFragment : WanAndroidBaseFragment() {
     }
 
     private fun initView() {
+        mFirstEnterLoadingDialog = context?.let { LoadingDialog(it) }
+        mFirstEnterLoadingDialog?.show()
+
         initBanner()
         initPtrFrame(ptrFrameRecommend, "Play Android")
         initRecyclerView()
@@ -172,6 +176,7 @@ class WanAndroidRecommendFragment : WanAndroidBaseFragment() {
     }
 
     private fun renderRecommendList(witchPage: Int, recommendList: RecommendList) {
+        mFirstEnterLoadingDialog?.dismiss()
         if (witchPage == 0) {
             mRecommendAdapter.setNewData(recommendList.datas)
         } else {
