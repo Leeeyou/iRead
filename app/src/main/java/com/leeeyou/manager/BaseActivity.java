@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
+import com.jaeger.library.StatusBarUtil;
 import com.leeeyou.R;
 import com.leeeyou.util.ToolbarHelper;
 
@@ -25,11 +26,13 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     public void setContentView(int layoutResID) {
         ToolbarHelper.setContentView(this, layoutResID);
+        setStatusBar();
     }
 
     @Override
     public void setContentView(View view) {
         ToolbarHelper.setContentView(this, view);
+        setStatusBar();
     }
 
     public void setLeftTitleAndDoNotDisplayHomeAsUp(String title) {
@@ -46,5 +49,9 @@ public abstract class BaseActivity extends AppCompatActivity {
     public boolean onSupportNavigateUp() {
         finish();
         return super.onSupportNavigateUp();
+    }
+
+    protected void setStatusBar() {
+        StatusBarUtil.setColor(this, getResources().getColor(R.color.colorPrimary), StatusBarUtil.DEFAULT_STATUS_BAR_ALPHA);
     }
 }

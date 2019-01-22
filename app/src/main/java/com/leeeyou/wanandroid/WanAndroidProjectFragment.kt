@@ -1,18 +1,10 @@
 package com.leeeyou.wanandroid
 
-import `in`.srain.cube.views.ptr.PtrFrameLayout
-import `in`.srain.cube.views.ptr.PtrHandler
-import `in`.srain.cube.views.ptr.header.StoreHouseHeader
-import `in`.srain.cube.views.ptr.util.PtrLocalDisplay.dp2px
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AccelerateInterpolator
-import android.view.animation.Animation
-import android.view.animation.RotateAnimation
 import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
@@ -20,8 +12,6 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.leeeyou.IndexActivity
 import com.leeeyou.R
-import com.leeeyou.manager.BaseFragment
-import com.leeeyou.manager.MyAnimationListener
 import com.leeeyou.manager.MyLoadMoreView
 import com.leeeyou.service.subscriber.DefaultHttpResultSubscriber
 import com.leeeyou.util.HtmlUtils
@@ -46,11 +36,8 @@ import rx.schedulers.Schedulers
  * Author:      leeeyou
  * Date:        2017/4/24 13:46
  */
-class WanAndroidProjectFragment : BaseFragment() {
-    private lateinit var mLinearLayoutManager: LinearLayoutManager
+class WanAndroidProjectFragment : WanAndroidBaseFragment() {
     private lateinit var mProjectAdapter: BaseQuickAdapter<RecommendItem, BaseViewHolder>
-    private var mPageCount: Int = 0
-    private var mPageIndex: Int = 0
 
     private var mSelectedCategoryPosition: Int = 0
     private var mSelectedCategoryId: Int = 0
@@ -64,20 +51,25 @@ class WanAndroidProjectFragment : BaseFragment() {
     override fun setUserVisibleHint(isVisibleToUser: Boolean) {
         super.setUserVisibleHint(isVisibleToUser)
         if (!isVisibleToUser) { // onPause
-            hiddenDetailTagAnimation()
+            hiddenDetailTagAnimation(iv_arrow_right, sv_project_category)
         }
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         initRecyclerView()
-        initPtrFrame()
+        initPtrFrame(ptrFrameProject, "Play Android")
         initProjectCategoryUI()
         fetchProjectCategoryListFromServer()
     }
 
+    override fun checkRefresh(): Boolean {
+        return recyclerViewFirstItemCanVisible()
+                && (activity as IndexActivity).appBarLayoutVerticalOffset >= 0
+    }
+
     private fun initRecyclerView() {
-        mLinearLayoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        context?.let { initLayoutManager(it) }
         mProjectAdapter = object : BaseQuickAdapter<RecommendItem, BaseViewHolder>(R.layout.item_project, null) {
             override fun convert(helper: BaseViewHolder?, item: RecommendItem?) {
                 if (item == null || helper == null) return
@@ -112,38 +104,20 @@ class WanAndroidProjectFragment : BaseFragment() {
         mProjectAdapter.openLoadAnimation(BaseQuickAdapter.SCALEIN)
         mProjectAdapter.setLoadMoreView(MyLoadMoreView())
 
-        recyclerViewProject.layoutManager = mLinearLayoutManager
+        recyclerViewProject.layoutManager = mLayoutManager
         recyclerViewProject.adapter = mProjectAdapter
-    }
-
-    private fun initPtrFrame() {
-        initHeadView()
-        ptrFrameProject.disableWhenHorizontalMove(true)
-        ptrFrameProject.setPtrHandler(object : PtrHandler {
-            override fun onRefreshBegin(frame: PtrFrameLayout?) {
-                mPageIndex = 0
-                fetchProjectListFromServer()
-            }
-
-            override fun checkCanDoRefresh(frame: PtrFrameLayout?, content: View?, header: View?): Boolean {
-                return recyclerViewFirstItemCanVisible() && (activity as IndexActivity).appBarLayoutVerticalOffset >= 0
-            }
-        })
-    }
-
-    private fun initHeadView() {
-        val header = StoreHouseHeader(context)
-        header.setTextColor(resources.getColor(R.color.colorTxtSelected))
-        header.setPadding(0, dp2px(15f), 0, 0)
-        header.initWithString("Play Android", 15)
-        ptrFrameProject.headerView = header
-        ptrFrameProject.addPtrUIHandler(header)
     }
 
     private fun initProjectCategoryUI() {
         rl_project_category.setOnClickListener {
-            if (sv_project_category.visibility == View.VISIBLE) hiddenDetailTagAnimation() else showDetailTagAnimation()
+            if (sv_project_category.visibility == View.VISIBLE) hiddenDetailTagAnimation(iv_arrow_right, sv_project_category)
+            else showDetailTagAnimation(iv_arrow_right, sv_project_category)
         }
+    }
+
+    override fun pullDownToRefresh() {
+        super.pullDownToRefresh()
+        fetchProjectListFromServer()
     }
 
     private fun fetchProjectListFromServer() {
@@ -212,7 +186,7 @@ class WanAndroidProjectFragment : BaseFragment() {
 
             updateCategoryShow()
             clickToRefreshList()
-            hiddenDetailTagAnimation()
+            hiddenDetailTagAnimation(iv_arrow_right, sv_project_category)
 
             true
         }
@@ -250,9 +224,6 @@ class WanAndroidProjectFragment : BaseFragment() {
         }
     }
 
-    private fun recyclerViewFirstItemCanVisible() =
-            mLinearLayoutManager.findFirstCompletelyVisibleItemPosition() <= 0
-
     private fun fetchProjectListByCategoryFromServer(pageIndex: Int) {
         fetchProjectListByCategory(pageIndex, mSelectedCategoryId)
                 .subscribeOn(Schedulers.newThread())
@@ -286,38 +257,6 @@ class WanAndroidProjectFragment : BaseFragment() {
         } else {
             mPageCount = data.pageCount
             mProjectAdapter.addData(data.datas)
-        }
-    }
-
-    private fun showDetailTagAnimation() {
-        iv_arrow_right?.also {
-            val rotateAnimation = RotateAnimation(0f, 90f, (iv_arrow_right.width / 2).toFloat(), (iv_arrow_right.height / 2).toFloat())
-            rotateAnimation.duration = 100
-            rotateAnimation.fillAfter = true
-            rotateAnimation.interpolator = AccelerateInterpolator()
-            iv_arrow_right.startAnimation(rotateAnimation)
-
-            rotateAnimation.setAnimationListener(object : MyAnimationListener() {
-                override fun onAnimationEnd(animation: Animation?) {
-                    sv_project_category.visibility = View.VISIBLE
-                }
-            })
-        }
-    }
-
-    private fun hiddenDetailTagAnimation() {
-        iv_arrow_right?.also {
-            val rotateAnimation = RotateAnimation(90f, 0f, (iv_arrow_right.width / 2).toFloat(), (iv_arrow_right.height / 2).toFloat())
-            rotateAnimation.duration = 100
-            rotateAnimation.fillAfter = true
-            rotateAnimation.interpolator = AccelerateInterpolator()
-            iv_arrow_right.startAnimation(rotateAnimation)
-
-            rotateAnimation.setAnimationListener(object : MyAnimationListener() {
-                override fun onAnimationEnd(animation: Animation?) {
-                    sv_project_category.visibility = View.GONE
-                }
-            })
         }
     }
 

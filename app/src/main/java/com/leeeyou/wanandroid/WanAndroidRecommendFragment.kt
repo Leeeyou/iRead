@@ -1,12 +1,7 @@
 package com.leeeyou.wanandroid
 
-import `in`.srain.cube.views.ptr.PtrFrameLayout
-import `in`.srain.cube.views.ptr.PtrHandler
-import `in`.srain.cube.views.ptr.header.StoreHouseHeader
-import `in`.srain.cube.views.ptr.util.PtrLocalDisplay.dp2px
 import android.content.Context
 import android.os.Bundle
-import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,9 +11,6 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.leeeyou.IndexActivity
 import com.leeeyou.R
-import com.leeeyou.login.event.LoginSuccessEvent
-import com.leeeyou.login.event.LogoutSuccessEvent
-import com.leeeyou.manager.BaseFragment
 import com.leeeyou.manager.MyLoadMoreView
 import com.leeeyou.service.entity.HttpResultEntity
 import com.leeeyou.service.subscriber.DefaultHttpResultSubscriber
@@ -38,9 +30,6 @@ import com.leeeyou.widget.WishListIconView
 import com.youth.banner.Transformer
 import com.youth.banner.loader.ImageLoader
 import kotlinx.android.synthetic.main.fragment_wan_android_recommend.*
-import org.greenrobot.eventbus.EventBus
-import org.greenrobot.eventbus.Subscribe
-import org.greenrobot.eventbus.ThreadMode
 import rx.Observable
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
@@ -54,11 +43,9 @@ import timber.log.Timber
  * Author:      leeeyou
  * Date:        2017/4/24 13:46
  */
-class WanAndroidRecommendFragment : BaseFragment() {
-    private lateinit var mLinearLayoutManager: LinearLayoutManager
+class WanAndroidRecommendFragment : WanAndroidBaseFragment() {
     private lateinit var mRecommendAdapter: BaseQuickAdapter<RecommendItem, BaseViewHolder>
-    private var mPageIndex: Int = 0
-    private var mPageCount: Int = 0
+    private var mFirstEnterLoadingDialog: LoadingDialog? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return container?.inflate(R.layout.fragment_wan_android_recommend)
@@ -71,13 +58,27 @@ class WanAndroidRecommendFragment : BaseFragment() {
     }
 
     private fun initView() {
+        mFirstEnterLoadingDialog = context?.let { LoadingDialog(it) }
+        mFirstEnterLoadingDialog?.show()
+
         initBanner()
-        initPtrFrame()
+        initPtrFrame(ptrFrameRecommend, "Play Android")
         initRecyclerView()
     }
 
+    override fun pullDownToRefresh() {
+        super.pullDownToRefresh()
+        fetchBannerListFromServer()
+        fetchRecommendListFromServer(mPageIndex)
+    }
+
+    override fun checkRefresh(): Boolean {
+        return recyclerViewFirstItemCanVisible()
+                && (activity as IndexActivity).appBarLayoutVerticalOffset >= 0
+    }
+
     private fun initRecyclerView() {
-        mLinearLayoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        context?.let { initLayoutManager(it) }
         mRecommendAdapter = object : BaseQuickAdapter<RecommendItem, BaseViewHolder>(R.layout.item_recommend, null) {
             override fun convert(helper: BaseViewHolder?, item: RecommendItem?) {
                 item?.takeIf { it.visible == 1 }?.also {
@@ -136,7 +137,7 @@ class WanAndroidRecommendFragment : BaseFragment() {
         mRecommendAdapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN)
         mRecommendAdapter.setLoadMoreView(MyLoadMoreView())
 
-        recyclerViewRecommend.layoutManager = mLinearLayoutManager
+        recyclerViewRecommend.layoutManager = mLayoutManager
         recyclerViewRecommend.adapter = mRecommendAdapter
     }
 
@@ -150,41 +151,8 @@ class WanAndroidRecommendFragment : BaseFragment() {
         })
     }
 
-    private fun initPtrFrame() {
-        initHeadView("Play Android")
-        ptrFrameRecommend.disableWhenHorizontalMove(true)
-        ptrFrameRecommend.setPtrHandler(object : PtrHandler {
-            override fun onRefreshBegin(frame: PtrFrameLayout?) {
-                pullDownToRefresh()
-            }
-
-            override fun checkCanDoRefresh(frame: PtrFrameLayout?, content: View?, header: View?): Boolean {
-                return recyclerViewFirstItemCanVisible() && (activity as IndexActivity).appBarLayoutVerticalOffset >= 0
-            }
-        })
-    }
-
-    private fun initHeadView(headString: String) {
-        val header = StoreHouseHeader(context)
-        header.setTextColor(resources.getColor(R.color.colorTxtSelected))
-        header.setPadding(0, dp2px(15f), 0, 0)
-        header.initWithString(headString, 15)
-        ptrFrameRecommend.headerView = header
-        ptrFrameRecommend.addPtrUIHandler(header)
-    }
-
-    private fun recyclerViewFirstItemCanVisible(): Boolean {
-        return mLinearLayoutManager.findFirstCompletelyVisibleItemPosition() <= 0
-    }
-
     fun gotoFirstPage() {
         if (!recyclerViewFirstItemCanVisible()) pullDownToRefresh()
-    }
-
-    private fun pullDownToRefresh() {
-        fetchBannerListFromServer()
-        mPageIndex = 0
-        fetchRecommendListFromServer(mPageIndex)
     }
 
     private fun fetchRecommendListFromServer(pageIndex: Int) {
@@ -208,6 +176,7 @@ class WanAndroidRecommendFragment : BaseFragment() {
     }
 
     private fun renderRecommendList(witchPage: Int, recommendList: RecommendList) {
+        mFirstEnterLoadingDialog?.dismiss()
         if (witchPage == 0) {
             mRecommendAdapter.setNewData(recommendList.datas)
         } else {
@@ -239,22 +208,11 @@ class WanAndroidRecommendFragment : BaseFragment() {
     override fun onStart() {
         super.onStart()
         banner.startAutoPlay()
-        EventBus.getDefault().register(this)
     }
 
     override fun onStop() {
         super.onStop()
         banner.stopAutoPlay()
-        EventBus.getDefault().unregister(this)
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    fun onMessageEvent(event: LogoutSuccessEvent) {
-        pullDownToRefresh()
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    fun onMessageEvent(event: LoginSuccessEvent) {
-        pullDownToRefresh()
-    }
 }

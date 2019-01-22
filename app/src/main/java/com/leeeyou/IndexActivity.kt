@@ -17,6 +17,7 @@ import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
 import com.google.gson.Gson
+import com.jaeger.library.StatusBarUtil
 import com.leeeyou.login.LoginActivity
 import com.leeeyou.login.event.LoginSuccessEvent
 import com.leeeyou.login.event.LogoutSuccessEvent
@@ -24,7 +25,6 @@ import com.leeeyou.login.model.bean.User
 import com.leeeyou.movie.MovieFragment
 import com.leeeyou.opensource.OpenSourceActivity
 import com.leeeyou.setting.SettingActivity
-import com.leeeyou.skin.ChangeSkinActivity
 import com.leeeyou.util.T
 import com.leeeyou.wanandroid.MyCollectActivity
 import com.leeeyou.wanandroid.WanAndroidFragment
@@ -53,8 +53,13 @@ class IndexActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_index)
+        setStatusBar()
         initDrawLayout()
         initViewPager()
+    }
+
+    private fun setStatusBar() {
+        StatusBarUtil.setColorForDrawerLayout(this, drawer_layout, resources.getColor(R.color.colorPrimary), StatusBarUtil.DEFAULT_STATUS_BAR_ALPHA)
     }
 
     public override fun onStart() {
@@ -155,11 +160,6 @@ class IndexActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
                     startActivity(Intent(this@IndexActivity, MyCollectActivity::class.java))
                     drawer_layout.closeDrawer(GravityCompat.START)
                 }
-            }
-            R.id.nav_skin -> {
-                startActivity(Intent(this@IndexActivity, ChangeSkinActivity::class.java))
-                drawer_layout.closeDrawer(GravityCompat.START)
-
             }
             R.id.nav_open_source -> {
                 startActivity(Intent(this@IndexActivity, OpenSourceActivity::class.java))
