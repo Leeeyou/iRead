@@ -1,26 +1,14 @@
 package com.leeeyou.wanandroid
 
-import `in`.srain.cube.views.ptr.PtrFrameLayout
-import `in`.srain.cube.views.ptr.PtrHandler
-import `in`.srain.cube.views.ptr.header.StoreHouseHeader
-import `in`.srain.cube.views.ptr.util.PtrLocalDisplay.dp2px
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AccelerateInterpolator
-import android.view.animation.Animation
-import android.view.animation.RotateAnimation
 import android.widget.TextView
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.leeeyou.R
-import com.leeeyou.login.event.LoginSuccessEvent
-import com.leeeyou.login.event.LogoutSuccessEvent
-import com.leeeyou.manager.BaseFragment
-import com.leeeyou.manager.MyAnimationListener
 import com.leeeyou.manager.MyLoadMoreView
 import com.leeeyou.service.entity.HttpResultEntity
 import com.leeeyou.service.subscriber.DefaultHttpResultSubscriber
@@ -40,9 +28,6 @@ import com.leeeyou.widget.WishListIconView
 import com.zhy.view.flowlayout.FlowLayout
 import com.zhy.view.flowlayout.TagAdapter
 import kotlinx.android.synthetic.main.fragment_wan_android_system.*
-import org.greenrobot.eventbus.EventBus
-import org.greenrobot.eventbus.Subscribe
-import org.greenrobot.eventbus.ThreadMode
 import rx.Observable
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
@@ -55,11 +40,8 @@ import timber.log.Timber
  * Author:      leeeyou
  * Date:        2017/4/24 13:46
  */
-class WanAndroidSystemFragment : BaseFragment() {
-    private lateinit var mLinearLayoutManager: LinearLayoutManager
-    private var mPageIndex: Int = 0
+class WanAndroidSystemFragment : WanAndroidBaseFragment() {
     private lateinit var mSystemTagArticleAdapter: BaseQuickAdapter<RecommendItem, BaseViewHolder>
-    private var mPageCount: Int = 0
 
     private var mSelectedParentTagPosition: Int = 0
     private var mSelectedChildTagPosition: Int = 0
@@ -74,15 +56,26 @@ class WanAndroidSystemFragment : BaseFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         initRecyclerView()
-        initPtrFrame()
+        initPtrFrame(ptrFrameSystemTag, "Play Android")
         initSystemTagUI()
         fetchSystemTagListFromServer()
     }
 
+    override fun pullDownToRefresh() {
+        super.pullDownToRefresh()
+        fetchSystemTagArticleList(mPageIndex)
+    }
+
+    override fun checkRefresh(): Boolean {
+        return sv_system_tag_all.visibility != View.VISIBLE
+                && recyclerViewFirstItemCanVisible()
+                && (activity as com.leeeyou.IndexActivity).appBarLayoutVerticalOffset >= 0
+    }
+
     override fun setUserVisibleHint(isVisibleToUser: Boolean) {
         super.setUserVisibleHint(isVisibleToUser)
-        if (!isVisibleToUser) {   // onPause
-            hiddenDetailTagAnimation()
+        if (!isVisibleToUser) {// onPause
+            hiddenDetailTagAnimation(iv_arrow_right, sv_system_tag_all)
         }
     }
 
@@ -97,12 +90,13 @@ class WanAndroidSystemFragment : BaseFragment() {
 
     private fun initSystemTagUI() {
         rl_system_tag_combine.setOnClickListener {
-            if (sv_system_tag_all.visibility == View.VISIBLE) hiddenDetailTagAnimation() else showDetailTagAnimation()
+            if (sv_system_tag_all.visibility == View.VISIBLE) hiddenDetailTagAnimation(iv_arrow_right, sv_system_tag_all)
+            else showDetailTagAnimation(iv_arrow_right, sv_system_tag_all)
         }
     }
 
     private fun initRecyclerView() {
-        mLinearLayoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        context?.let { initLayoutManager(it) }
         mSystemTagArticleAdapter = object : BaseQuickAdapter<RecommendItem, BaseViewHolder>(R.layout.item_recommend, null) {
             override fun convert(helper: BaseViewHolder?, item: RecommendItem?) {
                 item?.also {
@@ -162,42 +156,8 @@ class WanAndroidSystemFragment : BaseFragment() {
         mSystemTagArticleAdapter.openLoadAnimation(BaseQuickAdapter.SCALEIN)
         mSystemTagArticleAdapter.setLoadMoreView(MyLoadMoreView())
 
-        recyclerViewSystem.layoutManager = mLinearLayoutManager
+        recyclerViewSystem.layoutManager = mLayoutManager
         recyclerViewSystem.adapter = mSystemTagArticleAdapter
-    }
-
-    private fun initPtrFrame() {
-        initHeadView()
-        ptrFrameSystemTag.disableWhenHorizontalMove(true)
-        ptrFrameSystemTag.setPtrHandler(object : PtrHandler {
-            override fun onRefreshBegin(frame: PtrFrameLayout?) {
-                pullDownToRefresh()
-            }
-
-            override fun checkCanDoRefresh(frame: PtrFrameLayout?, content: View?, header: View?): Boolean {
-                return sv_system_tag_all.visibility != View.VISIBLE
-                        && recyclerViewFirstItemCanVisible()
-                        && (activity as com.leeeyou.IndexActivity).appBarLayoutVerticalOffset >= 0
-            }
-        })
-    }
-
-    private fun initHeadView() {
-        val header = StoreHouseHeader(context)
-        header.setTextColor(resources.getColor(R.color.colorTxtSelected))
-        header.setPadding(0, dp2px(15f), 0, 0)
-        header.initWithString("Play Android", 15)
-        ptrFrameSystemTag.headerView = header
-        ptrFrameSystemTag.addPtrUIHandler(header)
-    }
-
-    private fun pullDownToRefresh() {
-        mPageIndex = 0
-        fetchSystemTagArticleList(mPageIndex)
-    }
-
-    private fun recyclerViewFirstItemCanVisible(): Boolean {
-        return mLinearLayoutManager.findFirstCompletelyVisibleItemPosition() <= 0
     }
 
     private fun renderSystemTag(parentTagList: List<SystemTag>) {
@@ -236,40 +196,8 @@ class WanAndroidSystemFragment : BaseFragment() {
             }
             updateSystemTagCombineShow()
             pullDownToRefresh()
-            hiddenDetailTagAnimation()
+            hiddenDetailTagAnimation(iv_arrow_right, sv_system_tag_all)
             true
-        }
-    }
-
-    private fun showDetailTagAnimation() {
-        iv_arrow_right?.also {
-            val rotateAnimation = RotateAnimation(0f, 90f, (iv_arrow_right.width / 2).toFloat(), (iv_arrow_right.height / 2).toFloat())
-            rotateAnimation.duration = 100
-            rotateAnimation.fillAfter = true
-            rotateAnimation.interpolator = AccelerateInterpolator()
-            iv_arrow_right.startAnimation(rotateAnimation)
-
-            rotateAnimation.setAnimationListener(object : MyAnimationListener() {
-                override fun onAnimationEnd(animation: Animation?) {
-                    sv_system_tag_all?.visibility = View.VISIBLE
-                }
-            })
-        }
-    }
-
-    private fun hiddenDetailTagAnimation() {
-        iv_arrow_right?.also {
-            val rotateAnimation = RotateAnimation(90f, 0f, (iv_arrow_right.width / 2).toFloat(), (iv_arrow_right.height / 2).toFloat())
-            rotateAnimation.duration = 100
-            rotateAnimation.fillAfter = true
-            rotateAnimation.interpolator = AccelerateInterpolator()
-            iv_arrow_right.startAnimation(rotateAnimation)
-
-            rotateAnimation.setAnimationListener(object : MyAnimationListener() {
-                override fun onAnimationEnd(animation: Animation?) {
-                    sv_system_tag_all.visibility = View.GONE
-                }
-            })
         }
     }
 
@@ -337,7 +265,7 @@ class WanAndroidSystemFragment : BaseFragment() {
 
         updateSystemTagCombineShow()
         pullDownToRefresh()
-        childTagList.size.takeIf { it == 1 }?.also { hiddenDetailTagAnimation() }
+        childTagList.size.takeIf { it == 1 }?.also { hiddenDetailTagAnimation(iv_arrow_right, sv_system_tag_all) }
                 ?: Timber.d("childTagList.size != 1")
     }
 
@@ -348,23 +276,4 @@ class WanAndroidSystemFragment : BaseFragment() {
         tv_system_tag_combine.text = parentTag.name + " / " + childTag.name
     }
 
-    override fun onStart() {
-        super.onStart()
-        EventBus.getDefault().register(this)
-    }
-
-    override fun onStop() {
-        super.onStop()
-        EventBus.getDefault().unregister(this)
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    fun onMessageEvent(event: LogoutSuccessEvent) {
-        pullDownToRefresh()
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    fun onMessageEvent(event: LoginSuccessEvent) {
-        pullDownToRefresh()
-    }
 }

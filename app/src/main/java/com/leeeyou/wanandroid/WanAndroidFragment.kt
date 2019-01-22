@@ -66,7 +66,7 @@ class WanAndroidFragment : BaseFragment() {
     }
 }
 
-private class ViewPagerAdapter(fm: FragmentManager, private val mFragmentList: Array<BaseFragment>, private val titleList: Array<String>)
+private class ViewPagerAdapter(fm: FragmentManager, private val mFragmentList: Array<WanAndroidBaseFragment>, private val titleList: Array<String>)
     : FragmentStatePagerAdapter(fm) {
     override fun getItem(position: Int): Fragment = mFragmentList[position]
 
