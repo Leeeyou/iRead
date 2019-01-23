@@ -11,11 +11,11 @@ RsKotlin2.0版本是基于Kotlin开发的一个Android学习的App，API主要�
 ![Example6](https://raw.githubusercontent.com/Leeeyou/Img/master/rskotlin/2.0.0/%E7%B4%A0%E6%9D%90/6.png?raw=true)
 ![Example7](https://raw.githubusercontent.com/Leeeyou/Img/master/rskotlin/2.0.0/%E7%B4%A0%E6%9D%90/7.png?raw=true)
 
-## 视频展示
-![Example1](https://raw.githubusercontent.com/Leeeyou/Img/master/rskotlin/2.0.0/video/2.0.mp4)
+## Gif展示
+![Example1](https://raw.githubusercontent.com/Leeeyou/Img/master/rskotlin/2.0.0/video/2.0.gif)
 
 ## 下载链接
-<a href='https://www.pgyer.com/er9r'><img alt='Get it on Google Play' src='https://static.pgyer.com/static-20190124/assets/img/logoNewest.png' height="80px"/></a>
+<a href='https://www.pgyer.com/er9r'><img alt='Get it on Google Play' src='https://static.pgyer.com/static-20190124/assets/img/logoNewest.png' height="50px"/></a>
 
 ## 开源项目
 - kotlin:1.3.0
