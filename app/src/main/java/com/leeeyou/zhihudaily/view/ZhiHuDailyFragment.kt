@@ -168,7 +168,7 @@ class ZhiHuDailyFragment : BaseFragment() {
                     override fun onError(e: Throwable?) {
                         ptrFrameOfZhiHuDaily?.refreshComplete()
                         e?.printStackTrace()
-//                        showShort(activity, "出错了:" + e?.message)
+                        Timber.e(e)
                     }
                 })
     }
