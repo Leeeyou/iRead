@@ -13,16 +13,11 @@ android {
     buildToolsVersion '28.0.3'
 
     defaultConfig {
-        applicationId "com.leeeyou.readselection"
+        applicationId "com.leeeyou.rskotlin"
         minSdkVersion 16
         targetSdkVersion 28
         versionCode 115
         versionName "1.1.5"
-
-//        ndk {
-//            //Set up a supported SO library architecture
-//            abiFilters 'armeabi', 'x86', 'armeabi-v7a', 'arm64-v8a'//, 'x86_64',
-//        }
     }
 
     lintOptions {

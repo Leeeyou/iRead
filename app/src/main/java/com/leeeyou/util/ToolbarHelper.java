@@ -62,7 +62,7 @@ public class ToolbarHelper {
     public static void setLeftTitle(ActionBar actionBar, String title) {
         actionBar.setTitle("");
         if (toolbarTitle != null) {
-            toolbarTitle.setText(HtmlUtils.translation(title));
+            toolbarTitle.setText(HtmlUtils.INSTANCE.translation(title));
             toolbarTitle.setEllipsize(TextUtils.TruncateAt.MARQUEE);
             toolbarTitle.setSingleLine(true);
             toolbarTitle.setSelected(true);

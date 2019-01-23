@@ -13,7 +13,6 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.leeeyou.R
 import com.leeeyou.manager.BaseFragment
 import com.leeeyou.manager.MyLoadMoreView
-import com.leeeyou.util.T.showShort
 import com.leeeyou.util.startBrowserActivity
 import com.leeeyou.widget.LoadingDialog
 import com.leeeyou.zhihudaily.model.bean.ZhiHuDaily
@@ -169,7 +168,7 @@ class ZhiHuDailyFragment : BaseFragment() {
                     override fun onError(e: Throwable?) {
                         ptrFrameOfZhiHuDaily?.refreshComplete()
                         e?.printStackTrace()
-                        showShort(activity, "出错了:" + e?.message)
+//                        showShort(activity, "出错了:" + e?.message)
                     }
                 })
     }

@@ -27,7 +27,6 @@ import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.Toast;
 
 import com.leeeyou.R;
 import com.leeeyou.manager.BaseActivity;
@@ -123,7 +122,7 @@ public class BrowserActivity extends BaseActivity {
                 // this only happen when a same sonic session is already running,
                 // u can comment following codes to feedback as a default mode.
                 // throw new UnknownError("create session fail!");
-                Toast.makeText(this, "create sonic session fail!", Toast.LENGTH_LONG).show();
+//                Toast.makeText(this, "create sonic session fail!", Toast.LENGTH_LONG).show();
             }
         }
 
