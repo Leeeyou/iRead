@@ -25,6 +25,7 @@ import com.leeeyou.util.inflate
 import kotlinx.android.synthetic.main.fragment_movie.*
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
+import timber.log.Timber
 
 /**
  * ClassName:   MovieFragment
@@ -52,12 +53,14 @@ class MovieFragment : BaseFragment() {
         fetchHotMovieList().subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread())
                 .doOnNext { it ->
                     it?.also {
-                        mHotMovieAdapter.setNewData(ArrayList(it.subjects))
-                        recyclerViewMovie?.smoothScrollToPosition(0)
+                        it.subjects?.also { subjectList ->
+                            mHotMovieAdapter.setNewData(ArrayList(subjectList))
+                            recyclerViewMovie?.smoothScrollToPosition(0)
+                        }
                     }
                 }.doOnCompleted {
                     ptrFrameHotMovie?.refreshComplete()
-                }.subscribe()
+                }.doOnError { Timber.e(it, "fetchHotMovieList&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&") }.subscribe()
     }
 
     private fun initPtrFrame() {

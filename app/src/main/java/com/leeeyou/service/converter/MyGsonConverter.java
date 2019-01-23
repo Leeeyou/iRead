@@ -28,6 +28,7 @@ public class MyGsonConverter<T> implements Converter<ResponseBody, T> {
     @Override
     public T convert(@NonNull ResponseBody responseBody) throws IOException {
         String responseStr = responseBody.string();
+        Timber.e(responseStr);
         if (TextUtils.isEmpty(responseStr)) {
             HttpErrorResponseEntity errorResponse = new HttpErrorResponseEntity(-200, "The result of the request is returned as null");
             HttpResultException resultException = new HttpResultException(errorResponse.getErrorCode(), errorResponse.getErrorMsg());

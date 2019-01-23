@@ -36,9 +36,20 @@ android {
     buildTypes {
         release {
             minifyEnabled true
-            zipAlignEnabled true
-            //Whether to optimize the apk file, the uncompressed data in the apk file aligned on the 4-byte boundary
-            shrinkResources true //Whether to remove useless resources
+            shrinkResources true
+            jniDebuggable false
+            debuggable false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config
+        }
+
+        debug {
+            minifyEnabled false
+            shrinkResources false
+//            minifyEnabled true
+//            shrinkResources true
+            jniDebuggable true
+            debuggable true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.config
         }

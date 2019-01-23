@@ -176,12 +176,12 @@ class IndexActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    fun onMessageEvent(event: LoginSuccessEvent) {
+    public fun onMessageEvent(event: LoginSuccessEvent) {
         checkLoginUserShow()
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    fun onMessageEvent(event: LogoutSuccessEvent) {
+    public fun onMessageEvent(event: LogoutSuccessEvent) {
         checkLoginUserShow()
     }
 
