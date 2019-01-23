@@ -16,8 +16,8 @@ android {
         applicationId "com.leeeyou.rskotlin"
         minSdkVersion 16
         targetSdkVersion 28
-        versionCode 115
-        versionName "1.1.5"
+        versionCode 200
+        versionName "2.0.0"
     }
 
     lintOptions {
