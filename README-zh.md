@@ -4,8 +4,8 @@
 The RsKotlin 2.0 version is an Android learning app developed by Kotlin. The main source of the API is wanandroid, which also includes some Douban APIs and the ZhihuDaily API. The app follows the MD style and also joins the dynamics of Lottie. Those who want to learn Kotlin can refer to it.
 
 ## 图片展示
-![Example1](https://raw.githubusercontent.com/Leeeyou/Img/master/rskotlin/2.0.0/%E7%B4%A0%E6%9D%90/1.png?raw=true  =200x300)
-![Example2](https://raw.githubusercontent.com/Leeeyou/Img/master/rskotlin/2.0.0/%E7%B4%A0%E6%9D%90/2.png?raw=true  =200x300)
+![Example1](https://raw.githubusercontent.com/Leeeyou/Img/master/rskotlin/2.0.0/%E7%B4%A0%E6%9D%90/1.png =200x300)
+![Example2](https://raw.githubusercontent.com/Leeeyou/Img/master/rskotlin/2.0.0/%E7%B4%A0%E6%9D%90/2.png =200x300)
 ![Example3](https://raw.githubusercontent.com/Leeeyou/Img/master/rskotlin/2.0.0/%E7%B4%A0%E6%9D%90/3.png?raw=true)
 ![Example4](https://raw.githubusercontent.com/Leeeyou/Img/master/rskotlin/2.0.0/%E7%B4%A0%E6%9D%90/4.png?raw=true)
 ![Example5](https://raw.githubusercontent.com/Leeeyou/Img/master/rskotlin/2.0.0/%E7%B4%A0%E6%9D%90/5.png?raw=true)
