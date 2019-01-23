@@ -1,8 +1,7 @@
 # 阅读精选Kotlin2.0版
 
 ## 简介
-The RsKotlin 2.0 version is an Android learning app developed by Kotlin. The main source of the API is wanandroid, which also includes some Douban APIs and the ZhihuDaily API. The app follows the MD style and also joins the dynamics of Lottie. Those who want to learn Kotlin can refer to it.
-
+RsKotlin2.0版本是基于Kotlin开发的一个Android学习的App，API主要来源是wanandroid，同时也包含部分豆瓣API和知乎日报API。App遵循MD风格，也加入了Lottie的动效，想学习Kotlin的童鞋可以参考。
 ## 图片展示
 ![Example1](https://raw.githubusercontent.com/Leeeyou/Img/master/rskotlin/2.0.0/%E7%B4%A0%E6%9D%90/1.png?raw=true)
 ![Example2](https://raw.githubusercontent.com/Leeeyou/Img/master/rskotlin/2.0.0/%E7%B4%A0%E6%9D%90/2.png?raw=true)
@@ -13,10 +12,10 @@ The RsKotlin 2.0 version is an Android learning app developed by Kotlin. The mai
 ![Example7](https://raw.githubusercontent.com/Leeeyou/Img/master/rskotlin/2.0.0/%E7%B4%A0%E6%9D%90/7.png?raw=true)
 
 ## 视频展示
-![Example1](https://github.com/LeeeYou/Img/blob/master/leeeyou/%E9%98%85%E8%AF%BB%E7%B2%BE%E9%80%89kotlin%E7%89%88.gif?raw=true)
+![Example1](https://raw.githubusercontent.com/Leeeyou/Img/master/rskotlin/2.0.0/video/2.0.mp4)
 
 ## 下载链接
-<a href='https://www.pgyer.com/er9r'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png' height="80px"/></a>
+<a href='https://www.pgyer.com/er9r'><img alt='Get it on Google Play' src='https://static.pgyer.com/static-20190124/assets/img/logoNewest.png' height="80px"/></a>
 
 ## 开源项目
 - kotlin:1.3.0
