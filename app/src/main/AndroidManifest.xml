@@ -32,6 +32,7 @@
             android:name="com.tencent.bugly.beta.ui.BetaActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|locale"
             android:theme="@android:style/Theme.Translucent"/>
+
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="${applicationId}.fileProvider"
@@ -59,7 +60,6 @@
         <activity android:name=".movie.MovieDetailActivity"/>
         <activity android:name=".wanandroid.MyCollectActivity"/>
         <activity android:name=".wanandroid.SimilarProjectActivity"/>
-        <activity android:name=".skin.ChangeSkinActivity"/>
     </application>
 
 </manifest>

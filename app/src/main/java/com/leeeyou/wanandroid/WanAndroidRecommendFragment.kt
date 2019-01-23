@@ -171,12 +171,12 @@ class WanAndroidRecommendFragment : WanAndroidBaseFragment() {
 
                     override fun onCompleted() {
                         ptrFrameRecommend?.refreshComplete()
+                        mFirstEnterLoadingDialog?.dismiss()
                     }
                 })
     }
 
     private fun renderRecommendList(witchPage: Int, recommendList: RecommendList) {
-        mFirstEnterLoadingDialog?.dismiss()
         if (witchPage == 0) {
             mRecommendAdapter.setNewData(recommendList.datas)
         } else {
