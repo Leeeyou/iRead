@@ -1,23 +1,40 @@
-# 阅读精选Kotlin版
+# 阅读精选Kotlin2.0版
 
 ## 简介
-阅读精选Kotlin版是一个由Kotlin开发的简易App，主要用于学习Kotlin语言以及和最新的框架结合使用。
+The RsKotlin 2.0 version is an Android learning app developed by Kotlin. The main source of the API is wanandroid, which also includes some Douban APIs and the ZhihuDaily API. The app follows the MD style and also joins the dynamics of Lottie. Those who want to learn Kotlin can refer to it.
 
-## Gif示例
+## 图片展示
+![Example1](https://raw.githubusercontent.com/Leeeyou/Img/master/rskotlin/2.0.0/%E7%B4%A0%E6%9D%90/1.png?raw=true)
+![Example2](https://raw.githubusercontent.com/Leeeyou/Img/master/rskotlin/2.0.0/%E7%B4%A0%E6%9D%90/2.png?raw=true)
+![Example3](https://raw.githubusercontent.com/Leeeyou/Img/master/rskotlin/2.0.0/%E7%B4%A0%E6%9D%90/3.png?raw=true)
+![Example4](https://raw.githubusercontent.com/Leeeyou/Img/master/rskotlin/2.0.0/%E7%B4%A0%E6%9D%90/4.png?raw=true)
+![Example5](https://raw.githubusercontent.com/Leeeyou/Img/master/rskotlin/2.0.0/%E7%B4%A0%E6%9D%90/5.png?raw=true)
+![Example6](https://raw.githubusercontent.com/Leeeyou/Img/master/rskotlin/2.0.0/%E7%B4%A0%E6%9D%90/6.png?raw=true)
+![Example7](https://raw.githubusercontent.com/Leeeyou/Img/master/rskotlin/2.0.0/%E7%B4%A0%E6%9D%90/7.png?raw=true)
+
+## 视频展示
 ![Example1](https://github.com/LeeeYou/Img/blob/master/leeeyou/%E9%98%85%E8%AF%BB%E7%B2%BE%E9%80%89kotlin%E7%89%88.gif?raw=true)
 
 ## 下载链接
-<a href='https://play.google.com/store/apps/details?id=com.xyz.leeeyou.zhihuribao
-'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png' height="80px"/></a> 
+<a href='https://www.pgyer.com/er9r'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png' height="80px"/></a>
 
+## 开源项目
+- kotlin:1.3.0
+- retrofit:2.5.0
+- rxandroid:1.2.1
+- rxkotlin:1.0.0
+- glide:4.8.0
+- okhttp:3.12.1
+- logging-interceptor:3.8.1
+- ultra-ptr:1.0.11
+- BaseRecyclerViewAdapterHelper:2.9.44
+- banner:1.4.10
+- timber:4.7.1
+- android.joda:2.9.9.4
+- flowlayout-lib:1.1.2
+- sonic-sdk:3.1.0
+- smarttablayout-library:1.6.1
+- PersistentCookieJar:v1.0.1
+- eventbus:3.1.1
+- lottie:2.7.0
 
-## 特点
-- 引入Kotlin1.3.0版开发
-- 引入Dagger2.12结合Kotlin
-- 引入Retrofit2.0结合Kotlin，抽取ServiceFactory
-- 引入RxAndroid和RxKotlin
-- 引入Toolbar并抽取基类
-- 引入SmartTabLayout重构IndexActivity
-- 利用WebView展示详情
-- 引入Glide加载图片
-- 引入ultra-ptr:1.0实现上拉加载更多
