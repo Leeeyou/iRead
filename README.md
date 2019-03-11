@@ -1,7 +1,7 @@
 # RsKotlin version 2.0
 
 ## Introduction
-![Example1](https://github.com/Leeeyou/Img/blob/master/rskotlin/2.0.0/icon/ic_launcher.png?raw=true)
+<img src="https://github.com/Leeeyou/Img/blob/master/rskotlin/2.0.0/icon/ic_launcher.png?raw=true" width = 30% height = 30% />
 
 Rs(Read the selection) Kotlin Edition is a simple app developed by Kotlin, mainly used to learn Kotlin language and in combination with the latest framework. [中文说明](https://github.com/LeeeYou/ZhiHuRiBao/blob/master/README-zh.md)
 
