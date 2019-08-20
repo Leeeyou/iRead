@@ -3,7 +3,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android-extensions'
 
-def keystorePropertiesFile = rootProject.file("D:\\keystore\\RsKotlin\\RsKotlinKeystore.properties")
+def keystorePropertiesFile = rootProject.file("\\keystore\\RsKotlinKeystore.properties")
 //def keystorePropertiesFile = rootProject.file("..\\..\\Leeeyou\\keystore\\RsKotlin\\RsKotlinKeystore.properties")
 def keystoreProperties = new Properties()
 keystoreProperties.load(new FileInputStream(keystorePropertiesFile))

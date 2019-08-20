@@ -120,10 +120,10 @@ class IndexActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
                 .forEach {
                     when (it) {
                         INDEX_VIEWPAGER_ANDROID_STR -> pages.add(FragmentPagerItem.of("", WanAndroidFragment::class.java))
-                        INDEX_VIEWPAGER_MOVIE_STR -> {
-                            val element by lazy { FragmentPagerItem.of("", MovieFragment::class.java) }
-                            pages.add(element)
-                        }
+//                        INDEX_VIEWPAGER_MOVIE_STR -> {
+//                            val element by lazy { FragmentPagerItem.of("", MovieFragment::class.java) }
+//                            pages.add(element)
+//                        }
                         INDEX_VIEWPAGER_ZHIHU_STR -> {
                             val element by lazy { FragmentPagerItem.of("", ZhiHuDailyFragment::class.java) }
                             pages.add(element)
@@ -137,8 +137,8 @@ class IndexActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelect
 
             when (position) {
                 0 -> icon.setImageDrawable(res.getDrawable(R.mipmap.index_icon_android))
-                1 -> icon.setImageDrawable(res.getDrawable(R.mipmap.index_icon_douban))
-                2 -> icon.setImageDrawable(res.getDrawable(R.mipmap.index_icon_zhihu))
+//                1 -> icon.setImageDrawable(res.getDrawable(R.mipmap.index_icon_douban))
+                1 -> icon.setImageDrawable(res.getDrawable(R.mipmap.index_icon_zhihu))
                 else -> throw IllegalStateException("Invalid position: $position")
             }
             icon
