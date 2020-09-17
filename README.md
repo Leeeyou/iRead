@@ -1,4 +1,4 @@
-# RsKotlin version 2.0
+# iRead version 2.0
 
 ## Introduction
 <img src="https://github.com/Leeeyou/Img/blob/master/rskotlin/2.0.0/icon/ic_launcher.png?raw=true" width = 20% height = 20% />
