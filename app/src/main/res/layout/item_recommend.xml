@@ -1,44 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:id="@+id/rl_recommend_item"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/list_selector">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rl_recommend_item"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/list_selector">
 
     <com.leeeyou.widget.WishListIconView
         android:id="@+id/wishListIcon"
-        android:layout_width="72dp"
-        android:layout_height="72dp"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:scaleType="centerCrop"
-        app:lottie_rawRes="@raw/heart"/>
+        app:lottie_rawRes="@raw/heart" />
 
     <TextView
         android:id="@+id/tv_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
         android:layout_toLeftOf="@id/wishListIcon"
         android:textColor="@android:color/black"
         android:textSize="16sp"
-        tools:text="开发高手课文章更新学习笔记开发高手课文章更新学习笔记开发高手课文章更新学习笔记开发高手课文章更新学习笔记开发高手课文章更新学习笔记"/>
+        tools:text="开发高手课文章更新学习笔记开发高手课文章更新学习笔记开发高手课文章更新学习笔记开发高手课文章更新学习笔记开发高手课文章更新学习笔记" />
 
     <TextView
         android:id="@+id/tv_topping"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@id/tv_title"
         android:layout_below="@id/tv_title"
+        android:layout_alignLeft="@id/tv_title"
         android:layout_marginTop="10dp"
         android:text="置顶"
         android:textColor="@color/colorTxtSelected"
         android:textSize="12sp"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/tv_refresh"
@@ -51,7 +51,7 @@
         android:text="新"
         android:textColor="@color/colorTxtSelected"
         android:textSize="12sp"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/tv_author"
@@ -63,18 +63,18 @@
         android:layout_toRightOf="@id/tv_refresh"
         android:textColor="@android:color/darker_gray"
         android:textSize="12sp"
-        tools:text="作者：鸿洋"/>
+        tools:text="作者：鸿洋" />
 
     <TextView
         android:id="@+id/tv_category"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@id/tv_title"
         android:layout_below="@id/tv_author"
+        android:layout_alignLeft="@id/tv_title"
         android:layout_marginTop="10dp"
         android:text="分类： 干货资源 / 课程推荐"
         android:textColor="@android:color/darker_gray"
-        android:textSize="12sp"/>
+        android:textSize="12sp" />
 
     <TextView
         android:id="@+id/tv_niceDate"
@@ -86,15 +86,15 @@
         android:layout_toRightOf="@id/tv_category"
         android:textColor="@android:color/darker_gray"
         android:textSize="12sp"
-        tools:text="时间：2018-12-18"/>
+        tools:text="时间：2018-12-18" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
+        android:layout_below="@id/tv_category"
         android:layout_alignLeft="@id/tv_title"
         android:layout_alignRight="@id/wishListIcon"
-        android:layout_below="@id/tv_category"
         android:layout_marginTop="13dp"
-        android:background="@android:color/darker_gray"/>
+        android:background="@android:color/darker_gray" />
 
 </RelativeLayout>

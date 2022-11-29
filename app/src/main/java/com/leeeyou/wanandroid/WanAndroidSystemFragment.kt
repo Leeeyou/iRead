@@ -49,7 +49,11 @@ class WanAndroidSystemFragment : WanAndroidBaseFragment() {
     private var mSelectedParentTagId: Int = 0
     private var mSelectedChildTagId: Int = 0
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return container?.inflate(R.layout.fragment_wan_android_system)
     }
 
@@ -80,35 +84,49 @@ class WanAndroidSystemFragment : WanAndroidBaseFragment() {
     }
 
     private fun fetchSystemTagListFromServer() {
-        fetchSystemTagList().subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread())
-                .subscribe(object : DefaultHttpResultSubscriber<List<SystemTag>>() {
-                    override fun onSuccess(data: List<SystemTag>?) {
-                        data?.also { renderSystemTag(it) }
-                    }
-                })
+        fetchSystemTagList().subscribeOn(Schedulers.newThread())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(object : DefaultHttpResultSubscriber<List<SystemTag>>() {
+                override fun onSuccess(data: List<SystemTag>?) {
+                    data?.also { renderSystemTag(it) }
+                }
+            })
     }
 
     private fun initSystemTagUI() {
         rl_system_tag_combine.setOnClickListener {
-            if (sv_system_tag_all.visibility == View.VISIBLE) hiddenDetailTagAnimation(iv_arrow_right, sv_system_tag_all)
+            if (sv_system_tag_all.visibility == View.VISIBLE) hiddenDetailTagAnimation(
+                iv_arrow_right,
+                sv_system_tag_all
+            )
             else showDetailTagAnimation(iv_arrow_right, sv_system_tag_all)
         }
     }
 
     private fun initRecyclerView() {
         context?.let { initLayoutManager(it) }
-        mSystemTagArticleAdapter = object : BaseQuickAdapter<RecommendItem, BaseViewHolder>(R.layout.item_recommend, null) {
+        mSystemTagArticleAdapter = object :
+            BaseQuickAdapter<RecommendItem, BaseViewHolder>(R.layout.item_recommend, null) {
             override fun convert(helper: BaseViewHolder?, item: RecommendItem?) {
                 item?.also {
                     val wishListIconView = helper?.getView(R.id.wishListIcon) as WishListIconView
                     wishListIconView.isActivated = it.collect
 
+                    if (it.author.isEmpty()) {
+                        helper.getView<TextView>(R.id.tv_author).visibility = View.GONE
+                    } else {
+                        helper.getView<TextView>(R.id.tv_author).visibility = View.VISIBLE
+                    }
+
                     helper.setText(R.id.tv_title, HtmlUtils.translation(it.title))
-                            .setText(R.id.tv_author, "作者 : " + it.author)
-                            .setText(R.id.tv_category, "分类 : " + it.superChapterName + " / " + it.chapterName)
-                            .setText(R.id.tv_niceDate, it.niceDate)
-                            .setGone(R.id.tv_refresh, it.fresh)
-                            .addOnClickListener(R.id.wishListIcon)
+                        .setText(R.id.tv_author, "作者 : " + it.author)
+                        .setText(
+                            R.id.tv_category,
+                            "分类 : " + it.superChapterName + " / " + it.chapterName
+                        )
+                        .setText(R.id.tv_niceDate, it.niceDate)
+                        .setGone(R.id.tv_refresh, it.fresh)
+                        .addOnClickListener(R.id.wishListIcon)
                 }
             }
         }
@@ -122,22 +140,26 @@ class WanAndroidSystemFragment : WanAndroidBaseFragment() {
                     }
 
                     val recommendItem = adapter.getItem(position) as RecommendItem
-                    val observable: Observable<HttpResultEntity<String>> = if (view.isActivated) unCollectInsideArticle(recommendItem.id) else collectInsideArticle(recommendItem.id)
-                    observable.subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread())
-                            .subscribe(object : DefaultHttpResultSubscriber<String>() {
-                                override fun onSuccess(data: String?) {
-                                    loadingDialog?.dismiss()
-                                    recommendItem.collect = !view.isActivated
-                                    adapter.data[position] = recommendItem
-                                    adapter.notifyLoadMoreToLoading()
-                                    (view as WishListIconView).toggleWishlisted()
-                                }
+                    val observable: Observable<HttpResultEntity<String>> =
+                        if (view.isActivated) unCollectInsideArticle(recommendItem.id) else collectInsideArticle(
+                            recommendItem.id
+                        )
+                    observable.subscribeOn(Schedulers.newThread())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(object : DefaultHttpResultSubscriber<String>() {
+                            override fun onSuccess(data: String?) {
+                                loadingDialog?.dismiss()
+                                recommendItem.collect = !view.isActivated
+                                adapter.data[position] = recommendItem
+                                adapter.notifyLoadMoreToLoading()
+                                (view as WishListIconView).toggleWishlisted()
+                            }
 
-                                override fun _onError(status: Int, msg: String?) {
-                                    T.showShort(this@WanAndroidSystemFragment.context, msg)
-                                    loadingDialog?.dismiss()
-                                }
-                            })
+                            override fun _onError(status: Int, msg: String?) {
+                                T.showShort(this@WanAndroidSystemFragment.context, msg)
+                                loadingDialog?.dismiss()
+                            }
+                        })
                 }
             }
         }
@@ -179,7 +201,8 @@ class WanAndroidSystemFragment : WanAndroidBaseFragment() {
             mSelectedParentTagPosition = position
             mSelectedChildTagPosition = 0
             mSelectedParentTagId = parentTagList[mSelectedParentTagPosition].id
-            mSelectedChildTagId = parentTagList[mSelectedParentTagPosition].children[mSelectedChildTagPosition].id
+            mSelectedChildTagId =
+                parentTagList[mSelectedParentTagPosition].children[mSelectedChildTagPosition].id
 
             renderChildTag(parentTagList[mSelectedParentTagPosition].children)
             for (index in 0..parent.childCount) {
@@ -190,7 +213,8 @@ class WanAndroidSystemFragment : WanAndroidBaseFragment() {
 
         system_tag_child.setOnTagClickListener { _, position, parent ->
             mSelectedChildTagPosition = position
-            mSelectedChildTagId = parentTagList[mSelectedParentTagPosition].children[mSelectedChildTagPosition].id
+            mSelectedChildTagId =
+                parentTagList[mSelectedParentTagPosition].children[mSelectedChildTagPosition].id
             for (index in 0..parent.childCount) {
                 parent.getChildAt(index)?.isClickable = mSelectedChildTagPosition != index
             }
@@ -202,27 +226,34 @@ class WanAndroidSystemFragment : WanAndroidBaseFragment() {
     }
 
     private fun fetchSystemTagArticleList(pageIndex: Int) {
-        Timber.d("fetchSystemTagArticleList ,  parent id is %s , child id is %s", mSelectedParentTagId, mSelectedChildTagId)
-        fetchSystemTagArticleList(pageIndex, mSelectedChildTagId).subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread())
-                .subscribe(object : DefaultHttpResultSubscriber<SystemTagArticleList>() {
-                    override fun onSuccess(data: SystemTagArticleList?) {
-                        data?.also {
-                            renderSystemTagArticleList(pageIndex, data)
-                            if (mPageIndex == 0 && data.datas.size < data.size) {
-                                mSystemTagArticleAdapter.loadMoreEnd()
-                            } else if (mPageIndex > 0) {
-                                mSystemTagArticleAdapter.loadMoreComplete()
-                            }
-                        }
-                    }
-
-                    override fun onCompleted() {
-                        ptrFrameSystemTag?.refreshComplete()
-                        if (mPageIndex > 0) {
+        Timber.d(
+            "fetchSystemTagArticleList ,  parent id is %s , child id is %s",
+            mSelectedParentTagId,
+            mSelectedChildTagId
+        )
+        fetchSystemTagArticleList(
+            pageIndex,
+            mSelectedChildTagId
+        ).subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread())
+            .subscribe(object : DefaultHttpResultSubscriber<SystemTagArticleList>() {
+                override fun onSuccess(data: SystemTagArticleList?) {
+                    data?.also {
+                        renderSystemTagArticleList(pageIndex, data)
+                        if (mPageIndex == 0 && data.datas.size < data.size) {
+                            mSystemTagArticleAdapter.loadMoreEnd()
+                        } else if (mPageIndex > 0) {
                             mSystemTagArticleAdapter.loadMoreComplete()
                         }
                     }
-                })
+                }
+
+                override fun onCompleted() {
+                    ptrFrameSystemTag?.refreshComplete()
+                    if (mPageIndex > 0) {
+                        mSystemTagArticleAdapter.loadMoreComplete()
+                    }
+                }
+            })
     }
 
     private fun renderSystemTagArticleList(pageIndex: Int, data: SystemTagArticleList) {
@@ -265,13 +296,15 @@ class WanAndroidSystemFragment : WanAndroidBaseFragment() {
 
         updateSystemTagCombineShow()
         pullDownToRefresh()
-        childTagList.size.takeIf { it == 1 }?.also { hiddenDetailTagAnimation(iv_arrow_right, sv_system_tag_all) }
-                ?: Timber.d("childTagList.size != 1")
+        childTagList.size.takeIf { it == 1 }
+            ?.also { hiddenDetailTagAnimation(iv_arrow_right, sv_system_tag_all) }
+            ?: Timber.d("childTagList.size != 1")
     }
 
     @SuppressLint("SetTextI18n")
     private fun updateSystemTagCombineShow() {
-        val parentTag: SystemTag = system_tag_parent?.adapter?.getItem(mSelectedParentTagPosition) as SystemTag
+        val parentTag: SystemTag =
+            system_tag_parent?.adapter?.getItem(mSelectedParentTagPosition) as SystemTag
         val childTag = system_tag_child?.adapter?.getItem(mSelectedChildTagPosition) as SystemTag
         tv_system_tag_combine.text = parentTag.name + " / " + childTag.name
     }
