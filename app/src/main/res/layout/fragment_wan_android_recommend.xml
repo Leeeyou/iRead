@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<in.srain.cube.views.ptr.PtrClassicFrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<in.srain.cube.views.ptr.PtrClassicFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:cube_ptr="http://schemas.android.com/apk/res-auto"
     android:id="@+id/ptrFrameRecommend"
     android:layout_width="match_parent"
@@ -15,14 +14,13 @@
         <com.youth.banner.Banner
             android:id="@+id/banner"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:paddingTop="10dp"/>
+            android:layout_height="150dp"
+            android:background="#33C62828"
+            android:padding="10dp" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerViewRecommend"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent" />
     </LinearLayout>
 </in.srain.cube.views.ptr.PtrClassicFrameLayout>
