@@ -175,7 +175,7 @@ public class BrowserActivity extends BaseActivity {
         webSettings.setAllowContentAccess(true);
         webSettings.setDatabaseEnabled(true);
         webSettings.setDomStorageEnabled(true);
-        webSettings.setAppCacheEnabled(true);
+//        webSettings.setAppCacheEnabled(true);
         webSettings.setSavePassword(false);
         webSettings.setSaveFormData(false);
         webSettings.setUseWideViewPort(true);

@@ -17,19 +17,19 @@ class SplashActivity : AppCompatActivity() {
         lottieAnimationView.playAnimation()
         lottieAnimationView.speed = 1.5F
         lottieAnimationView.addAnimatorListener(object : Animator.AnimatorListener {
-            override fun onAnimationRepeat(animation: Animator?) {
+            override fun onAnimationStart(animation: Animator) {
             }
 
-            override fun onAnimationCancel(animation: Animator?) {
-            }
-
-            override fun onAnimationStart(animation: Animator?) {
-            }
-
-            override fun onAnimationEnd(animation: Animator?) {
+            override fun onAnimationEnd(animation: Animator) {
                 tv_appname.visibility = View.VISIBLE
                 startActivity(Intent(this@SplashActivity, IndexActivity::class.java))
                 finish()
+            }
+
+            override fun onAnimationCancel(animation: Animator) {
+            }
+
+            override fun onAnimationRepeat(animation: Animator) {
             }
         })
     }

@@ -34,7 +34,7 @@ class SimilarProjectActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_similar_project)
-        setLeftTitleAndDisplayHomeAsUp(intent.getStringExtra("category"))
+        intent.getStringExtra("category")?.also { setLeftTitleAndDisplayHomeAsUp(it) }
         mSelectedCategoryId = intent.getIntExtra("categoryId", -1)
         initPtrFrame()
         initRecyclerView()
@@ -49,14 +49,18 @@ class SimilarProjectActivity : BaseActivity() {
                 pullDownToRefresh()
             }
 
-            override fun checkCanDoRefresh(frame: PtrFrameLayout?, content: View?, header: View?): Boolean {
+            override fun checkCanDoRefresh(
+                frame: PtrFrameLayout?,
+                content: View?,
+                header: View?
+            ): Boolean {
                 return recyclerViewFirstItemCanVisible()
             }
         })
     }
 
     private fun recyclerViewFirstItemCanVisible() =
-            mLinearLayoutManager.findFirstCompletelyVisibleItemPosition() <= 0
+        mLinearLayoutManager.findFirstCompletelyVisibleItemPosition() <= 0
 
     private fun initHeadView() {
         val header = StoreHouseHeader(this)
@@ -74,24 +78,30 @@ class SimilarProjectActivity : BaseActivity() {
 
     private fun initRecyclerView() {
         mLinearLayoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-        mSimilarProjectAdapter = object : BaseQuickAdapter<RecommendItem, BaseViewHolder>(R.layout.item_project, null) {
-            override fun convert(helper: BaseViewHolder?, item: RecommendItem?) {
-                if (item == null || helper == null) return
+        mSimilarProjectAdapter =
+            object : BaseQuickAdapter<RecommendItem, BaseViewHolder>(R.layout.item_project, null) {
+                override fun convert(helper: BaseViewHolder?, item: RecommendItem?) {
+                    if (item == null || helper == null) return
 
-                helper.setText(R.id.tv_title, HtmlUtils.translation(item.title))
+                    helper.setText(R.id.tv_title, HtmlUtils.translation(item.title))
                         .setText(R.id.tv_author, item.author)
                         .setText(R.id.tv_niceDate, item.niceDate)
                         .setGone(R.id.tv_view_similar_projects, false)
                         .addOnClickListener(R.id.rl_recommend_item)
 
-                Glide.with(mContext).load(item.envelopePic).into(helper.getView(R.id.iv_project) as ImageView)
+                    Glide.with(mContext).load(item.envelopePic)
+                        .into(helper.getView(R.id.iv_project) as ImageView)
+                }
             }
-        }
         mSimilarProjectAdapter.setOnItemChildClickListener { adapter, view, position ->
             when (view.id) {
                 R.id.rl_recommend_item -> {
                     val recommendItem = adapter.getItem(position) as RecommendItem
-                    startBrowserActivity(this@SimilarProjectActivity, recommendItem.link, recommendItem.title)
+                    startBrowserActivity(
+                        this@SimilarProjectActivity,
+                        recommendItem.link,
+                        recommendItem.title
+                    )
                 }
             }
         }
@@ -111,29 +121,29 @@ class SimilarProjectActivity : BaseActivity() {
 
     private fun fetchSimilarProjectListFromServer(pageIndex: Int) {
         fetchProjectListByCategory(pageIndex, mSelectedCategoryId)
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(object : DefaultHttpResultSubscriber<RecommendList>() {
-                    override fun onSuccess(data: RecommendList?) {
-                        if (data == null) return
-                        renderSimilarProjectList(pageIndex, data)
-                        if (pageIndex == 0) {
-                            recyclerViewSimilarProject.smoothScrollToPosition(0)
-                            if (data.datas.size < data.size) {
-                                mSimilarProjectAdapter.loadMoreEnd()
-                            }
-                        } else if (pageIndex > 0) {
-                            mSimilarProjectAdapter.loadMoreComplete()
+            .subscribeOn(Schedulers.newThread())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(object : DefaultHttpResultSubscriber<RecommendList>() {
+                override fun onSuccess(data: RecommendList?) {
+                    if (data == null) return
+                    renderSimilarProjectList(pageIndex, data)
+                    if (pageIndex == 0) {
+                        recyclerViewSimilarProject.smoothScrollToPosition(0)
+                        if (data.datas.size < data.size) {
+                            mSimilarProjectAdapter.loadMoreEnd()
                         }
+                    } else if (pageIndex > 0) {
+                        mSimilarProjectAdapter.loadMoreComplete()
                     }
+                }
 
-                    override fun onCompleted() {
-                        ptrFrameSimilarProject?.refreshComplete()
-                        if (pageIndex > 0) {
-                            mSimilarProjectAdapter.loadMoreComplete()
-                        }
+                override fun onCompleted() {
+                    ptrFrameSimilarProject?.refreshComplete()
+                    if (pageIndex > 0) {
+                        mSimilarProjectAdapter.loadMoreComplete()
                     }
-                })
+                }
+            })
     }
 
     private fun renderSimilarProjectList(witchPage: Int, data: RecommendList) {

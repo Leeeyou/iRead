@@ -30,7 +30,9 @@ class MovieDetailActivity : BaseActivity() {
         val loadingDialog = LoadingDialog(this@MovieDetailActivity)
         loadingDialog.show()
 
-        fetchMovieDetail(intent.getStringExtra("movieId")).subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread())
+        intent.getStringExtra("movieId")?.also {
+            fetchMovieDetail(it).subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
                 .doOnNext { movieDetail ->
                     loadingDialog.dismiss()
 
@@ -38,14 +40,22 @@ class MovieDetailActivity : BaseActivity() {
                         val intent = Intent(Intent.ACTION_SEND)
                         intent.type = "text/plain"
                         intent.putExtra(Intent.EXTRA_SUBJECT, "Share")
-                        intent.putExtra(Intent.EXTRA_TEXT, movieDetail.title + " : " + movieDetail.share_url)
+                        intent.putExtra(
+                            Intent.EXTRA_TEXT,
+                            movieDetail.title + " : " + movieDetail.share_url
+                        )
                         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
                         startActivity(Intent.createChooser(intent, title))
                     }
 
-                    Glide.with(this@MovieDetailActivity).load(movieDetail.images.large).into(iv_poster)
+                    Glide.with(this@MovieDetailActivity).load(movieDetail.images.large)
+                        .into(iv_poster)
                     iv_poster.setOnClickListener {
-                        startBrowserActivity(this@MovieDetailActivity, movieDetail.alt, movieDetail.title)
+                        startBrowserActivity(
+                            this@MovieDetailActivity,
+                            movieDetail.alt,
+                            movieDetail.title
+                        )
                     }
                     tv_movie_name.text = movieDetail.title
                     tv_movie_name_former.text = movieDetail.original_title
@@ -64,14 +74,24 @@ class MovieDetailActivity : BaseActivity() {
                     iv_movie_summary.text = movieDetail.summary
 
 
-                    val movieDetailAdapter = object : BaseQuickAdapter<DirectorAndCast, BaseViewHolder>(R.layout.item_movie_actor, null) {
+                    val movieDetailAdapter = object :
+                        BaseQuickAdapter<DirectorAndCast, BaseViewHolder>(
+                            R.layout.item_movie_actor,
+                            null
+                        ) {
                         override fun convert(helper: BaseViewHolder?, item: DirectorAndCast?) {
                             item?.also {
                                 helper?.also {
-                                    helper.setText(R.id.tv_movie_detail_actor_name, if (item.isDirector) "导演\n" + item.name else item.name)
-                                            .addOnClickListener(R.id.iv_movie_detail_actor_avatar)
-                                            .getView<ImageView>(R.id.iv_movie_detail_actor_avatar)
-                                            ?.also { imageView -> Glide.with(this@MovieDetailActivity).load(item.avatar).into(imageView) }
+                                    helper.setText(
+                                        R.id.tv_movie_detail_actor_name,
+                                        if (item.isDirector) "导演\n" + item.name else item.name
+                                    )
+                                        .addOnClickListener(R.id.iv_movie_detail_actor_avatar)
+                                        .getView<ImageView>(R.id.iv_movie_detail_actor_avatar)
+                                        ?.also { imageView ->
+                                            Glide.with(this@MovieDetailActivity).load(item.avatar)
+                                                .into(imageView)
+                                        }
 
                                 }
                             }
@@ -81,19 +101,48 @@ class MovieDetailActivity : BaseActivity() {
                         when (view.id) {
                             R.id.iv_movie_detail_actor_avatar -> {
                                 val directorAndCast = adapter.getItem(position) as DirectorAndCast
-                                startBrowserActivity(this@MovieDetailActivity, directorAndCast.alt, directorAndCast.name)
+                                startBrowserActivity(
+                                    this@MovieDetailActivity,
+                                    directorAndCast.alt,
+                                    directorAndCast.name
+                                )
                             }
                         }
                     }
 
                     val listOf = mutableListOf<DirectorAndCast>()
-                    movieDetail.directors.forEach { director -> listOf.add(DirectorAndCast(director.alt, director.avatars.large, director.name, director.id, true)) }
-                    movieDetail.casts.forEach { cast -> listOf.add(DirectorAndCast(cast.alt, cast.avatars.large, cast.name, cast.id, false)) }
+                    movieDetail.directors.forEach { director ->
+                        listOf.add(
+                            DirectorAndCast(
+                                director.alt,
+                                director.avatars.large,
+                                director.name,
+                                director.id,
+                                true
+                            )
+                        )
+                    }
+                    movieDetail.casts.forEach { cast ->
+                        listOf.add(
+                            DirectorAndCast(
+                                cast.alt,
+                                cast.avatars.large,
+                                cast.name,
+                                cast.id,
+                                false
+                            )
+                        )
+                    }
                     movieDetailAdapter.setNewData(listOf)
 
-                    rv_movie_actor.layoutManager = LinearLayoutManager(this@MovieDetailActivity, LinearLayoutManager.HORIZONTAL, false)
+                    rv_movie_actor.layoutManager = LinearLayoutManager(
+                        this@MovieDetailActivity,
+                        LinearLayoutManager.HORIZONTAL,
+                        false
+                    )
                     rv_movie_actor.adapter = movieDetailAdapter
                 }
                 .subscribe()
+        }
     }
 }
