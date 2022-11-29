@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
@@ -47,7 +48,11 @@ class WanAndroidRecommendFragment : WanAndroidBaseFragment() {
     private lateinit var mRecommendAdapter: BaseQuickAdapter<RecommendItem, BaseViewHolder>
     private var mFirstEnterLoadingDialog: LoadingDialog? = null
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return container?.inflate(R.layout.fragment_wan_android_recommend)
     }
 
@@ -79,18 +84,28 @@ class WanAndroidRecommendFragment : WanAndroidBaseFragment() {
 
     private fun initRecyclerView() {
         context?.let { initLayoutManager(it) }
-        mRecommendAdapter = object : BaseQuickAdapter<RecommendItem, BaseViewHolder>(R.layout.item_recommend, null) {
+        mRecommendAdapter = object :
+            BaseQuickAdapter<RecommendItem, BaseViewHolder>(R.layout.item_recommend, null) {
             override fun convert(helper: BaseViewHolder?, item: RecommendItem?) {
                 item?.takeIf { it.visible == 1 }?.also {
                     val wishListIconView = helper?.getView(R.id.wishListIcon) as WishListIconView
                     wishListIconView.isActivated = it.collect
 
+                    if (it.author.isEmpty()) {
+                        helper.getView<TextView>(R.id.tv_author).visibility = View.GONE
+                    } else {
+                        helper.getView<TextView>(R.id.tv_author).visibility = View.VISIBLE
+                    }
+
                     helper.setText(R.id.tv_title, HtmlUtils.translation(it.title))
-                            .setText(R.id.tv_author, "作者 : " + it.author)
-                            .setText(R.id.tv_category, "分类 : " + it.superChapterName + " / " + it.chapterName)
-                            .setText(R.id.tv_niceDate, it.niceDate)
-                            .setGone(R.id.tv_refresh, it.fresh)
-                            .addOnClickListener(R.id.wishListIcon)
+                        .setText(R.id.tv_author, "作者 : " + it.author)
+                        .setText(
+                            R.id.tv_category,
+                            "分类 : " + it.superChapterName + " / " + it.chapterName
+                        )
+                        .setText(R.id.tv_niceDate, it.niceDate)
+                        .setGone(R.id.tv_refresh, it.fresh)
+                        .addOnClickListener(R.id.wishListIcon)
                 }
             }
         }
@@ -104,22 +119,26 @@ class WanAndroidRecommendFragment : WanAndroidBaseFragment() {
                     }
 
                     val recommendItem = adapter.getItem(position) as RecommendItem
-                    val observable: Observable<HttpResultEntity<String>> = if (view.isActivated) unCollectInsideArticle(recommendItem.id) else collectInsideArticle(recommendItem.id)
-                    observable.subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread())
-                            .subscribe(object : DefaultHttpResultSubscriber<String>() {
-                                override fun onSuccess(data: String?) {
-                                    loadingDialog?.dismiss()
-                                    recommendItem.collect = !view.isActivated
-                                    adapter.data[position] = recommendItem
-                                    adapter.notifyLoadMoreToLoading()
-                                    (view as WishListIconView).toggleWishlisted()
-                                }
+                    val observable: Observable<HttpResultEntity<String>> =
+                        if (view.isActivated) unCollectInsideArticle(recommendItem.id) else collectInsideArticle(
+                            recommendItem.id
+                        )
+                    observable.subscribeOn(Schedulers.newThread())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(object : DefaultHttpResultSubscriber<String>() {
+                            override fun onSuccess(data: String?) {
+                                loadingDialog?.dismiss()
+                                recommendItem.collect = !view.isActivated
+                                adapter.data[position] = recommendItem
+                                adapter.notifyLoadMoreToLoading()
+                                (view as WishListIconView).toggleWishlisted()
+                            }
 
-                                override fun _onError(status: Int, msg: String?) {
-                                    T.showShort(this@WanAndroidRecommendFragment.context, msg)
-                                    loadingDialog?.dismiss()
-                                }
-                            })
+                            override fun _onError(status: Int, msg: String?) {
+                                T.showShort(this@WanAndroidRecommendFragment.context, msg)
+                                loadingDialog?.dismiss()
+                            }
+                        })
                 }
             }
         }
@@ -156,24 +175,25 @@ class WanAndroidRecommendFragment : WanAndroidBaseFragment() {
     }
 
     private fun fetchRecommendListFromServer(pageIndex: Int) {
-        fetchRecommendList(pageIndex).subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread())
-                .subscribe(object : DefaultHttpResultSubscriber<RecommendList>() {
-                    override fun onSuccess(data: RecommendList?) {
-                        data?.also {
-                            renderRecommendList(pageIndex, it)
-                            if (mPageIndex == 0 && it.datas.size < it.size) {
-                                mRecommendAdapter.loadMoreEnd()
-                            } else if (mPageIndex > 0) {
-                                mRecommendAdapter.loadMoreComplete()
-                            }
+        fetchRecommendList(pageIndex).subscribeOn(Schedulers.newThread())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(object : DefaultHttpResultSubscriber<RecommendList>() {
+                override fun onSuccess(data: RecommendList?) {
+                    data?.also {
+                        renderRecommendList(pageIndex, it)
+                        if (mPageIndex == 0 && it.datas.size < it.size) {
+                            mRecommendAdapter.loadMoreEnd()
+                        } else if (mPageIndex > 0) {
+                            mRecommendAdapter.loadMoreComplete()
                         }
                     }
+                }
 
-                    override fun onCompleted() {
-                        ptrFrameRecommend?.refreshComplete()
-                        mFirstEnterLoadingDialog?.dismiss()
-                    }
-                })
+                override fun onCompleted() {
+                    ptrFrameRecommend?.refreshComplete()
+                    mFirstEnterLoadingDialog?.dismiss()
+                }
+            })
     }
 
     private fun renderRecommendList(witchPage: Int, recommendList: RecommendList) {
@@ -186,22 +206,23 @@ class WanAndroidRecommendFragment : WanAndroidBaseFragment() {
     }
 
     private fun fetchBannerListFromServer() {
-        fetchBannerList().subscribeOn(Schedulers.newThread()).observeOn(AndroidSchedulers.mainThread())
-                .subscribe(object : DefaultHttpResultSubscriber<List<Banner>>() {
-                    override fun onSuccess(data: List<Banner>?) {
-                        data?.also { renderBanner(it) }
-                    }
-                })
+        fetchBannerList().subscribeOn(Schedulers.newThread())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(object : DefaultHttpResultSubscriber<List<Banner>>() {
+                override fun onSuccess(data: List<Banner>?) {
+                    data?.also { renderBanner(it) }
+                }
+            })
     }
 
     private fun renderBanner(bannerList: List<Banner>) {
         bannerList.map { it.imagePath }.also {
             banner.setImages(it).setBannerAnimation(Transformer.Default).start()
-                    .setOnBannerListener { position ->
-                        val banner = bannerList[position]
-                        startBrowserActivity(context!!, banner.url, banner.title)
-                        Timber.d("click banner position is %s , the url is %s", position, banner.url)
-                    }
+                .setOnBannerListener { position ->
+                    val banner = bannerList[position]
+                    startBrowserActivity(context!!, banner.url, banner.title)
+                    Timber.d("click banner position is %s , the url is %s", position, banner.url)
+                }
         }
     }
 

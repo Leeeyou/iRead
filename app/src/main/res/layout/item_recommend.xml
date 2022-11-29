@@ -1,69 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/rl_recommend_item"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/list_selector">
-
-    <com.leeeyou.widget.WishListIconView
-        android:id="@+id/wishListIcon"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:scaleType="centerCrop"
-        app:lottie_rawRes="@raw/heart" />
+    android:background="@drawable/list_selector"
+    android:paddingLeft="10dp"
+    android:paddingTop="10dp"
+    android:paddingRight="10dp">
 
     <TextView
         android:id="@+id/tv_title"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_toLeftOf="@id/wishListIcon"
         android:textColor="@android:color/black"
         android:textSize="16sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/wishListIcon"
+        app:layout_constraintTop_toTopOf="parent"
         tools:text="开发高手课文章更新学习笔记开发高手课文章更新学习笔记开发高手课文章更新学习笔记开发高手课文章更新学习笔记开发高手课文章更新学习笔记" />
 
+    <!--    <TextView-->
+    <!--        android:id="@+id/tv_topping"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_below="@id/tv_title"-->
+    <!--        android:layout_alignLeft="@id/tv_title"-->
+    <!--        android:layout_marginTop="10dp"-->
+    <!--        android:text="置顶"-->
+    <!--        android:textColor="@color/colorTxtSelected"-->
+    <!--        android:textSize="12sp"-->
+    <!--        android:visibility="gone" />-->
+
     <TextView
-        android:id="@+id/tv_topping"
+        android:id="@+id/tv_author"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tv_title"
-        android:layout_alignLeft="@id/tv_title"
         android:layout_marginTop="10dp"
-        android:text="置顶"
-        android:textColor="@color/colorTxtSelected"
+        android:textColor="@android:color/darker_gray"
         android:textSize="12sp"
-        android:visibility="gone" />
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_title"
+        tools:text="作者：鸿洋" />
 
     <TextView
         android:id="@+id/tv_refresh"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/tv_title"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_toRightOf="@id/tv_topping"
-        android:text="新"
+        android:paddingRight="5dp"
+        android:text="Hot"
         android:textColor="@color/colorTxtSelected"
         android:textSize="12sp"
-        android:visibility="gone" />
-
-    <TextView
-        android:id="@+id/tv_author"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/tv_title"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_toRightOf="@id/tv_refresh"
-        android:textColor="@android:color/darker_gray"
-        android:textSize="12sp"
-        tools:text="作者：鸿洋" />
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="@id/tv_category"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tv_category"
+        tools:visibility="visible" />
 
     <TextView
         android:id="@+id/tv_category"
@@ -71,10 +65,12 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/tv_author"
         android:layout_alignLeft="@id/tv_title"
-        android:layout_marginTop="10dp"
-        android:text="分类： 干货资源 / 课程推荐"
+        android:layout_marginTop="5dp"
+        android:text="分类：干货资源/课程推荐"
         android:textColor="@android:color/darker_gray"
-        android:textSize="12sp" />
+        android:textSize="12sp"
+        app:layout_constraintLeft_toRightOf="@id/tv_refresh"
+        app:layout_constraintTop_toBottomOf="@id/tv_author" />
 
     <TextView
         android:id="@+id/tv_niceDate"
@@ -86,6 +82,9 @@
         android:layout_toRightOf="@id/tv_category"
         android:textColor="@android:color/darker_gray"
         android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@id/tv_category"
+        app:layout_constraintLeft_toRightOf="@id/tv_category"
+        app:layout_constraintTop_toTopOf="@+id/tv_category"
         tools:text="时间：2018-12-18" />
 
     <View
@@ -95,6 +94,22 @@
         android:layout_alignLeft="@id/tv_title"
         android:layout_alignRight="@id/wishListIcon"
         android:layout_marginTop="13dp"
-        android:background="@android:color/darker_gray" />
+        android:background="@android:color/darker_gray"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_category" />
 
-</RelativeLayout>
+    <com.leeeyou.widget.WishListIconView
+        android:id="@+id/wishListIcon"
+        android:layout_width="54dp"
+        android:layout_height="54dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:lottie_rawRes="@raw/heart" />
+
+</android.support.constraint.ConstraintLayout>
