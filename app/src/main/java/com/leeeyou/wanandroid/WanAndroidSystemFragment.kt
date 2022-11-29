@@ -122,7 +122,7 @@ class WanAndroidSystemFragment : WanAndroidBaseFragment() {
                         .setText(R.id.tv_author, "作者 : " + it.author)
                         .setText(
                             R.id.tv_category,
-                            "分类 : " + it.superChapterName + " / " + it.chapterName
+                            "分类: " + it.superChapterName + "/" + it.chapterName
                         )
                         .setText(R.id.tv_niceDate, it.niceDate)
                         .setGone(R.id.tv_refresh, it.fresh)
